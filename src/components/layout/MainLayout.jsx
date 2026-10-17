@@ -1,0 +1,276 @@
+import React from 'react'
+import styled from 'styled-components'
+import { useRitmia } from '../../context/RitmiaContext'
+import { Header } from './Header'
+import { Footer } from './Footer'
+import { LevelTabs } from '../controls/LevelTabs'
+import { CircularVisualizer } from '../visualizer/CircularVisualizer'
+import { BeatGrid } from '../visualizer/BeatGrid'
+import { ProgressTimeline } from '../visualizer/ProgressTimeline'
+import { AudioInfoBadge } from '../visualizer/AudioInfoBadge'
+import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
+import { GroupingInput } from '../controls/GroupingInput'
+import { PolyrhythmControls } from '../controls/PolyrhythmControls'
+import { WelcomeModal } from '../modals/WelcomeModal'
+import { TestModal } from '../modals/TestModal'
+import { Panel, Panel2 } from '../ui/Card'
+import { Badge } from '../ui/Badge'
+import { Button } from '../ui/Button'
+
+const AppContainer = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: ${({ theme }) => theme.colors.bg};
+  color: ${({ theme }) => theme.colors.text};
+`
+
+const MainContent = styled.main`
+  max-width: 1280px;
+  width: 100%;
+  margin: 1rem auto 0;
+  padding: 0 1rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1.25fr 0.9fr;
+    padding: 0 1.5rem 5rem;
+  }
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+const PanelHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+`
+
+const PanelTitle = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: ${({ theme }) => theme.colors.textDim};
+`
+
+const BadgesRow = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`
+
+const GridHeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+`
+
+const GridLabel = styled.span`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: ${({ theme }) => theme.colors.textDim};
+`
+
+const SynthSpecsCard = styled(Panel)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+const SynthTitle = styled.h4`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: ${({ theme }) => theme.colors.textDim};
+`
+
+const SynthList = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  font-size: 11px;
+  line-height: 1.4;
+  color: ${({ theme }) => theme.colors.textDim};
+
+  b {
+    color: ${({ theme }) => theme.colors.textBright};
+  }
+`
+
+export function MainLayout() {
+  const {
+    level,
+    numA,
+    numB,
+    accentsA,
+    setAccentsA,
+    accentsB,
+    setAccentsB,
+    currentBeatA,
+    currentBeatB,
+    parsedGroupingA,
+    parsedGroupingB,
+    isValidGroupingA,
+    isValidGroupingB,
+    openTest,
+  } = useRitmia()
+
+  return (
+    <AppContainer>
+      <Header />
+      <LevelTabs />
+
+      <MainContent>
+        {/* Columna Izquierda: Visualización en tiempo real */}
+        <Column>
+          <Panel style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <PanelHeader>
+              <PanelTitle>Visualización locked a AudioContext.currentTime</PanelTitle>
+              <BadgesRow>
+                <Badge $variant="pill">rAF + window 50ms</Badge>
+                <Badge $variant="pill">glow no flash</Badge>
+              </BadgesRow>
+            </PanelHeader>
+
+            <CircularVisualizer />
+
+            {/* Grilla Compás A */}
+            <div>
+              <GridHeaderRow>
+                <GridLabel>
+                  Grilla A — {numA > 16 ? 'scroll horizontal activo' : 'width proporcional'}
+                </GridLabel>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {numA >= 12 && (
+                    <Badge $variant="amber">Compás largo: scroll horizontal →</Badge>
+                  )}
+                  <span style={{ fontSize: '10px', color: '#9a9ab0' }}>
+                    {isValidGroupingA ? 'agrupación OK' : 'suma ≠ num'}
+                  </span>
+                </div>
+              </GridHeaderRow>
+
+              <BeatGrid
+                trackType="A"
+                label="Secuenciador Compás A"
+                numBeats={numA}
+                accents={accentsA}
+                onAccentsChange={setAccentsA}
+                currentBeat={currentBeatA}
+                parsedGrouping={parsedGroupingA}
+                isValidGrouping={isValidGroupingA}
+              />
+            </div>
+
+            {/* Grilla Compás B (Nivel 3) */}
+            {level === 3 && (
+              <div style={{ marginTop: '0.5rem' }}>
+                <GridHeaderRow>
+                  <GridLabel>Grilla B — {numB > 16 ? 'scroll' : 'proporcional'}</GridLabel>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {numB >= 12 && (
+                      <Badge $variant="cyan">Compás largo B: scroll →</Badge>
+                    )}
+                    <span style={{ fontSize: '10px', color: '#9a9ab0' }}>
+                      {isValidGroupingB ? 'agrupación OK' : 'suma ≠ num'}
+                    </span>
+                  </div>
+                </GridHeaderRow>
+
+                <BeatGrid
+                  trackType="B"
+                  label="Secuenciador Compás B"
+                  numBeats={numB}
+                  accents={accentsB}
+                  onAccentsChange={setAccentsB}
+                  currentBeat={currentBeatB}
+                  parsedGrouping={parsedGroupingB}
+                  isValidGrouping={isValidGroupingB}
+                />
+              </div>
+            )}
+
+            <ProgressTimeline />
+            <AudioInfoBadge />
+          </Panel>
+        </Column>
+
+        {/* Columna Derecha: Controles Pedagógicos */}
+        <Column>
+          <Panel style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '16px' }}>
+              Constructor n/n preciso — hasta 32 pulsos
+            </h3>
+            <p style={{ fontSize: '11px', color: '#9a9ab0', marginTop: '-0.5rem' }}>
+              Inputs num 1-32, den 1,2,4,8,16. Validación de suma de agrupación = num hasta 32.
+            </p>
+
+            <TimeSignatureBuilder />
+            {level >= 2 && <GroupingInput />}
+            {level === 3 && <PolyrhythmControls />}
+          </Panel>
+
+          {/* Tarjeta de Test de Nivel */}
+          <Panel
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '1rem 1.25rem',
+            }}
+          >
+            <div>
+              <h4 style={{ fontSize: '13px', fontWeight: 600 }}>Test de nivel</h4>
+              <p style={{ fontSize: '11px', color: '#9a9ab0' }}>
+                Comprueba tu lectura del compás actual
+              </p>
+            </div>
+            <Button $variant="accent" $height="2.75rem" onClick={openTest}>
+              Test Nivel →
+            </Button>
+          </Panel>
+
+          {/* Especificaciones del motor sonoro */}
+          <SynthSpecsCard>
+            <SynthTitle>Motor de Audio — Síntesis Analógica</SynthTitle>
+            <SynthList>
+              <div>
+                <b>Kick:</b> seno 160→45Hz linearRamp 0.11s, gain 0.85→0 0.28s
+              </div>
+              <div>
+                <b>Snare:</b> noise 0.18s bandpass 180Hz Q1 + seno 185Hz 0.12s gain 0.42
+              </div>
+              <div>
+                <b>Hat:</b> noise highpass 6500Hz gain 0.11 decay 0.045s
+              </div>
+              <div>
+                <b>Woodblock:</b> seno 850Hz decay 0.12s gain 0.38 (metrónomo tiempo 1)
+              </div>
+              <div>
+                <b>Bajo:</b> triangle 110Hz lowpass 850Hz gain 0.22 decay 0.32s
+              </div>
+              <div>
+                <b>Master:</b> masterGain 0.6 → DynamicsCompressor (-20dB, 6:1) → destino
+              </div>
+            </SynthList>
+          </SynthSpecsCard>
+        </Column>
+      </MainContent>
+
+      <Footer />
+      <WelcomeModal />
+      <TestModal />
+    </AppContainer>
+  )
+}

@@ -1,0 +1,156 @@
+import React from 'react'
+import styled from 'styled-components'
+import { useRitmia } from '../../context/RitmiaContext'
+import { GROUP_COLORS } from '../../music/constants'
+import { Badge } from '../ui/Badge'
+
+const GroupingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+`
+
+const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const Title = styled.span`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+`
+
+const GroupingTextInput = styled.input`
+  width: 100%;
+  height: 2.75rem;
+  border-radius: 10px;
+  background: ${({ theme }) => theme.colors.bg};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  padding: 0 0.75rem;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.textBright};
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.amber};
+  }
+
+  &::placeholder {
+    font-size: 11px;
+    color: ${({ theme }) => theme.colors.textDim};
+  }
+`
+
+const SuggestionsRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+`
+
+const SuggestionLabel = styled.span`
+  font-size: 10px;
+  color: ${({ theme }) => theme.colors.textDim};
+  width: 100%;
+`
+
+const SuggestionPill = styled.button`
+  font-size: 11px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  background: rgba(255, 184, 0, 0.1);
+  color: ${({ theme }) => theme.colors.amberSoft};
+  font-family: ${({ theme }) => theme.fonts.mono};
+  transition: ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    background: rgba(255, 184, 0, 0.2);
+  }
+`
+
+const ColorSegmentsBar = styled.div`
+  display: flex;
+  gap: 4px;
+  height: 8px;
+  width: 100%;
+`
+
+const Segment = styled.div`
+  flex: 1;
+  height: 100%;
+  border-radius: 9999px;
+  background: ${({ $color }) => $color};
+`
+
+const InfoLegend = styled.div`
+  font-size: 11px;
+  color: ${({ theme }) => theme.colors.textDim};
+  max-height: 60px;
+  overflow-y: auto;
+  line-height: 1.4;
+`
+
+export function GroupingInput() {
+  const {
+    numA,
+    groupingA,
+    setGroupingA,
+    parsedGroupingA,
+    isValidGroupingA,
+    suggestionsA,
+  } = useRitmia()
+
+  return (
+    <GroupingContainer>
+      <TitleRow>
+        <Title>Agrupación A — &ldquo;3+2+2&rdquo; hasta 32</Title>
+        <Badge $variant={isValidGroupingA ? 'emerald' : 'red'}>
+          {isValidGroupingA ? `válido suma=${numA}` : `inválido ≠${numA}`}
+        </Badge>
+      </TitleRow>
+
+      <GroupingTextInput
+        value={groupingA}
+        onChange={e => setGroupingA(e.target.value)}
+        placeholder="ej: 3+2+2 o 3+3+3+3 para 12"
+        aria-label="Agrupación métrica pista A"
+      />
+
+      {suggestionsA.length > 0 && (
+        <SuggestionsRow>
+          <SuggestionLabel>Sugerencias auto para {numA}:</SuggestionLabel>
+          {suggestionsA.map(sug => (
+            <SuggestionPill
+              key={sug}
+              type="button"
+              onClick={() => setGroupingA(sug)}
+            >
+              {sug}
+            </SuggestionPill>
+          ))}
+        </SuggestionsRow>
+      )}
+
+      {parsedGroupingA && (
+        <ColorSegmentsBar>
+          {parsedGroupingA.map((_, i) => (
+            <Segment
+              key={`seg-${i}`}
+              $color={GROUP_COLORS[i % GROUP_COLORS.length]}
+            />
+          ))}
+        </ColorSegmentsBar>
+      )}
+
+      <InfoLegend>
+        Conteo: {Array.from({ length: numA }).map((_, i) => i + 1).join(' ')} —
+        acentos: 0 silencio, 1 suave (bajo triangle 110Hz), 2 fuerte (kick 160→45Hz)
+      </InfoLegend>
+    </GroupingContainer>
+  )
+}
