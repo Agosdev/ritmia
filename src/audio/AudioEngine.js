@@ -20,6 +20,7 @@ export class AudioEngine {
 
     // Cola de eventos programados para sincronización visual
     this.scheduledNotes = []
+    this.eventVoices = new WeakMap()
 
     this.params = {
       level: 1,
@@ -53,7 +54,39 @@ export class AudioEngine {
   }
 
   setParams(newParams) {
+    const changed = Object.entries(newParams).some(([key, value]) => this.params[key] !== value)
+    // Cancelar el lookahead viejo y retomar desde el primer timestamp pendiente mantiene la fase.
+    if (changed && this.isPlaying) this.invalidateFutureNotes()
     this.params = { ...this.params, ...newParams }
+  }
+
+  invalidateFutureNotes() {
+    if (!this.ctx) return
+
+    const now = this.ctx.currentTime
+    const firstFutureTime = { A: null, B: null }
+    const removedCounts = { A: 0, B: 0 }
+
+    this.scheduledNotes = this.scheduledNotes.filter(note => {
+      if (note.time <= now) return true
+
+      const track = note.type
+      firstFutureTime[track] ??= note.time
+      removedCounts[track]++
+      for (const voice of this.eventVoices.get(note) ?? []) {
+        voice.stop()
+        this.activeVoices.delete(voice)
+      }
+      return false
+    })
+
+    for (const track of ['A', 'B']) {
+      if (firstFutureTime[track] === null) continue
+      const timeKey = `nextNoteTime${track}`
+      const countKey = `stepCount${track}`
+      this[timeKey] = firstFutureTime[track]
+      this[countKey] = Math.max(0, this[countKey] - removedCounts[track])
+    }
   }
 
   async start(initialParams = {}) {
@@ -100,9 +133,10 @@ export class AudioEngine {
   }
 
   trackVoice(voice) {
-    if (!voice) return
+    if (!voice) return null
     this.activeVoices.add(voice)
     voice.onended = () => this.activeVoices.delete(voice)
+    return voice
   }
 
   advancePastNotes(track, now, step) {
@@ -156,6 +190,7 @@ export class AudioEngine {
       const posA = this.stepCountA % lenA
       const accentA = accentsA[posA] ?? 0
       let volA = volumeA
+      const voices = []
 
       if (mode === 'morph') {
         volA = volumeA * (1 - morph)
@@ -164,23 +199,25 @@ export class AudioEngine {
       if (accentA !== 0) {
         const velA = accentA === 2 ? 1 : 0.6
         if (accentA === 2) {
-          this.trackVoice(playKick(this.ctx, dest, this.nextNoteTimeA, velA, volA))
+          voices.push(this.trackVoice(playKick(this.ctx, dest, this.nextNoteTimeA, velA, volA)))
         } else {
-          this.trackVoice(playBass(this.ctx, dest, this.nextNoteTimeA, velA, volA))
+          voices.push(this.trackVoice(playBass(this.ctx, dest, this.nextNoteTimeA, velA, volA)))
         }
       }
 
       // Metrónomo en pulso 1 de A
       if (metronome && posA === 0) {
-        this.trackVoice(playWoodblock(this.ctx, dest, this.nextNoteTimeA, 0.8))
+        voices.push(this.trackVoice(playWoodblock(this.ctx, dest, this.nextNoteTimeA, 0.8)))
       }
 
-      this.scheduledNotes.push({
+      const note = {
         time: this.nextNoteTimeA,
         pos: posA,
         type: 'A',
         accent: accentA,
-      })
+      }
+      this.scheduledNotes.push(note)
+      this.eventVoices.set(note, voices.filter(Boolean))
 
       this.nextNoteTimeA += stepA
       this.stepCountA++
@@ -193,6 +230,7 @@ export class AudioEngine {
         const posB = this.stepCountB % lenB
         const accentB = accentsB[posB] ?? 0
         let volB = volumeB
+        const voices = []
 
         if (mode === 'morph') {
           volB = volumeB * morph
@@ -201,18 +239,20 @@ export class AudioEngine {
         if (accentB !== 0) {
           const velB = accentB === 2 ? 1 : 0.58
           if (accentB === 2) {
-            this.trackVoice(playSnare(this.ctx, dest, this.nextNoteTimeB, velB, volB))
+            voices.push(this.trackVoice(playSnare(this.ctx, dest, this.nextNoteTimeB, velB, volB)))
           } else {
-            this.trackVoice(playHat(this.ctx, dest, this.nextNoteTimeB, velB, volB))
+            voices.push(this.trackVoice(playHat(this.ctx, dest, this.nextNoteTimeB, velB, volB)))
           }
         }
 
-        this.scheduledNotes.push({
+        const note = {
           time: this.nextNoteTimeB,
           pos: posB,
           type: 'B',
           accent: accentB,
-        })
+        }
+        this.scheduledNotes.push(note)
+        this.eventVoices.set(note, voices.filter(Boolean))
 
         this.nextNoteTimeB += stepB
         this.stepCountB++
@@ -220,7 +260,11 @@ export class AudioEngine {
     }
 
     // Mantener cola limpia de eventos viejos (> 1.2 segundos atrás)
-    this.scheduledNotes = this.scheduledNotes.filter(note => note.time > now - 1.2)
+    this.scheduledNotes = this.scheduledNotes.filter(note => {
+      if (note.time > now - 1.2) return true
+      this.eventVoices.delete(note)
+      return false
+    })
   }
 
   stop() {
@@ -234,6 +278,7 @@ export class AudioEngine {
     for (const voice of [...this.activeVoices]) voice.stop()
     this.activeVoices.clear()
     this.scheduledNotes = []
+    this.eventVoices = new WeakMap()
   }
 
   getCurrentAudioTime() {

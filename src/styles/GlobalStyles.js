@@ -38,12 +38,30 @@ export const GlobalStyles = createGlobalStyle`
     flex-direction: column;
   }
 
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+  }
+
   button, input, select, textarea {
     font-family: inherit;
     font-size: inherit;
     color: inherit;
     border: none;
     outline: none;
+  }
+
+  :focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.amber};
+    outline-offset: 3px;
   }
 
   button {
@@ -65,6 +83,15 @@ export const GlobalStyles = createGlobalStyle`
   }
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   ::selection {

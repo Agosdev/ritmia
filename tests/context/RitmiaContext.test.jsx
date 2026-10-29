@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react'
-import { act, cleanup, renderHook } from '@testing-library/react'
+import { act, cleanup, render, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { RitmiaProvider, useRitmia } from '../../src/context/RitmiaContext'
+import { RitmiaProvider, useRitmia, useRitmiaRealtime } from '../../src/context/RitmiaContext'
 import { audioEngine } from '../../src/audio/AudioEngine'
 import { controlledAudioContext } from '../helpers/controlledAudioContext'
 
@@ -25,6 +25,12 @@ afterEach(async () => {
 })
 
 const wrapper = ({ children }) => <RitmiaProvider>{children}</RitmiaProvider>
+
+function runNextFrame() {
+  const [id, callback] = frames.entries().next().value
+  frames.delete(id)
+  act(() => callback())
+}
 
 describe('RitmiaProvider ciclo de vida del transporte', () => {
   it('desmontar cancela fuentes futuras, rAF, timer, conexiones y contexto', async () => {
@@ -108,6 +114,111 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     expect(audioEngine.scheduledNotes).toHaveLength(1)
   })
 
+  it('el progreso y el pulso visual siguen el reloj y solo reaccionan después del evento', async () => {
+    let mainRenders = 0
+    let realtime
+    let config
+    function MainProbe() {
+      mainRenders++
+      config = useRitmia()
+      return null
+    }
+    function RealtimeProbe() {
+      realtime = useRitmiaRealtime()
+      return null
+    }
+    render(<RitmiaProvider><MainProbe /><RealtimeProbe /></RitmiaProvider>)
+    act(() => {
+      config.setBpm(120)
+      config.setNumA(4)
+      config.setDenA(4)
+      config.setAccentsA([2, 1, 0, 0])
+    })
+    await act(async () => { await config.startPlayback() })
+    const ctx = audioEngine.ctx
+    const startTime = audioEngine.startTime
+
+    ctx.advanceTo(startTime - 0.01)
+    runNextFrame()
+    expect(realtime.currentBeatA).toBe(-1)
+    expect(realtime.progressA).toBe(0)
+    const rendersAfterStart = mainRenders
+
+    ctx.advanceTo(startTime)
+    expect(ctx.audibleAt(startTime)).toHaveLength(2)
+    runNextFrame()
+    expect(realtime.currentBeatA).toBe(0)
+    expect(realtime.progressA).toBe(0)
+    expect(mainRenders).toBe(rendersAfterStart)
+
+    ctx.advanceTo(startTime + 0.02)
+    runNextFrame()
+    expect(realtime.currentBeatA).toBe(0)
+    expect(realtime.progressA).toBeCloseTo(0.01, 10)
+    expect(mainRenders).toBe(rendersAfterStart)
+  })
+
+  it('BPM nuevo se refleja en progreso y cancelación del lookahead sin reiniciar', async () => {
+    const { result } = renderHook(
+      () => ({ config: useRitmia(), realtime: useRitmiaRealtime() }),
+      { wrapper },
+    )
+    act(() => {
+      result.current.config.setBpm(120)
+      result.current.config.setNumA(4)
+      result.current.config.setDenA(4)
+      result.current.config.setAccentsA([2, 1, 0, 0])
+    })
+    await act(async () => { await result.current.config.startPlayback() })
+    const ctx = audioEngine.ctx
+    const startTime = audioEngine.startTime
+    ctx.advanceTo(startTime + 0.41)
+    audioEngine.schedule()
+    const staleFuture = audioEngine.scheduledNotes.find(note => note.type === 'A' && note.time > ctx.currentTime)
+    expect(staleFuture).toBeDefined()
+
+    act(() => result.current.config.setBpm(200))
+    expect(audioEngine.startTime).toBe(startTime)
+    expect(audioEngine.scheduledNotes).not.toContain(staleFuture)
+    expect(ctx.sources.find(source => source.startTime === staleFuture.time).stopTime)
+      .toBe(ctx.currentTime)
+    expect(audioEngine.params.stepA).toBeCloseTo(0.3, 10)
+
+    ctx.advanceTo(startTime + 0.6)
+    audioEngine.schedule()
+    runNextFrame()
+    expect(result.current.realtime.progressA).toBeCloseTo(0.5, 10)
+    expect(result.current.realtime.currentBeatA).toBe(-1)
+  })
+
+  it('el atraso del hilo salta eventos pasados y una pausa de AudioContext congela el progreso', async () => {
+    const { result } = renderHook(
+      () => ({ config: useRitmia(), realtime: useRitmiaRealtime() }),
+      { wrapper },
+    )
+    act(() => {
+      result.current.config.setBpm(120)
+      result.current.config.setNumA(4)
+      result.current.config.setDenA(4)
+    })
+    await act(async () => { await result.current.config.startPlayback() })
+    const ctx = audioEngine.ctx
+    const startTime = audioEngine.startTime
+
+    ctx.advanceTo(startTime + 2.32)
+    audioEngine.schedule()
+    runNextFrame()
+    expect(audioEngine.scheduledNotes.every(note => note.time >= ctx.currentTime)).toBe(true)
+    expect(result.current.realtime.currentBeatA).toBe(-1)
+    expect(result.current.realtime.progressA).toBeCloseTo(0.16, 10)
+
+    ctx.state = 'suspended'
+    const frozenProgress = result.current.realtime.progressA
+    runNextFrame()
+    expect(result.current.realtime.progressA).toBe(frozenProgress)
+    expect(frames.size).toBe(1)
+  })
+
   it('cambiar de clave actualiza el patrón sin reiniciar ni comprimir su ciclo', async () => {
     const { result } = renderHook(useRitmia, { wrapper })
     act(() => {
@@ -132,7 +243,7 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     expect(result.current.timing.measureB).toBe(4)
     expect(audioEngine.params.stepB).toBe(0.25)
     expect(audioEngine.startTime).toBe(startTime)
-    expect(audioEngine.stepCountA).toBe(1)
+    expect(audioEngine.stepCountA).toBe(0)
 
     act(() => {
       result.current.setNumA(7)
@@ -141,21 +252,30 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     expect(result.current.timing.measureB).toBe(4)
     expect(audioEngine.params.stepB).toBe(0.25)
     expect(audioEngine.startTime).toBe(startTime)
-    expect(audioEngine.stepCountA).toBe(1)
+    expect(audioEngine.stepCountA).toBe(0)
 
     act(() => result.current.setClaveIndex(1))
 
     expect(audioEngine.startTime).toBe(startTime)
+    expect(ctx.sources.filter(source => source.startTime === startTime)
+      .every(source => source.stopTime === ctx.currentTime)).toBe(true)
     expect(audioEngine.params.stepB).toBe(0.25)
     expect(audioEngine.params.accentsB[2]).toBe(2)
-    expect(audioEngine.stepCountB).toBe(1)
+    expect(audioEngine.stepCountB).toBe(0)
+    expect(audioEngine.scheduledNotes.some(note => note.type === 'B' && note.time > ctx.currentTime)).toBe(false)
 
-    const nextHitTime = startTime + 2 * result.current.timing.stepB
+    const nextHitTime = audioEngine.nextNoteTimeB
     ctx.advanceTo(nextHitTime)
     audioEngine.schedule()
     expect(audioEngine.scheduledNotes.find(note =>
       note.type === 'B' && Math.abs(note.time - nextHitTime) < 1e-10
-    )).toMatchObject({ pos: 2, accent: 2 })
+    )).toMatchObject({ pos: 0, accent: 0 })
+    ctx.advanceTo(audioEngine.nextNoteTimeB)
+    audioEngine.schedule()
+    ctx.advanceTo(audioEngine.nextNoteTimeB)
+    audioEngine.schedule()
+    expect(audioEngine.scheduledNotes.find(note => note.type === 'B' && note.pos === 2))
+      .toMatchObject({ pos: 2, accent: 2 })
     const bEvents = audioEngine.scheduledNotes.filter(note => note.type === 'B')
     expect(new Set(bEvents.map(note => note.time)).size).toBe(bEvents.length)
   })

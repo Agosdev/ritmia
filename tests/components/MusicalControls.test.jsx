@@ -4,7 +4,8 @@ import { expect, it } from 'vitest'
 import { App } from '../../src/App'
 
 const change = (label, value) => fireEvent.change(screen.getByLabelText(label), { target: { value: String(value) } })
-const level3 = () => fireEvent.click(screen.getByRole('tab', { name: 'Nivel 3 — Polirritmia' }))
+const level = name => fireEvent.click(screen.getByRole('button', { name }))
+const level3 = () => level('Nivel 3 — Polirritmia')
 
 it('muestra relaciones con unidades coherentes y la fórmula de B según modo', () => {
   render(<App />)
@@ -51,7 +52,7 @@ it('presenta son/rumba como ciclo canónico de ocho negras, no como dos compases
 
 it('muestra borrador inválido conservando los colores de la agrupación aplicada', () => {
   const { container } = render(<App />)
-  fireEvent.click(screen.getByRole('tab', { name: 'Nivel 2 — Agrupa' }))
+  level('Nivel 2 — Agrupa')
   change('Agrupación métrica pista A', '2+2+3')
   const colors = () => [...container.querySelectorAll('svg path')].map(path => path.getAttribute('stroke'))
   const previous = colors()

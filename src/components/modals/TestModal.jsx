@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
+import { useModalAccessibility } from '../../hooks/useModalAccessibility'
 import { Panel, Panel2 } from '../ui/Card'
 import { Button } from '../ui/Button'
 
@@ -13,12 +14,15 @@ const ModalOverlay = styled.div`
   -webkit-backdrop-filter: blur(8px);
   display: grid;
   place-items: center;
-  padding: 1rem;
+  overflow-y: auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
 `
 
 const ModalCard = styled(Panel)`
   width: 100%;
   max-width: 520px;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
   padding: 1.5rem;
   border-radius: 20px;
 `
@@ -81,6 +85,8 @@ export function TestModal() {
     testFeedback,
     setTestFeedback,
   } = useRitmia()
+  const dialogRef = useRef(null)
+  useModalAccessibility(dialogRef, () => setIsTestOpen(false), isTestOpen && Boolean(testData))
 
   if (!isTestOpen || !testData) return null
 
@@ -93,10 +99,19 @@ export function TestModal() {
   }
 
   return (
-    <ModalOverlay onClick={() => setIsTestOpen(false)}>
-      <ModalCard onClick={e => e.stopPropagation()}>
-        <Title>Test de Nivel {level}</Title>
-        <QuestionText>{testData.q}</QuestionText>
+    <ModalOverlay onClick={event => {
+      if (event.target === event.currentTarget) setIsTestOpen(false)
+    }}>
+      <ModalCard
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="test-modal-title"
+        aria-describedby="test-modal-question"
+        tabIndex={-1}
+      >
+        <Title id="test-modal-title">Test de Nivel {level}</Title>
+        <QuestionText id="test-modal-question">{testData.q}</QuestionText>
 
         <OptionsList>
           {testData.options.map((opt, i) => (
@@ -110,7 +125,7 @@ export function TestModal() {
           ))}
         </OptionsList>
 
-        {testFeedback && <FeedbackBox>{testFeedback}</FeedbackBox>}
+        {testFeedback && <FeedbackBox role="status" aria-live="polite">{testFeedback}</FeedbackBox>}
 
         <BottomActions>
           <Button

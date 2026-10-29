@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
+import { useModalAccessibility } from '../../hooks/useModalAccessibility'
 import { MAX_NUM } from '../../music/constants'
 import { Panel } from '../ui/Card'
 import { Button } from '../ui/Button'
@@ -14,12 +15,15 @@ const ModalOverlay = styled.div`
   -webkit-backdrop-filter: blur(8px);
   display: grid;
   place-items: center;
-  padding: 1rem;
+  overflow-y: auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
 `
 
 const ModalCard = styled(Panel)`
   width: 100%;
   max-width: 560px;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
   padding: 1.75rem;
   box-shadow: ${({ theme }) => theme.shadows.lg};
   border-radius: 20px;
@@ -93,6 +97,8 @@ const TechnicalNote = styled.div`
 export function WelcomeModal() {
   const { isWelcomeOpen, setIsWelcomeOpen } = useRitmia()
   const [slideIndex, setSlideIndex] = useState(0)
+  const dialogRef = useRef(null)
+  useModalAccessibility(dialogRef, () => setIsWelcomeOpen(false), isWelcomeOpen)
 
   if (!isWelcomeOpen) return null
 
@@ -118,10 +124,19 @@ export function WelcomeModal() {
   const isLast = slideIndex === slides.length - 1
 
   return (
-    <ModalOverlay onClick={() => setIsWelcomeOpen(false)}>
-      <ModalCard onClick={e => e.stopPropagation()}>
+    <ModalOverlay onClick={event => {
+      if (event.target === event.currentTarget) setIsWelcomeOpen(false)
+    }}>
+      <ModalCard
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-modal-title"
+        aria-describedby="welcome-modal-description"
+        tabIndex={-1}
+      >
         <HeaderRow>
-          <IndicatorDots>
+          <IndicatorDots aria-hidden="true">
             {slides.map((_, i) => (
               <Dot key={`dot-${i}`} $isActive={i === slideIndex} />
             ))}
@@ -131,8 +146,10 @@ export function WelcomeModal() {
           </CloseBtn>
         </HeaderRow>
 
-        <SlideTitle>{slides[slideIndex].title}</SlideTitle>
-        <SlideBody>{slides[slideIndex].desc}</SlideBody>
+        <SlideTitle id="welcome-modal-title" aria-live="polite">
+          {slides[slideIndex].title}
+        </SlideTitle>
+        <SlideBody id="welcome-modal-description">{slides[slideIndex].desc}</SlideBody>
 
         <ActionsRow>
           <Button

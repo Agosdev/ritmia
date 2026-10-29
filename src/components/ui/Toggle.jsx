@@ -9,7 +9,7 @@ const Label = styled.label`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.full};
   padding: 0 0.75rem;
-  height: 2.25rem;
+  min-height: 2.75rem;
   font-size: 11px;
   cursor: pointer;
   user-select: none;
@@ -18,13 +18,24 @@ const Label = styled.label`
   &:hover {
     border-color: ${({ theme }) => theme.colors.borderStrong};
   }
+
+  &:focus-within {
+    outline: 3px solid ${({ theme }) => theme.colors.amber};
+    outline-offset: 3px;
+  }
 `
 
 const HiddenInput = styled.input`
   position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
   opacity: 0;
-  width: 0;
-  height: 0;
 `
 
 const Dot = styled.span`

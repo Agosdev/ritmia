@@ -87,6 +87,11 @@ const ControlsSection = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 520px) {
+    width: 100%;
+    flex-wrap: wrap;
+  }
 `
 
 const BpmBox = styled.div`
@@ -98,6 +103,13 @@ const BpmBox = styled.div`
   border-radius: ${({ theme }) => theme.radii.full};
   padding: 0 0.85rem;
   height: 2.75rem;
+
+  @media (max-width: 520px) {
+    flex: 1 1 190px;
+    min-width: 0;
+    gap: 0.4rem;
+    padding: 0 0.55rem;
+  }
 `
 
 const BpmLabel = styled.span`
@@ -113,6 +125,12 @@ const BpmRange = styled.input`
 
   @media (min-width: 768px) {
     width: 120px;
+  }
+
+  @media (max-width: 520px) {
+    width: auto;
+    min-width: 48px;
+    flex: 1;
   }
 `
 
@@ -180,6 +198,8 @@ export function Header() {
             onClick={togglePlayback}
             style={{ minWidth: '92px' }}
             id="play-button"
+            aria-label={isPlaying ? 'Detener reproducción' : 'Iniciar reproducción'}
+            aria-pressed={isPlaying}
           >
             {isPlaying ? '■ STOP' : '▶ PLAY'}
           </Button>

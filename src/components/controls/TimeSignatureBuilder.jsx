@@ -14,6 +14,7 @@ const BuilderSection = styled.div`
 
 const HeaderRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
@@ -29,12 +30,16 @@ const PresetsScroll = styled.div`
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
-  max-width: 65%;
-  justify-content: flex-end;
+  width: 100%;
+  justify-content: flex-start;
+
+  @media (max-width: 520px) {
+    gap: 0.35rem;
+  }
 `
 
 const PresetBtn = styled.button`
-  height: 1.75rem;
+  min-height: 2.25rem;
   padding: 0 0.5rem;
   border-radius: ${({ theme }) => theme.radii.full};
   font-size: 10px;
@@ -51,7 +56,7 @@ const PresetBtn = styled.button`
 
 const InputsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 `
 
@@ -147,7 +152,9 @@ export function TimeSignatureBuilder() {
           {TIME_SIGNATURES.map(sig => (
             <PresetBtn
               key={sig.label}
+              type="button"
               $isSelected={numA === sig.num && denA === sig.den}
+              aria-pressed={numA === sig.num && denA === sig.den}
               onClick={() => {
                 setNumA(sig.num)
                 setDenA(sig.den)
@@ -175,6 +182,8 @@ export function TimeSignatureBuilder() {
               }
             }}
             aria-label="Numerador compás A"
+            aria-valuemin={1}
+            aria-valuemax={MAX_NUM}
           />
         </FieldBox>
 
@@ -210,8 +219,9 @@ export function TimeSignatureBuilder() {
           $variant="panel"
           $height="2.25rem"
           onClick={handleApplyFreeText}
+          aria-label="Aplicar numerador de compás A"
         >
-          Set
+          Aplicar
         </Button>
       </FreeTextRow>
 

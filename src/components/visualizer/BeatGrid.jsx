@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { GROUP_COLORS } from '../../music/constants'
 import { groupIndexForBeat } from '../../music/groupingSuggestions'
-import { useRitmia } from '../../context/RitmiaContext'
+import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 
 const GridContainer = styled.div`
   display: flex;
+  min-width: 0;
   gap: 6px;
   width: 100%;
   ${({ $scrollable }) =>
@@ -36,7 +37,7 @@ const BeatBox = styled.button`
     $isActive ? `0 0 0 1px ${$accentColor}, 0 0 18px ${$accentColor}66` : 'none'};
   transform: ${({ $isActive, $reduceMotion }) =>
     $isActive && !$reduceMotion ? 'scale(1.05)' : 'scale(1)'};
-  transition: all 120ms ease;
+  transition: ${({ $reduceMotion }) => ($reduceMotion ? 'none' : 'all 120ms ease')};
   cursor: pointer;
   user-select: none;
   z-index: ${({ $isActive }) => ($isActive ? 10 : 1)};
@@ -63,22 +64,23 @@ const AccentDot = styled.span`
   border-radius: 9999px;
   background: ${({ $color }) => $color};
   opacity: ${({ $accent }) => ($accent === 2 ? 1 : $accent === 1 ? 0.6 : 0.2)};
-  transition: opacity 120ms ease;
+  transition: ${({ $reduceMotion }) => ($reduceMotion ? 'none' : 'opacity 120ms ease')};
 `
 
 export function BeatGrid({
   numBeats,
   accents,
   onAccentsChange,
-  currentBeat,
   parsedGrouping,
   isValidGrouping,
   trackType = 'A', // 'A' | 'B'
   label,
 }) {
   const { reduceMotion } = useRitmia()
-  const isScrollable = numBeats > 16
+  const { currentBeatA, currentBeatB } = useRitmiaRealtime()
+  const isScrollable = numBeats >= 16
   const isTrackB = trackType === 'B'
+  const currentBeat = isTrackB ? currentBeatB : currentBeatA
   const defaultColor = isTrackB ? '#00E5FF' : '#FFB800'
 
   const handleBeatClick = index => {
@@ -90,7 +92,13 @@ export function BeatGrid({
 
   return (
     <div>
-      <GridContainer $scrollable={isScrollable} role="group" aria-label={label}>
+      <GridContainer
+        $scrollable={isScrollable}
+        role="group"
+        aria-label={label}
+        tabIndex={isScrollable ? 0 : undefined}
+        aria-describedby={isScrollable ? `${label.replace(/\s+/g, '-')}-scroll-help` : undefined}
+      >
         {Array.from({ length: numBeats }).map((_, index) => {
           const accentVal = accents[index] ?? 0
           const isActive = currentBeat === index
@@ -117,11 +125,16 @@ export function BeatGrid({
               }`}
             >
               <BeatNumber $isCompact={isScrollable}>{index + 1}</BeatNumber>
-              <AccentDot $color={color} $accent={accentVal} />
+              <AccentDot $color={color} $accent={accentVal} $reduceMotion={reduceMotion} />
             </BeatBox>
           )
         })}
       </GridContainer>
+      {isScrollable && (
+        <span id={`${label.replace(/\s+/g, '-')}-scroll-help`} className="sr-only">
+          Grilla desplazable horizontalmente con teclado o gesto táctil.
+        </span>
+      )}
     </div>
   )
 }

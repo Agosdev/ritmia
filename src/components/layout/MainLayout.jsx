@@ -117,8 +117,6 @@ export function MainLayout() {
     setAccentsA,
     accentsB,
     setAccentsB,
-    currentBeatA,
-    currentBeatB,
     activeGroupingA,
     activeGroupingB,
     openTest,
@@ -165,7 +163,6 @@ export function MainLayout() {
                 numBeats={numA}
                 accents={accentsA}
                 onAccentsChange={setAccentsA}
-                currentBeat={currentBeatA}
                 parsedGrouping={activeGroupingA}
                 isValidGrouping={!!activeGroupingA}
               />
@@ -175,7 +172,7 @@ export function MainLayout() {
             {level === 3 && (
               <div style={{ marginTop: '0.5rem' }}>
                 <GridHeaderRow>
-                  <GridLabel>Grilla B — {numB > 16 ? 'scroll' : 'proporcional'}</GridLabel>
+                  <GridLabel>Grilla B — {numB >= 16 ? 'scroll horizontal' : 'proporcional'}</GridLabel>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {numB >= 12 && (
                       <Badge $variant="cyan">Compás largo B: scroll →</Badge>
@@ -192,7 +189,6 @@ export function MainLayout() {
                   numBeats={numB}
                   accents={accentsB}
                   onAccentsChange={setAccentsB}
-                  currentBeat={currentBeatB}
                   parsedGrouping={activeGroupingB}
                   isValidGrouping={!!activeGroupingB}
                 />

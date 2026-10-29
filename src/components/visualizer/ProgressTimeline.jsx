@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRitmia } from '../../context/RitmiaContext'
+import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 
 const TimelineContainer = styled.div`
   display: flex;
@@ -68,11 +68,10 @@ export function ProgressTimeline() {
     level,
     numA,
     numB,
-    progressA,
-    progressB,
     timing,
     mode,
   } = useRitmia()
+  const { progressA, progressB } = useRitmiaRealtime()
 
   return (
     <TimelineContainer>

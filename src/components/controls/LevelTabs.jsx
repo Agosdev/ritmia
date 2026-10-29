@@ -25,6 +25,11 @@ const LevelPillGroup = styled.div`
   border-radius: ${({ theme }) => theme.radii.full};
   background: ${({ theme }) => theme.colors.panel};
   border: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 520px) {
+    width: 100%;
+    border-radius: ${({ theme }) => theme.radii.md};
+  }
 `
 
 const LevelTabButton = styled.button`
@@ -37,6 +42,14 @@ const LevelTabButton = styled.button`
   color: ${({ $isActive, theme }) => ($isActive ? '#000000' : theme.colors.textDim)};
   background: ${({ $isActive }) => ($isActive ? '#ffffff' : 'transparent')};
 
+  @media (max-width: 520px) {
+    height: auto;
+    min-height: 2.75rem;
+    flex: 1;
+    padding: 0.35rem 0.45rem;
+    line-height: 1.25;
+  }
+
   &:hover {
     color: ${({ $isActive, theme }) => ($isActive ? '#000000' : theme.colors.textBright)};
   }
@@ -47,6 +60,10 @@ const TogglesGroup = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 520px) {
+    width: 100%;
+  }
 `
 
 export function LevelTabs() {
@@ -69,12 +86,12 @@ export function LevelTabs() {
 
   return (
     <TabsRow>
-      <LevelPillGroup role="tablist" aria-label="Nivel de dificultad pedagógica">
+      <LevelPillGroup role="group" aria-label="Nivel de dificultad pedagógica">
         {levels.map(l => (
           <LevelTabButton
             key={l.id}
-            role="tab"
-            aria-selected={level === l.id}
+            type="button"
+            aria-pressed={level === l.id}
             $isActive={level === l.id}
             onClick={() => setLevel(l.id)}
           >

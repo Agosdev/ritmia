@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRitmia } from '../../context/RitmiaContext'
+import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 import { GROUP_COLORS } from '../../music/constants'
 import { groupIndexForBeat } from '../../music/groupingSuggestions'
 
@@ -67,13 +67,12 @@ export function CircularVisualizer() {
     denA,
     numB,
     denB,
-    currentBeatA,
-    currentBeatB,
     activeGroupingA,
     activeGroupingB,
     reduceMotion,
     isPlaying,
   } = useRitmia()
+  const { currentBeatA, currentBeatB } = useRitmiaRealtime()
 
   const radiusA = 58
   const radiusB = 82

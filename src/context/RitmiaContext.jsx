@@ -7,6 +7,7 @@ import { isNumerator, isDenominator, isBpm, isMode, isUnitValue, isAccentArray, 
 import { audioEngine } from '../audio/AudioEngine'
 
 const RitmiaContext = createContext(null)
+const RitmiaRealtimeContext = createContext(null)
 
 // Preserva la API de setter de React, incluidos los actualizadores funcionales.
 function useValidatedState(initial, validate) {
@@ -16,6 +17,46 @@ function useValidatedState(initial, validate) {
     return validate(next) ? next : previous
   }), [validate])
   return [value, setValidated]
+}
+
+function getTrackVisualState(notes, track, audioTime, step, length, startTime, nextTime, nextIndex) {
+  if (audioTime < startTime || !Number.isFinite(step) || step <= 0 || length <= 0) {
+    return { beat: -1, progress: 0 }
+  }
+
+  const trackNotes = notes.filter(note => note.type === track)
+  let previous = null
+  let next = null
+  for (const note of trackNotes) {
+    if (note.time <= audioTime) previous = note
+    else {
+      next = note
+      break
+    }
+  }
+
+  let position
+  if (previous && next) {
+    const distance = (next.pos - previous.pos + length) % length || 1
+    const interval = next.time - previous.time
+    const fraction = interval > 0 ? (audioTime - previous.time) / interval : 0
+    position = previous.pos + distance * fraction
+  } else if (previous) {
+    position = previous.pos + (audioTime - previous.time) / step
+  } else if (next) {
+    const distance = (next.pos - ((next.pos + length - 1) % length) + length) % length || 1
+    const interval = next.time - (nextTime - step)
+    const fraction = interval > 0 ? (audioTime - (next.time - interval)) / interval : 0
+    position = next.pos - distance + distance * fraction
+  } else {
+    position = nextIndex - 1 + (audioTime - (nextTime - step)) / step
+  }
+
+  const beat = previous && audioTime - previous.time < 0.05 ? previous.pos : -1
+  return {
+    beat,
+    progress: ((position % length) + length) % length / length,
+  }
 }
 
 export function RitmiaProvider({ children }) {
@@ -61,9 +102,9 @@ export function RitmiaProvider({ children }) {
   const [progressB, setProgressB] = useState(0)
 
   const rafRef = useRef(null)
-  const audioStartTimeRef = useRef(0)
   const playbackRequestRef = useRef(0)
   const playbackRequestedRef = useRef(false)
+  const visualConfigRef = useRef(null)
 
   // El motor recibe siempre un paso por unidad del numerador, incluso en el
   // render anterior al efecto que redimensiona permanentemente los acentos.
@@ -137,6 +178,7 @@ export function RitmiaProvider({ children }) {
       : 1
     return calculateTiming({ bpm, numA, denA, numB, denB, mode, claveMeasures })
   }, [bpm, numA, denA, numB, denB, mode, claveIndex])
+  visualConfigRef.current = { safeMode, bpm }
 
   const suggestionsA = useMemo(() => getGroupingSuggestions(numA), [numA])
   const suggestionsB = useMemo(() => getGroupingSuggestions(numB), [numB])
@@ -167,34 +209,35 @@ export function RitmiaProvider({ children }) {
         setCurrentBeatB(-1)
         setProgressA(0)
         setProgressB(0)
+        rafRef.current = null
         return
       }
 
       const audioTime = audioEngine.getCurrentAudioTime()
-      const elapsed = audioTime - audioStartTimeRef.current
-
-      const progA = timing.measureA ? (elapsed % timing.measureA) / timing.measureA : 0
-      const progB = timing.measureB ? (elapsed % timing.measureB) / timing.measureB : 0
-
-      setProgressA(Math.max(0, Math.min(1, progA)))
-      setProgressB(Math.max(0, Math.min(1, progB)))
-
-      let beatA = -1
-      let beatB = -1
-      const hitWindow = 0.05 // 50ms ventana de impacto visual
-
+      const { safeMode: currentSafeMode, bpm: currentBpm } = visualConfigRef.current
+      const { accentsA: currentA, accentsB: currentB, stepA, stepB } = audioEngine.params
       const notes = audioEngine.scheduledNotes
-      for (let i = notes.length - 1; i >= 0; i--) {
-        const n = notes[i]
-        if (Math.abs(n.time - audioTime) < hitWindow) {
-          // Si safeMode está activo y el tempo es alto (>130 BPM), solo iluminar acentos fuertes (2)
-          if (safeMode && bpm > 130 && n.accent !== 2) continue
+      const visualA = getTrackVisualState(
+        notes, 'A', audioTime, stepA, currentA.length, audioEngine.startTime,
+        audioEngine.nextNoteTimeA, audioEngine.stepCountA,
+      )
+      const visualB = getTrackVisualState(
+        notes, 'B', audioTime, stepB, currentB.length, audioEngine.startTime,
+        audioEngine.nextNoteTimeB, audioEngine.stepCountB,
+      )
+      const beatA = currentSafeMode && currentBpm > 130 && notes
+        .some(note => note.type === 'A' && note.time <= audioTime &&
+          audioTime - note.time < 0.05 && note.accent !== 2)
+        ? -1
+        : visualA.beat
+      const beatB = currentSafeMode && currentBpm > 130 && notes
+        .some(note => note.type === 'B' && note.time <= audioTime &&
+          audioTime - note.time < 0.05 && note.accent !== 2)
+        ? -1
+        : visualB.beat
 
-          if (n.type === 'A' && beatA === -1) beatA = n.pos
-          if (n.type === 'B' && beatB === -1) beatB = n.pos
-        }
-      }
-
+      setProgressA(Math.max(0, Math.min(1, visualA.progress)))
+      setProgressB(Math.max(0, Math.min(1, visualB.progress)))
       setCurrentBeatA(beatA)
       setCurrentBeatB(beatB)
 
@@ -202,9 +245,9 @@ export function RitmiaProvider({ children }) {
     }
 
     rafRef.current = requestAnimationFrame(loop)
-  }, [timing, safeMode, bpm])
+  }, [])
 
-  const startPlayback = async () => {
+  const startPlayback = useCallback(async () => {
     if (playbackRequestedRef.current) return
     playbackRequestedRef.current = true
     const request = ++playbackRequestRef.current
@@ -224,7 +267,6 @@ export function RitmiaProvider({ children }) {
         metronome,
       })
       if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
-      audioStartTimeRef.current = audioEngine.startTime
       setIsPlaying(true)
       runAnimationLoop()
     } catch (err) {
@@ -232,9 +274,12 @@ export function RitmiaProvider({ children }) {
       playbackRequestedRef.current = false
       console.error('Error al iniciar audio:', err)
     }
-  }
+  }, [
+    level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome,
+    runAnimationLoop,
+  ])
 
-  const stopPlayback = () => {
+  const stopPlayback = useCallback(() => {
     playbackRequestRef.current++
     playbackRequestedRef.current = false
     audioEngine.stop()
@@ -247,15 +292,15 @@ export function RitmiaProvider({ children }) {
     setCurrentBeatB(-1)
     setProgressA(0)
     setProgressB(0)
-  }
+  }, [])
 
-  const togglePlayback = () => {
+  const togglePlayback = useCallback(() => {
     if (playbackRequestedRef.current) {
       stopPlayback()
     } else {
       startPlayback()
     }
-  }
+  }, [startPlayback, stopPlayback])
 
   // Limpieza al desmontar
   useEffect(() => {
@@ -270,7 +315,7 @@ export function RitmiaProvider({ children }) {
   }, [])
 
   // Modales & Test de lectura
-  const openTest = () => {
+  const openTest = useCallback(() => {
     if (level === 1) {
       const q = `Si el compás es ${numA}/${denA} a ${bpm} BPM, ¿cuánto dura un compás?`
       const duration = ((60 / bpm) * numA * (4 / denA)).toFixed(2)
@@ -304,7 +349,9 @@ export function RitmiaProvider({ children }) {
     }
     setTestFeedback(null)
     setIsTestOpen(true)
-  }
+  }, [
+    level, numA, denA, bpm, activeGroupingA, mode, timing, numB, denB,
+  ])
 
   // Descripción sonora pedagógica "¿Qué escuchas?"
   const audioDescription = useMemo(() => {
@@ -360,7 +407,7 @@ export function RitmiaProvider({ children }) {
     safeMode,
   ])
 
-  const value = {
+  const value = useMemo(() => ({
     bpm,
     setBpm,
     isPlaying,
@@ -422,11 +469,6 @@ export function RitmiaProvider({ children }) {
     metronome,
     setMetronome,
 
-    // Realtime Visuals
-    currentBeatA,
-    currentBeatB,
-    progressA,
-    progressB,
     timing,
     audioDescription,
 
@@ -439,15 +481,44 @@ export function RitmiaProvider({ children }) {
     testFeedback,
     setTestFeedback,
     openTest,
-  }
+  }), [
+    bpm, setBpm, isPlaying, togglePlayback, startPlayback, stopPlayback, level, setLevel,
+    numA, setNumA, denA, setDenA, accentsA, setAccentsA, groupingA, setGroupingA,
+    volumeA, setVolumeA, parsedGroupingA, isValidGroupingA, activeGroupingA,
+    groupingStatusA, groupingFeedbackA, suggestionsA, numB, setNumB, denB, setDenB,
+    accentsB, setAccentsB, groupingB, setGroupingB, volumeB, setVolumeB, parsedGroupingB,
+    isValidGroupingB, activeGroupingB, groupingStatusB, groupingFeedbackB, suggestionsB,
+    mode, setMode, morphAmount, setMorphAmount, claveIndex, setClaveIndex, safeMode,
+    setSafeMode, reduceMotion, setReduceMotion, metronome, setMetronome, timing,
+    audioDescription, isWelcomeOpen, setIsWelcomeOpen, isTestOpen, setIsTestOpen,
+    testData, testFeedback, setTestFeedback, openTest,
+  ])
 
-  return <RitmiaContext.Provider value={value}>{children}</RitmiaContext.Provider>
+  const realtimeValue = useMemo(() => ({
+    currentBeatA, currentBeatB, progressA, progressB,
+  }), [currentBeatA, currentBeatB, progressA, progressB])
+
+  return (
+    <RitmiaContext.Provider value={value}>
+      <RitmiaRealtimeContext.Provider value={realtimeValue}>
+        {children}
+      </RitmiaRealtimeContext.Provider>
+    </RitmiaContext.Provider>
+  )
 }
 
 export function useRitmia() {
   const context = useContext(RitmiaContext)
   if (!context) {
     throw new Error('useRitmia debe ser utilizado dentro de un RitmiaProvider')
+  }
+  return context
+}
+
+export function useRitmiaRealtime() {
+  const context = useContext(RitmiaRealtimeContext)
+  if (!context) {
+    throw new Error('useRitmiaRealtime debe ser utilizado dentro de RitmiaProvider')
   }
   return context
 }

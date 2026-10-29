@@ -261,6 +261,31 @@ describe('AudioEngine transporte y scheduler', () => {
     expect(engine.scheduledNotes.filter(n => n.time >= 0.58)).toEqual(current)
   })
 
+  it('cancela el evento futuro anticipado y lo reemplaza con los parámetros nuevos', async () => {
+    await engine.start({
+      ...params,
+      stepA: 0.05,
+      accentsA: [2, 2, 2, 2],
+      metronome: false,
+    })
+    const ctx = engine.ctx
+    ctx.advanceTo(0.04)
+    engine.schedule()
+    const oldFuture = ctx.sources.find(source => source.startTime === 0.13)
+    expect(oldFuture).toBeDefined()
+
+    engine.setParams({ accentsA: [0, 1, 2, 0] })
+    expect(oldFuture.stopTime).toBe(0.04)
+    expect(engine.scheduledNotes.some(note => note.time === 0.13)).toBe(false)
+
+    engine.schedule()
+    expect(engine.scheduledNotes.find(note => note.time === 0.13))
+      .toMatchObject({ type: 'A', pos: 1, accent: 1 })
+    expect(ctx.sources.filter(source => source.startTime === 0.13)).toHaveLength(2)
+    expect(ctx.sources.find(source => source.startTime === 0.13 && source.stopTime > 0.04))
+      .toBeDefined()
+  })
+
   it('programa cinco ataques en dos compases y repite el ciclo completo', async () => {
     const timing = calculateTiming({
       bpm: 120, numA: 4, denA: 4, numB: 16, denB: 8, mode: 'clave', claveMeasures: 2,

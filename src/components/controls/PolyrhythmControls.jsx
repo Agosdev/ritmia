@@ -23,7 +23,7 @@ const SectionTitle = styled.span`
 
 const InputsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 `
 
@@ -259,8 +259,13 @@ export function PolyrhythmControls() {
           }}
           aria-label="Entrada libre pulsos B"
         />
-        <Button $variant="panel" $height="2.25rem" onClick={handleApplyFreeTextB}>
-          Set
+        <Button
+          $variant="panel"
+          $height="2.25rem"
+          onClick={handleApplyFreeTextB}
+          aria-label="Aplicar numerador de compás B"
+        >
+          Aplicar
         </Button>
       </FreeTextRow>
 
@@ -318,7 +323,9 @@ export function PolyrhythmControls() {
         {modes.map(m => (
           <ModeButton
             key={m.id}
+            type="button"
             $isActive={mode === m.id}
+            aria-pressed={mode === m.id}
             onClick={() => setMode(m.id)}
           >
             {m.label}
@@ -352,7 +359,9 @@ export function PolyrhythmControls() {
           {CLAVE_PATTERNS.map((c, i) => (
             <ClaveButton
               key={c.name}
+              type="button"
               $isActive={claveIndex === i}
+              aria-pressed={claveIndex === i}
               onClick={() => setClaveIndex(i)}
             >
               {c.name}
