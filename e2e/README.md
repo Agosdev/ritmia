@@ -1,8 +1,10 @@
 # E2E de Ritmia
 
-Configuración preparada en `playwright.config.ts`. Todavía no hay pruebas E2E
-de Ritmia: se retiraron los dos ejemplos sin personalización contra playwright.dev.
-El listado y la ejecución devolverán `No tests found` hasta agregar casos reales.
-No usar `--pass-with-no-tests` para ocultar esta ausencia.
+Playwright verifica recorridos principales de Ritmia y responsive en Chromium.
+La suite se ejecuta en GitHub Actions sobre Ubuntu 24.04; la configuración
+Chromium evita depender de navegadores que no son compatibles con macOS Monterey.
 
-Ver instrucciones y restricciones del entorno en el README principal.
+Para ejecutar localmente: `npx playwright install chromium` y
+`npx playwright test`. En equipos sin navegador compatible se puede comprobar
+el descubrimiento con `npx playwright test --list`; esto no sustituye la
+ejecución E2E en CI.
