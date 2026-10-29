@@ -38,7 +38,7 @@ const FormulaRow = styled.div`
 `
 
 export function AudioInfoBadge() {
-  const { audioDescription } = useRitmia()
+  const { audioDescription, level, mode } = useRitmia()
 
   return (
     <Panel2>
@@ -48,9 +48,12 @@ export function AudioInfoBadge() {
       </HeaderRow>
       <DescriptionText>{audioDescription}</DescriptionText>
       <FormulaRow>
-        <span>step = (60/bpm) * (4/den)</span>
+        <span>paso A = (60/bpm) * (4/denA)</span>
+        {level === 3 && <span>{mode === 'polimetria'
+          ? 'paso B = (60/bpm) * (4/denB)'
+          : 'paso B = duración A / numB'}</span>}
         <span>•</span>
-        <span>ticks = num * (32/den)</span>
+        <span>ticks escritos = num * (32/den)</span>
         <span>•</span>
         <span>osc.start(atTime) con cero drift</span>
       </FormulaRow>

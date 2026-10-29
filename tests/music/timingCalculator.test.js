@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import {
   gcd,
   lcm,
-  cappedLcm,
   calculateTiming,
 } from '../../src/music/timingCalculator'
 
@@ -21,10 +20,10 @@ describe('timingCalculator — Teoría Musical', () => {
       expect(lcm(0, 10)).toBe(0)
     })
 
-    it('limita el LCM con cappedLcm a MAX_LCM (2048)', () => {
-      expect(cappedLcm(4, 6)).toBe(12)
+    it('calcula el MCM exacto por encima del antiguo límite 2048', () => {
+      expect(lcm(4, 6)).toBe(12)
       // lcm(1024, 768) = 3072 > 2048
-      expect(cappedLcm(1024, 768)).toBe(2048)
+      expect(lcm(1024, 768)).toBe(3072)
     })
   })
 
@@ -63,7 +62,7 @@ describe('timingCalculator — Teoría Musical', () => {
         mode: 'polirritmia',
       })
       expect(timing.measureA).toBeCloseTo(timing.measureB, 5)
-      expect(timing.ratio).toBeCloseTo(1.5, 4)
+      expect(timing.eventRatio).toEqual({ a: 3, b: 2 })
     })
 
     it('en polimetría, las figuras musicales conservan su duración absoluta (corchea=corchea)', () => {

@@ -1,35 +1,46 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { calculateTiming } from '../music/timingCalculator'
-import { parseGrouping, isGroupingValid, getGroupingSuggestions } from '../music/groupingSuggestions'
+import { parseGrouping, isGroupingValid, getGroupingSuggestions, getGroupingStatus, groupingFeedback } from '../music/groupingSuggestions'
 import { CLAVE_PATTERNS } from '../music/clavePatterns'
-import { NOTE_NAMES, MAX_NUM } from '../music/constants'
+import { NOTE_NAMES } from '../music/constants'
+import { isNumerator, isDenominator, isBpm, isMode, isUnitValue, isAccentArray, isLevel, isText } from '../music/validation'
 import { audioEngine } from '../audio/AudioEngine'
 
 const RitmiaContext = createContext(null)
 
+// Preserva la API de setter de React, incluidos los actualizadores funcionales.
+function useValidatedState(initial, validate) {
+  const [value, setValue] = useState(initial)
+  const setValidated = useCallback(update => setValue(previous => {
+    const next = typeof update === 'function' ? update(previous) : update
+    return validate(next) ? next : previous
+  }), [validate])
+  return [value, setValidated]
+}
+
 export function RitmiaProvider({ children }) {
   // Configuración de Tempo y Reproducción
-  const [bpm, setBpm] = useState(92)
+  const [bpm, setBpm] = useValidatedState(92, isBpm)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [level, setLevel] = useState(1)
+  const [level, setLevel] = useValidatedState(1, isLevel)
 
   // Compás A
-  const [numA, setNumA] = useState(7)
-  const [denA, setDenA] = useState(8)
-  const [accentsA, setAccentsA] = useState([2, 0, 1, 0, 1, 0, 0])
-  const [groupingA, setGroupingA] = useState('3+2+2')
-  const [volumeA, setVolumeA] = useState(1)
+  const [numA, setNumA] = useValidatedState(7, isNumerator)
+  const [denA, setDenA] = useValidatedState(8, isDenominator)
+  const [storedAccentsA, setAccentsA] = useValidatedState([2, 0, 1, 0, 1, 0, 0], isAccentArray)
+  const [groupingA, setGroupingA] = useValidatedState('3+2+2', isText)
+  const [volumeA, setVolumeA] = useValidatedState(1, isUnitValue)
 
   // Compás B
-  const [numB, setNumB] = useState(5)
-  const [denB, setDenB] = useState(8)
-  const [accentsB, setAccentsB] = useState([2, 0, 1, 0, 1])
-  const [groupingB, setGroupingB] = useState('3+2')
-  const [volumeB, setVolumeB] = useState(1)
+  const [numB, setNumB] = useValidatedState(5, isNumerator)
+  const [denB, setDenB] = useValidatedState(8, isDenominator)
+  const [storedAccentsB, setAccentsB] = useValidatedState([2, 0, 1, 0, 1], isAccentArray)
+  const [groupingB, setGroupingB] = useValidatedState('3+2', isText)
+  const [volumeB, setVolumeB] = useValidatedState(1, isUnitValue)
 
   // Modos de Nivel 3
-  const [mode, setMode] = useState('polirritmia')
-  const [morphAmount, setMorphAmount] = useState(0.5)
+  const [mode, setMode] = useValidatedState('polirritmia', isMode)
+  const [morphAmount, setMorphAmount] = useValidatedState(0.5, isUnitValue)
   const [claveIndex, setClaveIndex] = useState(0)
 
   // Preferencias UX / Accesibilidad
@@ -51,6 +62,13 @@ export function RitmiaProvider({ children }) {
 
   const rafRef = useRef(null)
   const audioStartTimeRef = useRef(0)
+  const playbackRequestRef = useRef(0)
+  const playbackRequestedRef = useRef(false)
+
+  // El motor recibe siempre un paso por unidad del numerador, incluso en el
+  // render anterior al efecto que redimensiona permanentemente los acentos.
+  const accentsA = useMemo(() => Array.from({ length: numA }, (_, i) => storedAccentsA[i] ?? 0), [storedAccentsA, numA])
+  const accentsB = useMemo(() => Array.from({ length: numB }, (_, i) => storedAccentsB[i] ?? 0), [storedAccentsB, numB])
 
   // Normalizar array de acentos A cuando cambia numA
   useEffect(() => {
@@ -94,20 +112,31 @@ export function RitmiaProvider({ children }) {
   const parsedGroupingA = useMemo(() => parseGrouping(groupingA), [groupingA])
   const parsedGroupingB = useMemo(() => parseGrouping(groupingB), [groupingB])
 
-  const isValidGroupingA = useMemo(
-    () => (parsedGroupingA ? isGroupingValid(parsedGroupingA, numA) : true),
-    [parsedGroupingA, numA]
-  )
+  const groupingStatusA = getGroupingStatus(groupingA, numA)
+  const groupingStatusB = getGroupingStatus(groupingB, numB)
+  const isValidGroupingA = groupingStatusA === 'valid'
+  const isValidGroupingB = groupingStatusB === 'valid'
+  const [lastGroupingA, setLastGroupingA] = useState([3, 2, 2])
+  const [lastGroupingB, setLastGroupingB] = useState([3, 2])
+  const activeGroupingA = isValidGroupingA ? parsedGroupingA :
+    (isGroupingValid(lastGroupingA, numA) ? lastGroupingA : null)
+  const activeGroupingB = isValidGroupingB ? parsedGroupingB :
+    (isGroupingValid(lastGroupingB, numB) ? lastGroupingB : null)
+  useEffect(() => {
+    if (isValidGroupingA) setLastGroupingA(parsedGroupingA)
+  }, [isValidGroupingA, parsedGroupingA])
+  useEffect(() => {
+    if (isValidGroupingB) setLastGroupingB(parsedGroupingB)
+  }, [isValidGroupingB, parsedGroupingB])
+  const groupingFeedbackA = groupingFeedback(groupingStatusA, numA, activeGroupingA)
+  const groupingFeedbackB = groupingFeedback(groupingStatusB, numB, activeGroupingB)
 
-  const isValidGroupingB = useMemo(
-    () => (parsedGroupingB ? isGroupingValid(parsedGroupingB, numB) : true),
-    [parsedGroupingB, numB]
-  )
-
-  const timing = useMemo(
-    () => calculateTiming({ bpm, numA, denA, numB, denB, mode }),
-    [bpm, numA, denA, numB, denB, mode]
-  )
+  const timing = useMemo(() => {
+    const claveMeasures = mode === 'clave'
+      ? CLAVE_PATTERNS[claveIndex]?.cycleMeasures ?? 1
+      : 1
+    return calculateTiming({ bpm, numA, denA, numB, denB, mode, claveMeasures })
+  }, [bpm, numA, denA, numB, denB, mode, claveIndex])
 
   const suggestionsA = useMemo(() => getGroupingSuggestions(numA), [numA])
   const suggestionsB = useMemo(() => getGroupingSuggestions(numB), [numB])
@@ -176,6 +205,9 @@ export function RitmiaProvider({ children }) {
   }, [timing, safeMode, bpm])
 
   const startPlayback = async () => {
+    if (playbackRequestedRef.current) return
+    playbackRequestedRef.current = true
+    const request = ++playbackRequestRef.current
     try {
       await audioEngine.start({
         level,
@@ -191,15 +223,20 @@ export function RitmiaProvider({ children }) {
         morph: morphAmount,
         metronome,
       })
+      if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
       audioStartTimeRef.current = audioEngine.startTime
       setIsPlaying(true)
       runAnimationLoop()
     } catch (err) {
+      if (request !== playbackRequestRef.current) return
+      playbackRequestedRef.current = false
       console.error('Error al iniciar audio:', err)
     }
   }
 
   const stopPlayback = () => {
+    playbackRequestRef.current++
+    playbackRequestedRef.current = false
     audioEngine.stop()
     setIsPlaying(false)
     if (rafRef.current) {
@@ -213,7 +250,7 @@ export function RitmiaProvider({ children }) {
   }
 
   const togglePlayback = () => {
-    if (isPlaying) {
+    if (playbackRequestedRef.current) {
       stopPlayback()
     } else {
       startPlayback()
@@ -223,8 +260,12 @@ export function RitmiaProvider({ children }) {
   // Limpieza al desmontar
   useEffect(() => {
     return () => {
-      audioEngine.stop()
+      playbackRequestRef.current++
+      playbackRequestedRef.current = false
+      const closing = audioEngine.dispose()
+      closing?.catch(err => console.error('Error al cerrar audio:', err))
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
     }
   }, [])
 
@@ -243,18 +284,18 @@ export function RitmiaProvider({ children }) {
         ],
       })
     } else if (level === 2) {
-      const desc = parsedGroupingA ? parsedGroupingA.join('+') : '—'
-      const count = parsedGroupingA?.length ?? 1
+      const desc = activeGroupingA ? activeGroupingA.join('+') : 'ninguna aplicada'
+      const count = activeGroupingA?.length ?? 0
       setTestData({
         q: `Con agrupación ${desc} sobre ${numA}/${denA}, ¿cuántos grupos hay?`,
         a: `${count}`,
-        options: [`${count}`, `${count + 1}`, `${Math.max(1, count - 1)}`],
+        options: [`${count}`, `${count + 1}`, `${count > 0 ? count - 1 : 2}`],
       })
     } else {
       const pDesc =
         mode === 'polimetria'
           ? `Polimetría ${numA}/${denA} vs ${numB}/${denB}: reencuentro cada ${timing.reunionA} compases de A`
-          : `Polirritmia ratio ${timing.ticksA}:${timing.ticksB}`
+          : `Modo ${mode}: frecuencia de pasos A:B ${timing.eventRatio.a}:${timing.eventRatio.b} en ciclo común`
       setTestData({
         q: `En modo ${mode}, ¿qué describe mejor este ritmo?`,
         a: pDesc,
@@ -282,12 +323,15 @@ export function RitmiaProvider({ children }) {
 
     if (level === 3) {
       const accentsCountB = accentsB.filter(b => b > 0).length
-      desc += ` | Compás B: ${numB} de ${NOTE_NAMES[denB] || denB} con ${accentsCountB} acentos.`
+      const canonicalClaveCycle = mode === 'clave' && CLAVE_PATTERNS[claveIndex]?.cycleMeasures === 2
+      desc += canonicalClaveCycle
+        ? ` | Ciclo de clave: ${numB} subdivisiones de ${NOTE_NAMES[denB] || denB}, ${accentsCountB} ataques; dura ocho negras (${timing.measureB.toFixed(2)}s).`
+        : ` | Compás B: ${numB} de ${NOTE_NAMES[denB] || denB} con ${accentsCountB} acentos.`
 
       if (mode === 'polirritmia') {
-        desc += ` Ambos compases encajan en ${durCompasA}s (ratio ${timing.ticksA}:${timing.ticksB}, B estirado/comprimido).`
+        desc += ` Ambos compases encajan en ${durCompasA}s (frecuencia de pasos A:B ${timing.eventRatio.a}:${timing.eventRatio.b}, B estirado/comprimido; incluye silencios).`
       } else if (mode === 'polimetria') {
-        desc += ` Duraciones métricas independientes: A ${timing.measureA.toFixed(2)}s, B ${timing.measureB.toFixed(2)}s. Reencuentro cada ${timing.reunionA}×A / ${timing.reunionB}×B.`
+        desc += ` Duraciones métricas independientes (A:B ${timing.durationRatio.a}:${timing.durationRatio.b}); frecuencia de pasos A:B ${timing.eventRatio.a}:${timing.eventRatio.b}. A ${timing.measureA.toFixed(2)}s, B ${timing.measureB.toFixed(2)}s. Reencuentro cada ${timing.reunionA}×A / ${timing.reunionB}×B.`
       } else if (mode === 'morph') {
         desc += ` Morph ${Math.round(morphAmount * 100)}% A→B, modulación cruzada de ganancia sin desfase.`
       } else if (mode === 'clave') {
@@ -339,6 +383,9 @@ export function RitmiaProvider({ children }) {
     setVolumeA,
     parsedGroupingA,
     isValidGroupingA,
+    activeGroupingA,
+    groupingStatusA,
+    groupingFeedbackA,
     suggestionsA,
 
     // Track B
@@ -354,6 +401,9 @@ export function RitmiaProvider({ children }) {
     setVolumeB,
     parsedGroupingB,
     isValidGroupingB,
+    activeGroupingB,
+    groupingStatusB,
+    groupingFeedbackB,
     suggestionsB,
 
     // Modes

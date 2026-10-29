@@ -100,8 +100,9 @@ export function GroupingInput() {
     numA,
     groupingA,
     setGroupingA,
-    parsedGroupingA,
+    activeGroupingA,
     isValidGroupingA,
+    groupingFeedbackA,
     suggestionsA,
   } = useRitmia()
 
@@ -110,7 +111,7 @@ export function GroupingInput() {
       <TitleRow>
         <Title>Agrupación A — &ldquo;3+2+2&rdquo; hasta 32</Title>
         <Badge $variant={isValidGroupingA ? 'emerald' : 'red'}>
-          {isValidGroupingA ? `válido suma=${numA}` : `inválido ≠${numA}`}
+          {groupingFeedbackA.split(';')[0]}
         </Badge>
       </TitleRow>
 
@@ -119,7 +120,10 @@ export function GroupingInput() {
         onChange={e => setGroupingA(e.target.value)}
         placeholder="ej: 3+2+2 o 3+3+3+3 para 12"
         aria-label="Agrupación métrica pista A"
+        aria-invalid={!isValidGroupingA}
       />
+
+      {!isValidGroupingA && <InfoLegend role="status">{groupingFeedbackA}</InfoLegend>}
 
       {suggestionsA.length > 0 && (
         <SuggestionsRow>
@@ -136,9 +140,9 @@ export function GroupingInput() {
         </SuggestionsRow>
       )}
 
-      {parsedGroupingA && (
+      {activeGroupingA && (
         <ColorSegmentsBar>
-          {parsedGroupingA.map((_, i) => (
+          {activeGroupingA.map((_, i) => (
             <Segment
               key={`seg-${i}`}
               $color={GROUP_COLORS[i % GROUP_COLORS.length]}

@@ -69,10 +69,8 @@ export function CircularVisualizer() {
     denB,
     currentBeatA,
     currentBeatB,
-    parsedGroupingA,
-    parsedGroupingB,
-    isValidGroupingA,
-    isValidGroupingB,
+    activeGroupingA,
+    activeGroupingB,
     reduceMotion,
     isPlaying,
   } = useRitmia()
@@ -135,9 +133,9 @@ export function CircularVisualizer() {
             const startAngle = (i / numA) * 360
             const endAngle = ((i + gapRatio) / numA) * 360
 
-            const grpIdx = parsedGroupingA ? groupIndexForBeat(i, parsedGroupingA) : 0
+            const grpIdx = activeGroupingA ? groupIndexForBeat(i, activeGroupingA) : 0
             const color =
-              level >= 2 && parsedGroupingA && isValidGroupingA
+              level >= 2 && activeGroupingA
                 ? GROUP_COLORS[grpIdx % GROUP_COLORS.length]
                 : '#FFB800'
 
@@ -171,9 +169,9 @@ export function CircularVisualizer() {
               const startAngle = (i / numB) * 360
               const endAngle = ((i + gapRatio) / numB) * 360
 
-              const grpIdx = parsedGroupingB ? groupIndexForBeat(i, parsedGroupingB) : 0
+              const grpIdx = activeGroupingB ? groupIndexForBeat(i, activeGroupingB) : 0
               const color =
-                parsedGroupingB && isValidGroupingB
+                activeGroupingB
                   ? GROUP_COLORS[grpIdx % GROUP_COLORS.length]
                   : '#00E5FF'
 

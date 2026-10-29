@@ -1,5 +1,8 @@
 export const MAX_NUM = 32
-export const MAX_LCM = 2048
+export const MIN_BPM = 40
+export const MAX_BPM = 200
+export const DENOMINATORS = [1, 2, 4, 8, 16]
+export const MODES = ['polirritmia', 'polimetria', 'morph', 'clave']
 
 export const NOTE_NAMES = {
   1: 'redonda',

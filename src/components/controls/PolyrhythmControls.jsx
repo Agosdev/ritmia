@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
-import { MAX_NUM, MAX_LCM } from '../../music/constants'
+import { MAX_NUM, DENOMINATORS } from '../../music/constants'
 import { CLAVE_PATTERNS } from '../../music/clavePatterns'
 import { Panel2 } from '../ui/Card'
 import { Badge } from '../ui/Badge'
@@ -178,6 +178,8 @@ export function PolyrhythmControls() {
     groupingB,
     setGroupingB,
     suggestionsB,
+    groupingFeedbackB,
+    isValidGroupingB,
     mode,
     setMode,
     morphAmount,
@@ -186,12 +188,14 @@ export function PolyrhythmControls() {
     setClaveIndex,
     timing,
   } = useRitmia()
+  const canonicalClaveCycle = mode === 'clave' && CLAVE_PATTERNS[claveIndex]?.cycleMeasures === 2
 
   const [freeTextB, setFreeTextB] = useState('')
 
   const handleApplyFreeTextB = () => {
-    const val = parseInt(freeTextB.trim(), 10)
-    if (!isNaN(val) && val >= 1 && val <= MAX_NUM) {
+    if (!/^\d+$/.test(freeTextB.trim())) return
+    const val = Number(freeTextB.trim())
+    if (Number.isInteger(val) && val >= 1 && val <= MAX_NUM) {
       setNumB(val)
       setFreeTextB('')
     }
@@ -217,8 +221,9 @@ export function PolyrhythmControls() {
             max={MAX_NUM}
             value={numB}
             onChange={e => {
-              const val = parseInt(e.target.value, 10)
-              if (!isNaN(val)) {
+              if (!e.target.value.trim()) return
+              const val = Number(e.target.value)
+              if (Number.isInteger(val)) {
                 setNumB(Math.min(MAX_NUM, Math.max(1, val)))
               }
             }}
@@ -233,7 +238,7 @@ export function PolyrhythmControls() {
             onChange={e => setDenB(parseInt(e.target.value, 10))}
             aria-label="Denominador compás B"
           >
-            {[1, 2, 4, 8, 16].map(d => (
+            {DENOMINATORS.map(d => (
               <option key={d} value={d}>
                 {d}
               </option>
@@ -284,7 +289,10 @@ export function PolyrhythmControls() {
         onChange={e => setGroupingB(e.target.value)}
         placeholder="agrupación B ej: 3+2 o 3+3+3+3"
         aria-label="Agrupación pista B"
+        aria-invalid={!isValidGroupingB}
       />
+
+      <div role="status">{groupingFeedbackB}</div>
 
       {suggestionsB.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
@@ -356,10 +364,22 @@ export function PolyrhythmControls() {
       <StatsBox>
         <div>measureSecA = (60/bpm)*numA*(4/denA) = {timing.measureA.toFixed(3)}s</div>
         <div>stepA = {timing.stepA.toFixed(4)}s, stepB = {timing.stepB.toFixed(4)}s</div>
-        <div>ticksA = {timing.ticksA}, ticksB = {timing.ticksB}, ratio = {timing.ratio.toFixed(3)}</div>
         <div>
-          lcm = {timing.lcmTicks}
-          {timing.capped ? ` (capado a ${MAX_LCM} para evitar lag)` : ''}, reencuentro A×{timing.reunionA.toFixed(2)} / B×{timing.reunionB.toFixed(2)}
+          {canonicalClaveCycle
+            ? 'Pasos A por compás / B por ciclo'
+            : 'Pasos por compás propio A:B'} = {numA}:{numB}
+          {' '}(reducido {timing.pulseRatio.a}:{timing.pulseRatio.b}; incluye silencios)
+        </div>
+        <div>Frecuencia de pasos A:B = {timing.eventRatio.a}:{timing.eventRatio.b}</div>
+        <div>Duración efectiva A:B = {timing.durationRatio.a}:{timing.durationRatio.b}</div>
+        <div>Duraciones escritas en fusas: A {timing.ticksA}, B {timing.ticksB}</div>
+        {canonicalClaveCycle && <div>Ciclo de clave: ocho negras = {timing.measureB.toFixed(3)}s</div>}
+        {mode === 'polimetria' && <div>MCM exacto = {timing.lcmTicks} fusas</div>}
+        <div>
+          {canonicalClaveCycle
+            ? `Reencuentro A×${timing.reunionA} compases / B×${timing.reunionB} ciclos`
+            : `Reencuentro A×${timing.reunionA} / B×${timing.reunionB}`}
+          , ≈{timing.reunionSec.toFixed(3)}s (desde inicio conjunto)
         </div>
         {(numA >= 12 || numB >= 12) && (
           <div style={{ color: '#ffd88a', marginTop: '2px' }}>

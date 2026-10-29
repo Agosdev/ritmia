@@ -1,21 +1,46 @@
+import { isNumerator } from './validation'
+import { MAX_NUM } from './constants'
+
 /**
  * Parsea un string de agrupación como "3+2+2" en un array de números [3, 2, 2].
  * Retorna null si es inválido.
  */
 export function parseGrouping(str) {
   if (!str || typeof str !== 'string' || !str.trim()) return null
-  const parts = str.split('+').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n) && n > 0)
-  if (parts.length === 0) return null
-  return parts
+  const tokens = str.trim().split('+').map(s => s.trim())
+  if (tokens.length > MAX_NUM || tokens.some(token => !/^\d+$/.test(token))) return null
+  const parts = tokens.map(Number)
+  return parts.every(isNumerator) ? parts : null
 }
 
 /**
  * Valida si la suma del agrupamiento coincide exactamente con el numerador.
  */
 export function isGroupingValid(groupingArray, targetNum) {
-  if (!groupingArray || groupingArray.length === 0) return false
+  if (!isNumerator(targetNum) || !Array.isArray(groupingArray) ||
+      groupingArray.length === 0 || groupingArray.length > MAX_NUM ||
+      !Array.from(groupingArray).every(isNumerator)) return false
   const sum = groupingArray.reduce((acc, curr) => acc + curr, 0)
   return sum === targetNum
+}
+
+export function getGroupingStatus(text, num) {
+  if (typeof text !== 'string') return 'invalid'
+  const trimmed = text.trim()
+  if (!trimmed) return 'empty'
+  if (trimmed.endsWith('+') && parseGrouping(trimmed.slice(0, -1))) return 'incomplete'
+  const parsed = parseGrouping(trimmed)
+  if (!parsed) return 'invalid'
+  return isGroupingValid(parsed, num) ? 'valid' : 'sum-mismatch'
+}
+
+export function groupingFeedback(status, num, applied) {
+  if (status === 'valid') return `válida suma=${num}`
+  const reason = {
+    empty: 'texto vacío', incomplete: 'texto incompleto',
+    invalid: 'formato inválido', 'sum-mismatch': `suma distinta de ${num}`,
+  }[status]
+  return `${reason}; ${applied ? `se conserva ${applied.join('+')}` : 'sin agrupación aplicada'}`
 }
 
 /**
@@ -35,7 +60,7 @@ export function groupIndexForBeat(beatIndex, groupingArray) {
  * Genera sugerencias automáticas de agrupación rítmica para un número dado de pulsos.
  */
 export function getGroupingSuggestions(num) {
-  if (!num || num < 2) return []
+  if (!isNumerator(num) || num < 2) return []
 
   // Presets pedagógicos clásicos para compases irregulares comunes
   if (num === 5) return ['3+2', '2+3']

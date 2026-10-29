@@ -119,10 +119,8 @@ export function MainLayout() {
     setAccentsB,
     currentBeatA,
     currentBeatB,
-    parsedGroupingA,
-    parsedGroupingB,
-    isValidGroupingA,
-    isValidGroupingB,
+    activeGroupingA,
+    activeGroupingB,
     openTest,
   } = useRitmia()
 
@@ -156,7 +154,7 @@ export function MainLayout() {
                     <Badge $variant="amber">Compás largo: scroll horizontal →</Badge>
                   )}
                   <span style={{ fontSize: '10px', color: '#9a9ab0' }}>
-                    {isValidGroupingA ? 'agrupación OK' : 'suma ≠ num'}
+                    {activeGroupingA ? 'agrupación aplicada' : 'sin agrupación'}
                   </span>
                 </div>
               </GridHeaderRow>
@@ -168,8 +166,8 @@ export function MainLayout() {
                 accents={accentsA}
                 onAccentsChange={setAccentsA}
                 currentBeat={currentBeatA}
-                parsedGrouping={parsedGroupingA}
-                isValidGrouping={isValidGroupingA}
+                parsedGrouping={activeGroupingA}
+                isValidGrouping={!!activeGroupingA}
               />
             </div>
 
@@ -183,7 +181,7 @@ export function MainLayout() {
                       <Badge $variant="cyan">Compás largo B: scroll →</Badge>
                     )}
                     <span style={{ fontSize: '10px', color: '#9a9ab0' }}>
-                      {isValidGroupingB ? 'agrupación OK' : 'suma ≠ num'}
+                      {activeGroupingB ? 'agrupación aplicada' : 'sin agrupación'}
                     </span>
                   </div>
                 </GridHeaderRow>
@@ -195,8 +193,8 @@ export function MainLayout() {
                   accents={accentsB}
                   onAccentsChange={setAccentsB}
                   currentBeat={currentBeatB}
-                  parsedGrouping={parsedGroupingB}
-                  isValidGrouping={isValidGroupingB}
+                  parsedGrouping={activeGroupingB}
+                  isValidGrouping={!!activeGroupingB}
                 />
               </div>
             )}

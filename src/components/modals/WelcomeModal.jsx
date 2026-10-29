@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
-import { MAX_NUM, MAX_LCM } from '../../music/constants'
+import { MAX_NUM } from '../../music/constants'
 import { Panel } from '../ui/Card'
 import { Button } from '../ui/Button'
 
@@ -111,7 +111,7 @@ export function WelcomeModal() {
     },
     {
       title: 'Nivel 3 — Polirritmia, Polimetría, Morph y Clave',
-      desc: `Experimenta con dos compases concurrentes: Polirritmia comprime/estira la pista B para que ambos coincidan en el mismo tiempo absoluto; Polimetría mantiene igual valor métrico (corchea=corchea) con cálculo de reencuentro por MCM capado a ${MAX_LCM}; Morph crossfadea volumen; y Clave aplica 6 patrones afrocubanos clásicos.`,
+      desc: `Experimenta con dos compases concurrentes: Polirritmia comprime/estira la pista B para que ambos coincidan en el mismo tiempo absoluto; Polimetría mantiene igual valor métrico (corchea=corchea) con cálculo de reencuentro por MCM exacto, sin truncamiento; Morph crossfadea volumen; y Clave aplica 6 patrones afrocubanos clásicos.`,
     },
   ]
 

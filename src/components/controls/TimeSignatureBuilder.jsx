@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
-import { TIME_SIGNATURES, MAX_NUM } from '../../music/constants'
+import { TIME_SIGNATURES, MAX_NUM, DENOMINATORS } from '../../music/constants'
 import { Panel2 } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
@@ -131,8 +131,9 @@ export function TimeSignatureBuilder() {
   const [freeText, setFreeText] = useState('')
 
   const handleApplyFreeText = () => {
-    const val = parseInt(freeText.trim(), 10)
-    if (!isNaN(val) && val >= 1 && val <= MAX_NUM) {
+    if (!/^\d+$/.test(freeText.trim())) return
+    const val = Number(freeText.trim())
+    if (Number.isInteger(val) && val >= 1 && val <= MAX_NUM) {
       setNumA(val)
       setFreeText('')
     }
@@ -167,8 +168,9 @@ export function TimeSignatureBuilder() {
             max={MAX_NUM}
             value={numA}
             onChange={e => {
-              const val = parseInt(e.target.value, 10)
-              if (!isNaN(val)) {
+              if (!e.target.value.trim()) return
+              const val = Number(e.target.value)
+              if (Number.isInteger(val)) {
                 setNumA(Math.min(MAX_NUM, Math.max(1, val)))
               }
             }}
@@ -183,7 +185,7 @@ export function TimeSignatureBuilder() {
             onChange={e => setDenA(parseInt(e.target.value, 10))}
             aria-label="Denominador compás A"
           >
-            {[1, 2, 4, 8, 16].map(d => (
+            {DENOMINATORS.map(d => (
               <option key={d} value={d}>
                 {d}
               </option>

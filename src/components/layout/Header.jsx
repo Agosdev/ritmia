@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { Button, IconButton } from '../ui/Button'
+import { MIN_BPM, MAX_BPM } from '../../music/constants'
 import { Badge } from '../ui/Badge'
 
 const HeaderContainer = styled.header`
@@ -151,21 +152,22 @@ export function Header() {
             <BpmLabel>BPM</BpmLabel>
             <BpmRange
               type="range"
-              min="40"
-              max="200"
+              min={MIN_BPM}
+              max={MAX_BPM}
               value={bpm}
               onChange={e => setBpm(parseInt(e.target.value, 10))}
               aria-label="Ajustar tempo BPM"
             />
             <BpmNumber
               type="number"
-              min="40"
-              max="200"
+              min={MIN_BPM}
+              max={MAX_BPM}
               value={bpm}
               onChange={e => {
-                const val = parseInt(e.target.value, 10)
-                if (!isNaN(val)) {
-                  setBpm(Math.min(200, Math.max(40, val)))
+                if (!e.target.value.trim()) return
+                const val = Number(e.target.value)
+                if (Number.isInteger(val)) {
+                  setBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, val)))
                 }
               }}
               aria-label="Valor numérico BPM"

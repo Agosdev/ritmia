@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MAX_LCM } from '../../music/constants'
 
 const FooterContainer = styled.footer`
   max-width: 1280px;
@@ -23,7 +22,7 @@ const Bullet = styled.span`
 export function Footer() {
   return (
     <FooterContainer>
-      <span>Ritmia — Web Audio API pura, reloj AudioContext.currentTime, MAX_NUM 32, LCM cap {MAX_LCM}</span>
+      <span>Ritmia — Web Audio API pura, reloj AudioContext.currentTime, MAX_NUM 32, MCM exacto de duraciones métricas</span>
       <Bullet>•</Bullet>
       <span>Presets: 12/4, 12/8, 12/16, 15/8, 16/8, 24/16 + auto-grouping</span>
       <Bullet>•</Bullet>

@@ -15,12 +15,32 @@ describe('clavePatterns — Patrones Tradicionales', () => {
     ])
   })
 
-  it('cada patrón tiene una longitud de 8 pulsos y valores de acento válidos (0, 1, 2)', () => {
+  it('son y rumba tienen cinco ataques en dos compases con sus diferencias tradicionales', () => {
+    const expected = [
+      [0, 3, 6, 10, 12],
+      [2, 4, 8, 11, 14],
+      [0, 3, 7, 10, 12],
+      [2, 4, 8, 11, 15],
+    ]
+
+    CLAVE_PATTERNS.slice(0, 4).forEach((clave, index) => {
+      const positions = clave.pat.flatMap((value, step) => value > 0 ? [step] : [])
+      expect(clave.cycleMeasures).toBe(2)
+      expect(clave.pat).toHaveLength(16)
+      expect(positions).toEqual(expected[index])
+      expect(positions).toHaveLength(5)
+    })
+  })
+
+  it('conserva Bossa y Shiko y solo usa valores de acento válidos', () => {
     CLAVE_PATTERNS.forEach(clave => {
-      expect(clave.pat).toHaveLength(8)
       clave.pat.forEach(val => {
         expect([0, 1, 2]).toContain(val)
       })
     })
+    expect(CLAVE_PATTERNS.slice(4).map(({ name, pat }) => [name, pat])).toEqual([
+      ['Bossa 3-2', [2, 0, 1, 0, 2, 0, 0, 1]],
+      ['Shiko', [2, 0, 0, 1, 0, 2, 1, 0]],
+    ])
   })
 })

@@ -1,41 +1,34 @@
-import { MAX_LCM } from './constants'
+import { isNumerator, isDenominator, isBpm, isMode } from './validation'
 
-/**
- * Máximo Común Divisor (Greatest Common Divisor) usando el algoritmo de Euclides.
- */
+function assertIntegers(a, b) {
+  if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b)) {
+    throw new RangeError('MCD/MCM requieren enteros seguros')
+  }
+}
+
 export function gcd(a, b) {
-  if (b === 0) return Math.abs(a)
-  return gcd(b, a % b)
+  assertIntegers(a, b)
+  a = Math.abs(a)
+  b = Math.abs(b)
+  while (b !== 0) [a, b] = [b, a % b]
+  return a
 }
 
-/**
- * Mínimo Común Múltiplo (Least Common Multiple).
- */
 export function lcm(a, b) {
+  assertIntegers(a, b)
   if (a === 0 || b === 0) return 0
-  return Math.abs(a * b) / (gcd(a, b) || 1)
+  const result = Math.abs((a / gcd(a, b)) * b)
+  if (!Number.isSafeInteger(result)) throw new RangeError('MCM fuera del rango entero seguro')
+  return result
 }
 
-/**
- * LCM limitado a MAX_LCM para evitar congelamientos o cálculos exorbitantes.
- */
-export function cappedLcm(a, b, cap = MAX_LCM) {
-  const result = lcm(a, b)
-  return result > cap ? cap : result
+function reducedRatio(a, b) {
+  const divisor = gcd(a, b)
+  return { a: a / divisor, b: b / divisor }
 }
 
-/**
- * Calcula con precisión absoluta el timing musical de ambos compases y su relación.
- *
- * @param {Object} options
- * @param {number} options.bpm - Tempo en pulsos por minuto (negra = bpm)
- * @param {number} options.numA - Numerador de Compás A (1-32)
- * @param {number} options.denA - Denominador de Compás A (1, 2, 4, 8, 16)
- * @param {number} [options.numB=5] - Numerador de Compás B (1-32)
- * @param {number} [options.denB=8] - Denominador de Compás B (1, 2, 4, 8, 16)
- * @param {string} [options.mode='polirritmia'] - 'polirritmia' | 'polimetria' | 'morph' | 'clave'
- * @returns {Object} Parámetros de timing calculados
- */
+// Ver docs/musical-domain.md: BPM = negras/min; ticks = fusas escritas.
+// Los reencuentros son de inicios de compás, con ambos iniciados juntos.
 export function calculateTiming({
   bpm,
   numA,
@@ -43,59 +36,45 @@ export function calculateTiming({
   numB = 5,
   denB = 8,
   mode = 'polirritmia',
+  claveMeasures = 1,
 }) {
-  const safeBpm = Math.max(20, Math.min(300, bpm || 92))
-  const beatSec = 60 / safeBpm
-  const tickSec = beatSec * 0.125 // 32nd note grid
-
+  if (!isBpm(bpm) || !isNumerator(numA) || !isNumerator(numB) ||
+      !isDenominator(denA) || !isDenominator(denB) || !isMode(mode) ||
+      ![1, 2].includes(claveMeasures) || (mode !== 'clave' && claveMeasures !== 1)) {
+    throw new RangeError('Configuración musical inválida')
+  }
+  const beatSec = 60 / bpm
+  const tickSec = beatSec / 8
   const ticksA = numA * (32 / denA)
-  const ticksB = numB * (32 / denB)
-  const exactLcm = lcm(ticksA, ticksB)
-  const isCapped = exactLcm > MAX_LCM
-  const effectiveLcm = isCapped ? MAX_LCM : exactLcm
+  const canonicalClaveCycle = mode === 'clave' && claveMeasures === 2
+  const ticksB = canonicalClaveCycle ? 64 : numB * (32 / denB)
+  const lcmTicks = lcm(ticksA, ticksB)
+  const polymeter = mode === 'polimetria'
+  const adaptedMeasuresB = mode === 'clave' ? claveMeasures : 1
+  // Mantener las fórmulas temporales existentes del motor.
+  const measureA = polymeter ? (beatSec * (4 / denA)) * numA : beatSec * numA * (4 / denA)
+  const stepA = polymeter ? beatSec * (4 / denA) : measureA / numA
+  const measureB = polymeter
+    ? beatSec * (4 / denB) * numB
+    : canonicalClaveCycle
+      ? beatSec * 8
+      : measureA * adaptedMeasuresB
+  const stepB = polymeter ? beatSec * (4 / denB) : measureB / numB
+  const pulseRatio = reducedRatio(numA, numB)
 
-  if (mode === 'polimetria') {
-    // En polimetría, las figuras musicales tienen valor temporal absoluto independiente (corchea = corchea)
-    const stepA = beatSec * (4 / denA)
-    const stepB = beatSec * (4 / denB)
-    const measureA = stepA * numA
-    const measureB = stepB * numB
-
-    return {
-      stepA,
-      stepB,
-      measureA,
-      measureB,
-      ticksA,
-      ticksB,
-      ratio: ticksA / ticksB,
-      lcmTicks: effectiveLcm,
-      reunionA: effectiveLcm / ticksA,
-      reunionB: effectiveLcm / ticksB,
-      tickSec,
-      capped: isCapped,
-    }
-  } else {
-    // Polirritmia / Morph / Clave:
-    // Ambos compases comparten la misma ventana de tiempo absoluto (measureB = measureA)
-    const measureA = beatSec * numA * (4 / denA)
-    const measureB = measureA
-    const stepA = measureA / numA
-    const stepB = measureB / numB
-
-    return {
-      stepA,
-      stepB,
-      measureA,
-      measureB,
-      ticksA,
-      ticksB,
-      ratio: ticksA / ticksB,
-      lcmTicks: effectiveLcm,
-      reunionA: effectiveLcm / ticksA,
-      reunionB: effectiveLcm / ticksB,
-      tickSec,
-      capped: isCapped,
-    }
+  return {
+    stepA, stepB, measureA, measureB, tickSec, ticksA, ticksB, lcmTicks,
+    pulseRatio,
+    eventRatio: polymeter
+      ? reducedRatio(denA, denB)
+      : canonicalClaveCycle
+        ? reducedRatio(ticksB * numA, ticksA * numB)
+        : reducedRatio(numA * adaptedMeasuresB, numB),
+    durationRatio: polymeter || canonicalClaveCycle
+      ? reducedRatio(ticksA, ticksB)
+      : reducedRatio(1, adaptedMeasuresB),
+    reunionA: polymeter || canonicalClaveCycle ? lcmTicks / ticksA : adaptedMeasuresB,
+    reunionB: polymeter || canonicalClaveCycle ? lcmTicks / ticksB : 1,
+    reunionSec: polymeter || canonicalClaveCycle ? lcmTicks * tickSec : measureB,
   }
 }

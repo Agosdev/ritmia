@@ -1,3 +1,36 @@
+// Cada instrumento conserva sus fuentes y nodos hasta finalizar o recibir Stop.
+// El retorno es opcional para los callers existentes que solo disparan un sonido.
+function createVoice(ctx, branches) {
+  const pending = new Set(branches)
+  const voice = {
+    onended: null,
+    stop() {
+      for (const branch of [...pending]) {
+        try {
+          branch.source.stop(ctx.currentTime)
+        } finally {
+          finish(branch)
+        }
+      }
+    },
+  }
+
+  function finish(branch) {
+    if (!pending.delete(branch)) return
+    branch.source.onended = null
+    branch.source.disconnect()
+    for (const node of branch.nodes) node.disconnect()
+    if (pending.size === 0) {
+      const onended = voice.onended
+      voice.onended = null
+      onended?.()
+    }
+  }
+
+  for (const branch of branches) branch.source.onended = () => finish(branch)
+  return voice
+}
+
 let cachedNoiseBuffer = null
 
 /**
@@ -42,12 +75,7 @@ export function playKick(ctx, destination, time, velocity = 1, volume = 1) {
   osc.start(time)
   osc.stop(time + 0.28)
 
-  osc.onended = () => {
-    try {
-      osc.disconnect()
-      gain.disconnect()
-    } catch {}
-  }
+  return createVoice(ctx, [{ source: osc, nodes: [gain] }])
 }
 
 /**
@@ -78,13 +106,7 @@ export function playBass(ctx, destination, time, velocity = 1, volume = 1) {
   osc.start(time)
   osc.stop(time + 0.33)
 
-  osc.onended = () => {
-    try {
-      osc.disconnect()
-      filter.disconnect()
-      gain.disconnect()
-    } catch {}
-  }
+  return createVoice(ctx, [{ source: osc, nodes: [filter, gain] }])
 }
 
 /**
@@ -134,19 +156,10 @@ export function playSnare(ctx, destination, time, velocity = 1, volume = 1) {
   tonalOsc.start(time)
   tonalOsc.stop(time + 0.12)
 
-  tonalOsc.onended = () => {
-    try {
-      tonalOsc.disconnect()
-      tonalGain.disconnect()
-    } catch {}
-  }
-  noiseSource.onended = () => {
-    try {
-      noiseSource.disconnect()
-      bandpass.disconnect()
-      noiseGain.disconnect()
-    } catch {}
-  }
+  return createVoice(ctx, [
+    { source: tonalOsc, nodes: [tonalGain] },
+    { source: noiseSource, nodes: [bandpass, noiseGain] },
+  ])
 }
 
 /**
@@ -178,13 +191,7 @@ export function playHat(ctx, destination, time, velocity = 1, volume = 1) {
   source.start(time)
   source.stop(time + 0.06)
 
-  source.onended = () => {
-    try {
-      source.disconnect()
-      highpass.disconnect()
-      gain.disconnect()
-    } catch {}
-  }
+  return createVoice(ctx, [{ source, nodes: [highpass, gain] }])
 }
 
 /**
@@ -211,10 +218,5 @@ export function playWoodblock(ctx, destination, time, volume = 0.8) {
   osc.start(time)
   osc.stop(time + 0.13)
 
-  osc.onended = () => {
-    try {
-      osc.disconnect()
-      gain.disconnect()
-    } catch {}
-  }
+  return createVoice(ctx, [{ source: osc, nodes: [gain] }])
 }

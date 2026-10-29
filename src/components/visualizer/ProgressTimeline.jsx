@@ -108,7 +108,7 @@ export function ProgressTimeline() {
       {level === 3 && mode === 'polimetria' && (
         <PolymeterInfo>
           Reencuentro cada <b>{timing.reunionA}</b> compases de A y{' '}
-          <b>{timing.reunionB}</b> de B — mcm de ticks: {timing.lcmTicks}
+          <b>{timing.reunionB}</b> de B — MCM: {timing.lcmTicks} fusas (desde inicio conjunto)
         </PolymeterInfo>
       )}
     </TimelineContainer>
