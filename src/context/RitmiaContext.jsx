@@ -19,7 +19,9 @@ function useValidatedState(initial, validate) {
   return [value, setValidated]
 }
 
-function getTrackVisualState(notes, track, audioTime, step, length, startTime, nextTime, nextIndex) {
+function getTrackVisualState(
+  notes, track, audioTime, step, length, startTime, nextTime, nextIndex, preservePendingInterval = false,
+) {
   if (audioTime < startTime || !Number.isFinite(step) || step <= 0 || length <= 0) {
     return { beat: -1, progress: 0 }
   }
@@ -42,7 +44,9 @@ function getTrackVisualState(notes, track, audioTime, step, length, startTime, n
     const fraction = interval > 0 ? (audioTime - previous.time) / interval : 0
     position = previous.pos + distance * fraction
   } else if (previous) {
-    position = previous.pos + (audioTime - previous.time) / step
+    const interval = nextTime - previous.time
+    position = previous.pos + (audioTime - previous.time) /
+      (preservePendingInterval && interval > 0 ? interval : step)
   } else if (next) {
     const distance = (next.pos - ((next.pos + length - 1) % length) + length) % length || 1
     const interval = next.time - (nextTime - step)
@@ -62,7 +66,8 @@ function getTrackVisualState(notes, track, audioTime, step, length, startTime, n
 export function RitmiaProvider({ children }) {
   // Configuración de Tempo y Reproducción
   const [bpm, setBpm] = useValidatedState(92, isBpm)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [transportState, setTransportState] = useState('stopped')
+  const isPlaying = transportState === 'playing'
   const [level, setLevel] = useValidatedState(1, isLevel)
 
   // Compás A
@@ -202,50 +207,54 @@ export function RitmiaProvider({ children }) {
   }, [level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome])
 
   // Loop de Animación Visual Sincronizado (rAF)
+  const updateRealtimeState = useCallback(() => {
+    if (!audioEngine.ctx) return
+    const audioTime = audioEngine.getCurrentAudioTime()
+    const { safeMode: currentSafeMode, bpm: currentBpm } = visualConfigRef.current
+    const { accentsA: currentA, accentsB: currentB, stepA, stepB } = audioEngine.params
+    const notes = audioEngine.scheduledNotes
+    const preserveA = audioEngine.transportState === 'paused' ||
+      (audioEngine.resumePhaseUntilA !== null && audioTime < audioEngine.resumePhaseUntilA)
+    const preserveB = audioEngine.transportState === 'paused' ||
+      (audioEngine.resumePhaseUntilB !== null && audioTime < audioEngine.resumePhaseUntilB)
+    const visualA = getTrackVisualState(
+      notes, 'A', audioTime, stepA, currentA.length, audioEngine.startTime,
+      audioEngine.nextNoteTimeA, audioEngine.stepCountA, preserveA,
+    )
+    const visualB = getTrackVisualState(
+      notes, 'B', audioTime, stepB, currentB.length, audioEngine.startTime,
+      audioEngine.nextNoteTimeB, audioEngine.stepCountB, preserveB,
+    )
+    const beatA = currentSafeMode && currentBpm > 130 && notes
+      .some(note => note.type === 'A' && note.time <= audioTime &&
+        audioTime - note.time < 0.05 && note.accent !== 2)
+      ? -1
+      : visualA.beat
+    const beatB = currentSafeMode && currentBpm > 130 && notes
+      .some(note => note.type === 'B' && note.time <= audioTime &&
+        audioTime - note.time < 0.05 && note.accent !== 2)
+      ? -1
+      : visualB.beat
+
+    setProgressA(Math.max(0, Math.min(1, visualA.progress)))
+    setProgressB(Math.max(0, Math.min(1, visualB.progress)))
+    setCurrentBeatA(beatA)
+    setCurrentBeatB(beatB)
+  }, [])
+
   const runAnimationLoop = useCallback(() => {
     const loop = () => {
       if (!audioEngine.isPlaying || !audioEngine.ctx) {
-        setCurrentBeatA(-1)
-        setCurrentBeatB(-1)
-        setProgressA(0)
-        setProgressB(0)
         rafRef.current = null
         return
       }
 
-      const audioTime = audioEngine.getCurrentAudioTime()
-      const { safeMode: currentSafeMode, bpm: currentBpm } = visualConfigRef.current
-      const { accentsA: currentA, accentsB: currentB, stepA, stepB } = audioEngine.params
-      const notes = audioEngine.scheduledNotes
-      const visualA = getTrackVisualState(
-        notes, 'A', audioTime, stepA, currentA.length, audioEngine.startTime,
-        audioEngine.nextNoteTimeA, audioEngine.stepCountA,
-      )
-      const visualB = getTrackVisualState(
-        notes, 'B', audioTime, stepB, currentB.length, audioEngine.startTime,
-        audioEngine.nextNoteTimeB, audioEngine.stepCountB,
-      )
-      const beatA = currentSafeMode && currentBpm > 130 && notes
-        .some(note => note.type === 'A' && note.time <= audioTime &&
-          audioTime - note.time < 0.05 && note.accent !== 2)
-        ? -1
-        : visualA.beat
-      const beatB = currentSafeMode && currentBpm > 130 && notes
-        .some(note => note.type === 'B' && note.time <= audioTime &&
-          audioTime - note.time < 0.05 && note.accent !== 2)
-        ? -1
-        : visualB.beat
-
-      setProgressA(Math.max(0, Math.min(1, visualA.progress)))
-      setProgressB(Math.max(0, Math.min(1, visualB.progress)))
-      setCurrentBeatA(beatA)
-      setCurrentBeatB(beatB)
-
+      updateRealtimeState()
       rafRef.current = requestAnimationFrame(loop)
     }
 
     rafRef.current = requestAnimationFrame(loop)
-  }, [])
+  }, [updateRealtimeState])
 
   const startPlayback = useCallback(async () => {
     if (playbackRequestedRef.current) return
@@ -267,7 +276,7 @@ export function RitmiaProvider({ children }) {
         metronome,
       })
       if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
-      setIsPlaying(true)
+      setTransportState('playing')
       runAnimationLoop()
     } catch (err) {
       if (request !== playbackRequestRef.current) return
@@ -283,7 +292,7 @@ export function RitmiaProvider({ children }) {
     playbackRequestRef.current++
     playbackRequestedRef.current = false
     audioEngine.stop()
-    setIsPlaying(false)
+    setTransportState('stopped')
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current)
       rafRef.current = null
@@ -294,13 +303,39 @@ export function RitmiaProvider({ children }) {
     setProgressB(0)
   }, [])
 
+  const pausePlayback = useCallback(async () => {
+    if (audioEngine.transportState !== 'playing') return
+    const request = ++playbackRequestRef.current
+    playbackRequestedRef.current = false
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+
+    try {
+      await audioEngine.pause()
+      if (request !== playbackRequestRef.current || audioEngine.transportState !== 'paused') return
+      updateRealtimeState()
+      setTransportState('paused')
+    } catch (err) {
+      if (request !== playbackRequestRef.current) return
+      if (audioEngine.isPlaying) {
+        playbackRequestedRef.current = true
+        setTransportState('playing')
+        runAnimationLoop()
+      }
+      console.error('Error al pausar audio:', err)
+    }
+  }, [runAnimationLoop, updateRealtimeState])
+
   const togglePlayback = useCallback(() => {
     if (playbackRequestedRef.current) {
-      stopPlayback()
+      if (audioEngine.isPlaying) pausePlayback()
+      else stopPlayback()
     } else {
       startPlayback()
     }
-  }, [startPlayback, stopPlayback])
+  }, [pausePlayback, startPlayback, stopPlayback])
 
   // Limpieza al desmontar
   useEffect(() => {
@@ -411,8 +446,10 @@ export function RitmiaProvider({ children }) {
     bpm,
     setBpm,
     isPlaying,
+    transportState,
     togglePlayback,
     startPlayback,
+    pausePlayback,
     stopPlayback,
     level,
     setLevel,
@@ -482,7 +519,7 @@ export function RitmiaProvider({ children }) {
     setTestFeedback,
     openTest,
   }), [
-    bpm, setBpm, isPlaying, togglePlayback, startPlayback, stopPlayback, level, setLevel,
+    bpm, setBpm, isPlaying, transportState, togglePlayback, startPlayback, pausePlayback, stopPlayback, level, setLevel,
     numA, setNumA, denA, setDenA, accentsA, setAccentsA, groupingA, setGroupingA,
     volumeA, setVolumeA, parsedGroupingA, isValidGroupingA, activeGroupingA,
     groupingStatusA, groupingFeedbackA, suggestionsA, numB, setNumB, denB, setDenB,

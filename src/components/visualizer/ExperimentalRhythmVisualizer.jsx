@@ -298,7 +298,7 @@ const PulseNodes = React.memo(function PulseNodes({ numA, accentsA }) {
 })
 
 const RealtimeIndicators = React.memo(function RealtimeIndicators({
-  isPlaying,
+  transportState,
   reduceMotion,
   numA,
   accentsA,
@@ -308,10 +308,11 @@ const RealtimeIndicators = React.memo(function RealtimeIndicators({
 }) {
   const progress = Math.max(0, Math.min(1, progressA))
   const phasePosition = Math.min(numA - 1, Math.floor(progress * numA))
-  const activePosition = isPlaying
+  const isPlaying = transportState === 'playing'
+  const activePosition = transportState !== 'stopped'
     ? currentBeatA >= 0 ? Math.min(currentBeatA, numA - 1) : phasePosition
     : -1
-  const canAnimateAccent = !reduceMotion && stepA >= 0.12
+  const canAnimateAccent = isPlaying && !reduceMotion && stepA >= 0.12
   const accent = activePosition >= 0 ? accentsA[activePosition] ?? 0 : 0
   const strongAttack = canAnimateAccent && currentBeatA === activePosition && accent === 2
   const softAttack = canAnimateAccent && stepA >= 0.18 &&
@@ -320,7 +321,7 @@ const RealtimeIndicators = React.memo(function RealtimeIndicators({
 
   return (
     <>
-      {!reduceMotion && isPlaying && (
+      {!reduceMotion && transportState !== 'stopped' && (
         <>
           <circle
             cx={CENTER_X}
@@ -410,18 +411,24 @@ const PulseControls = React.memo(function PulseControls({ accentsA, numA, setAcc
 })
 
 export function ExperimentalRhythmVisualizer({ reduceMotion }) {
-  const { accentsA, numA, denA, setAccentsA, isPlaying, timing } = useRitmia()
+  const { accentsA, numA, denA, setAccentsA, transportState, timing } = useRitmia()
   const { currentBeatA, progressA } = useRitmiaRealtime()
+  const isPlaying = transportState === 'playing'
   const progress = Math.max(0, Math.min(1, progressA))
   const phasePosition = Math.min(numA - 1, Math.floor(progress * numA))
-  const activePosition = isPlaying
+  const activePosition = transportState !== 'stopped'
     ? currentBeatA >= 0 ? Math.min(currentBeatA, numA - 1) : phasePosition
     : -1
+  const transportLabel = isPlaying
+    ? `posición ${activePosition + 1} de ${numA}`
+    : transportState === 'paused'
+      ? `en pausa · posición ${activePosition + 1} de ${numA}`
+      : 'patrón en reposo'
   return (
     <Section aria-labelledby="experimental-visualizer-title">
       <Intro>
         <h2 id="experimental-visualizer-title">Ciclo rítmico · A {numA}/{denA}</h2>
-        <p>{isPlaying ? `posición ${activePosition + 1} de ${numA}` : 'patrón en reposo'}</p>
+        <p>{transportLabel}</p>
       </Intro>
 
       <Visual>
@@ -448,7 +455,7 @@ export function ExperimentalRhythmVisualizer({ reduceMotion }) {
             data-testid="cycle-trajectory"
           />
           <RealtimeIndicators
-            isPlaying={isPlaying}
+            transportState={transportState}
             reduceMotion={reduceMotion}
             numA={numA}
             accentsA={accentsA}
@@ -463,9 +470,9 @@ export function ExperimentalRhythmVisualizer({ reduceMotion }) {
       <PulseControls accentsA={accentsA} numA={numA} setAccentsA={setAccentsA} />
 
       <Summary>
-        {isPlaying
-          ? <>Posición actual: <strong>{activePosition + 1} de {numA}</strong>. Su contorno indica fase, no confirma un sonido.</>
-          : <>Silencio, suave y fuerte permanecen visibles en pausa. Activa una posición para recorrer sus tres estados.</>}
+        {transportState !== 'stopped'
+          ? <>{transportState === 'paused' ? 'Pausa en' : 'Posición actual:'} <strong>{activePosition + 1} de {numA}</strong>. Su contorno indica fase, no confirma un sonido.</>
+          : <>Silencio, suave y fuerte permanecen visibles en reposo. Activa una posición para recorrer sus tres estados.</>}
       </Summary>
     </Section>
   )

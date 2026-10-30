@@ -230,8 +230,10 @@ export function ExperimentalRhythmPrototype() {
     setBpm,
     denA,
     setDenA,
-    isPlaying,
-    togglePlayback,
+    transportState,
+    startPlayback,
+    pausePlayback,
+    stopPlayback,
     numA,
     setNumA,
     volumeA,
@@ -241,6 +243,7 @@ export function ExperimentalRhythmPrototype() {
   } = useRitmia()
   const systemReducedMotion = useSystemReducedMotion()
   const shouldReduceMotion = reduceMotion || systemReducedMotion
+  const isPlaying = transportState === 'playing'
 
   const handleBpmChange = value => {
     const parsed = Number(value)
@@ -296,12 +299,30 @@ export function ExperimentalRhythmPrototype() {
             <ActionRow>
               <ActionButton
                 type="button"
-                $playing={isPlaying}
-                onClick={togglePlayback}
-                aria-label={isPlaying ? 'Detener reproducción' : 'Iniciar reproducción'}
+                $playing
+                onClick={startPlayback}
+                aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
                 aria-pressed={isPlaying}
               >
-                {isPlaying ? '■ Detener' : '▶ Reproducir'}
+                {transportState === 'paused' ? '▶ Reanudar' : '▶ Reproducir'}
+              </ActionButton>
+              <ActionButton
+                type="button"
+                $playing={false}
+                onClick={pausePlayback}
+                disabled={!isPlaying}
+                aria-label="Pausar reproducción"
+              >
+                Ⅱ Pausar
+              </ActionButton>
+              <ActionButton
+                type="button"
+                $playing={false}
+                onClick={stopPlayback}
+                disabled={transportState === 'stopped'}
+                aria-label="Reiniciar ciclo"
+              >
+                ↺ Reiniciar
               </ActionButton>
               <ToggleLabel>
                 <input

@@ -94,6 +94,47 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     expect(vi.getTimerCount()).toBe(0)
   })
 
+  it('pausar congela la fase visual, reanudar la conserva y reiniciar vuelve al inicio', async () => {
+    const { result } = renderHook(
+      () => ({ config: useRitmia(), realtime: useRitmiaRealtime() }),
+      { wrapper },
+    )
+    act(() => {
+      result.current.config.setLevel(3)
+      result.current.config.setMode('polimetria')
+    })
+    await act(async () => { await result.current.config.startPlayback() })
+    const ctx = audioEngine.ctx
+    ctx.advanceTo(audioEngine.startTime + 0.2)
+    runNextFrame()
+    const pausedProgress = result.current.realtime.progressA
+    const pausedProgressB = result.current.realtime.progressB
+    expect(pausedProgress).toBeGreaterThan(0)
+    expect(pausedProgressB).toBeGreaterThan(0)
+
+    await act(async () => { await result.current.config.pausePlayback() })
+    expect(result.current.config.transportState).toBe('paused')
+    expect(result.current.config.isPlaying).toBe(false)
+    expect(result.current.realtime.progressA).toBeCloseTo(pausedProgress, 10)
+    expect(result.current.realtime.progressB).toBeCloseTo(pausedProgressB, 10)
+    expect(frames.size).toBe(0)
+    expect(result.current.realtime.progressA).toBeCloseTo(pausedProgress, 10)
+
+    act(() => result.current.config.setBpm(200))
+    expect(audioEngine.nextNoteTimeA).toBeGreaterThan(ctx.currentTime)
+    expect(audioEngine.nextNoteTimeB).toBeGreaterThan(ctx.currentTime)
+    await act(async () => { await result.current.config.startPlayback() })
+    expect(result.current.config.transportState).toBe('playing')
+    runNextFrame()
+    expect(result.current.realtime.progressA).toBeCloseTo(pausedProgress, 10)
+    expect(result.current.realtime.progressB).toBeCloseTo(pausedProgressB, 10)
+
+    act(() => result.current.config.stopPlayback())
+    expect(result.current.config.transportState).toBe('stopped')
+    expect(result.current.realtime.progressA).toBe(0)
+    expect(result.current.realtime.currentBeatA).toBe(-1)
+  })
+
   it('dos toggles inmediatos cancelan un inicio pendiente', async () => {
     vi.stubGlobal('AudioContext', controlledAudioContext({ suspended: true }))
     const { result } = renderHook(useRitmia, { wrapper })

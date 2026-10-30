@@ -9,14 +9,18 @@ export class AudioEngine {
     this.timerId = null
     this.transportGeneration = 0
     this.startPromise = null
+    this.pausePromise = null
     this.activeVoices = new Set()
 
     this.isPlaying = false
+    this.transportState = 'stopped'
     this.startTime = 0
     this.nextNoteTimeA = 0
     this.nextNoteTimeB = 0
     this.stepCountA = 0
     this.stepCountB = 0
+    this.resumePhaseUntilA = null
+    this.resumePhaseUntilB = null
 
     // Cola de eventos programados para sincronización visual
     this.scheduledNotes = []
@@ -106,21 +110,25 @@ export class AudioEngine {
 
   async startTransport(generation) {
     try {
+      if (this.pausePromise) await this.pausePromise
       await this.ensureContext()
       // Stop/dispose invalidan también solicitudes que están esperando resume().
       if (generation !== this.transportGeneration) return
       if (this.ctx.state !== 'running') throw new Error('AudioContext no está activo')
       if (this.isPlaying) return
 
-      // Offset de 80ms para preparar los primeros buffers
-      const now = this.ctx.currentTime
-      this.startTime = now + 0.08
-      this.nextNoteTimeA = this.startTime
-      this.nextNoteTimeB = this.startTime
-      this.stepCountA = 0
-      this.stepCountB = 0
-      this.scheduledNotes = []
+      if (this.transportState === 'stopped') {
+        // Offset de 80ms para preparar los primeros buffers
+        const now = this.ctx.currentTime
+        this.startTime = now + 0.08
+        this.nextNoteTimeA = this.startTime
+        this.nextNoteTimeB = this.startTime
+        this.stepCountA = 0
+        this.stepCountB = 0
+        this.scheduledNotes = []
+      }
       this.isPlaying = true
+      this.transportState = 'playing'
 
       // Ejecutar inmediatamente el primer ciclo y luego cada 25ms
       this.schedule()
@@ -130,6 +138,44 @@ export class AudioEngine {
       this.stop()
       throw error
     }
+  }
+
+  pause() {
+    if (this.transportState !== 'playing' || !this.ctx) return Promise.resolve()
+    if (this.pausePromise) return this.pausePromise
+
+    const generation = ++this.transportGeneration
+    this.isPlaying = false
+    if (this.timerId !== null) {
+      clearInterval(this.timerId)
+      this.timerId = null
+    }
+
+    const pending = (async () => {
+      try {
+        await this.ctx.suspend()
+        if (generation !== this.transportGeneration) return
+        this.invalidateFutureNotes()
+        this.resumePhaseUntilA = this.nextNoteTimeA
+        this.resumePhaseUntilB = this.nextNoteTimeB
+        for (const voice of [...this.activeVoices]) voice.stop()
+        this.activeVoices.clear()
+        this.transportState = 'paused'
+      } catch (error) {
+        if (generation === this.transportGeneration && this.ctx?.state === 'running') {
+          this.isPlaying = true
+          this.transportState = 'playing'
+          this.schedule()
+          this.timerId = window.setInterval(() => this.schedule(), 25)
+        }
+        throw error
+      }
+    })()
+    this.pausePromise = pending
+    pending.finally(() => {
+      if (this.pausePromise === pending) this.pausePromise = null
+    }).catch(() => {})
+    return pending
   }
 
   trackVoice(voice) {
@@ -271,6 +317,7 @@ export class AudioEngine {
     this.transportGeneration++
     this.startPromise = null
     this.isPlaying = false
+    this.transportState = 'stopped'
     if (this.timerId !== null) {
       clearInterval(this.timerId)
       this.timerId = null
@@ -279,6 +326,13 @@ export class AudioEngine {
     this.activeVoices.clear()
     this.scheduledNotes = []
     this.eventVoices = new WeakMap()
+    this.startTime = 0
+    this.nextNoteTimeA = 0
+    this.nextNoteTimeB = 0
+    this.stepCountA = 0
+    this.stepCountB = 0
+    this.resumePhaseUntilA = null
+    this.resumePhaseUntilB = null
   }
 
   getCurrentAudioTime() {

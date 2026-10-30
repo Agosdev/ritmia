@@ -61,6 +61,148 @@ describe('AudioEngine transporte y scheduler', () => {
     expect(vi.getTimerCount()).toBe(1)
   })
 
+  it('pausa entre pulsos cancela voces anticipadas y reanuda A y B desde su fase exacta', async () => {
+    await engine.start({ ...params, level: 3 })
+    const ctx = engine.ctx
+    const startTime = engine.startTime
+    ctx.advanceTo(0.19)
+
+    await engine.pause()
+    const paused = {
+      nextA: engine.nextNoteTimeA,
+      nextB: engine.nextNoteTimeB,
+      countA: engine.stepCountA,
+      countB: engine.stepCountB,
+    }
+    expect(engine.transportState).toBe('paused')
+    expect(engine.isPlaying).toBe(false)
+    expect(ctx.state).toBe('suspended')
+    expect(ctx.audibleAt(ctx.currentTime)).toEqual([])
+    expect(engine.scheduledNotes.some(note => note.time > ctx.currentTime)).toBe(false)
+    expect(ctx.sources.every(source => source.stopTime <= ctx.currentTime)).toBe(true)
+    expect(engine.activeVoices).toHaveLength(0)
+    expect(paused).toMatchObject({
+      nextA: startTime + 0.5,
+      nextB: startTime + 0.375,
+      countA: 1,
+      countB: 1,
+    })
+
+    await engine.start()
+    expect(engine.transportState).toBe('playing')
+    expect(engine.startTime).toBe(startTime)
+    expect(engine.nextNoteTimeA).toBe(paused.nextA)
+    expect(engine.nextNoteTimeB).toBe(paused.nextB)
+    ctx.advanceTo(paused.nextB - 0.01)
+    engine.schedule()
+    const resumedB = engine.scheduledNotes.filter(note => note.type === 'B' && note.time === paused.nextB)
+    expect(resumedB).toHaveLength(1)
+    expect(resumedB[0].pos).toBe(1)
+    engine.schedule()
+    expect(engine.scheduledNotes.filter(note => note.type === 'B' && note.time === paused.nextB)).toHaveLength(1)
+  })
+
+  it('múltiples pausas conservan el próximo timestamp y los cambios de BPM aplican desde el pulso pendiente', async () => {
+    await engine.start(params)
+    const ctx = engine.ctx
+    ctx.advanceTo(0.19)
+    await engine.pause()
+    const firstPending = engine.nextNoteTimeA
+
+    await engine.start()
+    await engine.pause()
+    expect(engine.nextNoteTimeA).toBe(firstPending)
+    engine.setParams({ stepA: 0.3 })
+    await engine.start()
+    ctx.advanceTo(firstPending)
+    engine.schedule()
+
+    const resumed = engine.scheduledNotes.find(note => note.type === 'A' && note.time === firstPending)
+    expect(resumed).toMatchObject({ pos: 1, accent: params.accentsA[1] })
+    expect(engine.nextNoteTimeA).toBeCloseTo(firstPending + 0.3, 10)
+
+    await engine.pause()
+    engine.stop()
+    expect(engine.transportState).toBe('stopped')
+    expect(engine.startTime).toBe(0)
+    expect(engine.stepCountA).toBe(0)
+    await engine.start()
+    expect(engine.scheduledNotes[0]).toMatchObject({ pos: 0, type: 'A' })
+  })
+
+  it.each([40, 200])('reanuda desde la misma fase a %s BPM', async bpm => {
+    const timing = calculateTiming({ bpm, numA: 4, denA: 4, numB: 3, denB: 4, mode: 'polirritmia' })
+    await engine.start({ ...params, ...timing, accentsA: [2, 1, 0, 1] })
+    const ctx = engine.ctx
+    const pendingTime = engine.startTime + timing.stepA
+    ctx.advanceTo(engine.startTime + timing.stepA * 0.4)
+    await engine.pause()
+
+    expect(engine.nextNoteTimeA).toBeCloseTo(pendingTime, 10)
+    expect(engine.stepCountA).toBe(1)
+    await engine.start()
+    ctx.advanceTo(pendingTime - 0.01)
+    engine.schedule()
+    expect(engine.scheduledNotes.filter(note => note.type === 'A' && note.time === pendingTime))
+      .toMatchObject([{ pos: 1, accent: 1 }])
+    expect(engine.scheduledNotes.filter(note => note.type === 'A' && note.time === pendingTime)).toHaveLength(1)
+  })
+
+  it.each(['polirritmia', 'polimetria', 'morph', 'clave'])(
+    'pausa y reanuda sin alterar el origen ni la fase A/B en modo %s',
+    async mode => {
+      const timing = calculateTiming({
+        bpm: 174,
+        numA: 4,
+        denA: 4,
+        numB: mode === 'clave' ? 16 : 3,
+        denB: mode === 'clave' ? 8 : 4,
+        mode,
+        claveMeasures: mode === 'clave' ? 2 : 1,
+      })
+      await engine.start({
+        ...params,
+        ...timing,
+        level: 3,
+        mode,
+        accentsA: [2, 1, 0, 1],
+        accentsB: Array(mode === 'clave' ? 16 : 3).fill(1),
+      })
+      const ctx = engine.ctx
+      ctx.advanceTo(engine.startTime + timing.stepA * 1.35)
+      engine.schedule()
+      await engine.pause()
+      const paused = {
+        startTime: engine.startTime,
+        nextA: engine.nextNoteTimeA,
+        nextB: engine.nextNoteTimeB,
+        countA: engine.stepCountA,
+        countB: engine.stepCountB,
+      }
+
+      await engine.start()
+      expect(engine.transportState).toBe('playing')
+      expect(engine.startTime).toBe(paused.startTime)
+      expect(engine.params.mode).toBe(mode)
+      expect(paused.nextA).toBeCloseTo(paused.startTime + paused.countA * timing.stepA, 10)
+      expect(paused.nextB).toBeCloseTo(paused.startTime + paused.countB * timing.stepB, 10)
+      const resumedNotes = engine.scheduledNotes.filter(note => note.time > ctx.currentTime)
+      const uniqueTrackTimes = new Set(resumedNotes.map(note => `${note.type}-${note.time}`))
+      expect(uniqueTrackTimes.size).toBe(resumedNotes.length)
+      for (const track of ['A', 'B']) {
+        const newNotes = resumedNotes.filter(note => note.type === track)
+        const nextTime = track === 'A' ? engine.nextNoteTimeA : engine.nextNoteTimeB
+        const nextCount = track === 'A' ? engine.stepCountA : engine.stepCountB
+        const pendingTime = track === 'A' ? paused.nextA : paused.nextB
+        const pendingCount = track === 'A' ? paused.countA : paused.countB
+        const step = track === 'A' ? timing.stepA : timing.stepB
+        expect(newNotes.every(note => note.time >= pendingTime)).toBe(true)
+        expect(nextTime).toBeCloseTo(pendingTime + newNotes.length * step, 10)
+        expect(nextCount).toBe(pendingCount + newNotes.length)
+      }
+    },
+  )
+
   it('Stop repetido es idempotente, incluso antes del primer Start', async () => {
     engine.stop()
     engine.stop()

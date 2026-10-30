@@ -84,7 +84,7 @@ export function ProgressTimeline() {
 
       {/* Barra de progreso Track A */}
       <BarTrack>
-        <BarFill $color="#FFB800" $progress={progressA} />
+        <BarFill data-testid="progress-track-a" $color="#FFB800" $progress={progressA} />
         <DividersGrid>
           {Array.from({ length: numA }).map((_, i) => (
             <Divider key={`div-a-${i}`} />
@@ -95,7 +95,7 @@ export function ProgressTimeline() {
       {/* Barra de progreso Track B (Nivel 3) */}
       {level === 3 && (
         <BarTrack $isB>
-          <BarFill $color="#00E5FF" $progress={progressB} />
+          <BarFill data-testid="progress-track-b" $color="#00E5FF" $progress={progressB} />
           <DividersGrid>
             {Array.from({ length: numB }).map((_, i) => (
               <Divider key={`div-b-${i}`} />

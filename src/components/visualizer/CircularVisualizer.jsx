@@ -69,9 +69,10 @@ export function CircularVisualizer() {
     activeGroupingA,
     activeGroupingB,
     reduceMotion,
-    isPlaying,
+    transportState,
   } = useRitmia()
   const { currentBeatA, currentBeatB } = useRitmiaRealtime()
+  const isPlaying = transportState === 'playing'
 
   const radiusA = 58
   const radiusB = 82
@@ -205,7 +206,7 @@ export function CircularVisualizer() {
             fill="#0A0A0F"
             fontWeight="bold"
           >
-            {isPlaying ? '●' : '○'}
+            {isPlaying ? '●' : transportState === 'paused' ? 'Ⅱ' : '○'}
           </text>
         </svg>
 

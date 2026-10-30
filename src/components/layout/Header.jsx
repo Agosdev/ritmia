@@ -147,7 +147,16 @@ const BpmNumber = styled.input`
 `
 
 export function Header() {
-  const { bpm, setBpm, isPlaying, togglePlayback, setIsWelcomeOpen } = useRitmia()
+  const {
+    bpm,
+    setBpm,
+    transportState,
+    startPlayback,
+    pausePlayback,
+    stopPlayback,
+    setIsWelcomeOpen,
+  } = useRitmia()
+  const isPlaying = transportState === 'playing'
 
   return (
     <HeaderContainer>
@@ -195,13 +204,33 @@ export function Header() {
           <Button
             $variant="primary"
             $height="2.75rem"
-            onClick={togglePlayback}
+            onClick={startPlayback}
             style={{ minWidth: '92px' }}
             id="play-button"
-            aria-label={isPlaying ? 'Detener reproducción' : 'Iniciar reproducción'}
+            aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
             aria-pressed={isPlaying}
           >
-            {isPlaying ? '■ STOP' : '▶ PLAY'}
+            {transportState === 'paused' ? '▶ REANUDAR' : '▶ PLAY'}
+          </Button>
+
+          <Button
+            $variant="outline"
+            $height="2.75rem"
+            onClick={pausePlayback}
+            disabled={!isPlaying}
+            aria-label="Pausar reproducción"
+          >
+            Ⅱ PAUSA
+          </Button>
+
+          <Button
+            $variant="outline"
+            $height="2.75rem"
+            onClick={stopPlayback}
+            disabled={transportState === 'stopped'}
+            aria-label="Reiniciar ciclo"
+          >
+            ↺ RESET
           </Button>
 
           <IconButton

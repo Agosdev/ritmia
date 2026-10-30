@@ -113,7 +113,7 @@ test('long pulse grids begin at the first position and scroll focused pulses int
   }
 })
 
-test('the cycle trajectory stays visible at stop while temporal progress follows playback', async ({ page }) => {
+test('play, pause, resume, and reset preserve the visible musical position', async ({ page }) => {
   await page.goto('/?prototype=rhythm-a')
   const trajectory = page.getByTestId('cycle-trajectory')
   await expect(trajectory).toBeVisible()
@@ -121,9 +121,19 @@ test('the cycle trajectory stays visible at stop while temporal progress follows
   await expect(page.getByText('patrón en reposo')).toBeVisible()
 
   await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
-  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  await expect(page.getByText(/posición \d+ de \d+/)).toBeVisible()
   await expect(page.getByTestId('cycle-progress')).toBeVisible()
-  await page.getByRole('button', { name: 'Detener reproducción' }).click()
+  await page.getByRole('button', { name: 'Pausar reproducción' }).click()
+  await expect(page.getByText(/en pausa · posición \d+ de \d+/)).toBeVisible()
+  const frozenOffset = await page.getByTestId('cycle-progress').getAttribute('stroke-dashoffset')
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() =>
+    requestAnimationFrame(resolve)
+  )))
+  await expect(page.getByTestId('cycle-progress')).toHaveAttribute('stroke-dashoffset', frozenOffset)
+
+  await page.getByRole('button', { name: 'Reanudar reproducción' }).click()
+  await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
   await expect(page.getByText('patrón en reposo')).toBeVisible()
   await expect(trajectory).toBeVisible()
   await expect(page.getByTestId('cycle-progress')).toHaveCount(0)
@@ -137,13 +147,16 @@ test('system reduced-motion preference takes precedence over the unchecked inter
   await expect(internalPreference).not.toBeChecked()
   await expect(page.getByText('El sistema operativo solicita reducir el movimiento', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
-  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
+  await expect(page.getByTestId('cycle-progress')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Pausar reproducción' }).click()
+  await expect(page.getByText(/en pausa · posición \d+ de \d+/)).toBeVisible()
   await expect(page.getByTestId('cycle-progress')).toHaveCount(0)
 
   await internalPreference.check()
   await expect(internalPreference).toBeChecked()
   await expect(page.getByTestId('cycle-progress')).toHaveCount(0)
-  await page.getByRole('button', { name: 'Detener reproducción' }).click()
+  await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
 })
 
 test('silence, soft, and strong accents remain distinguishable by accessible labels', async ({ page }) => {

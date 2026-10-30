@@ -8,6 +8,7 @@ export function controlledAudioContext({ suspended = false } = {}) {
 
     constructor() {
       super()
+      this.manualResume = suspended
       this.state = suspended ? 'suspended' : 'running'
       this.nodes = []
       this.sources = []
@@ -38,11 +39,19 @@ export function controlledAudioContext({ suspended = false } = {}) {
     createBufferSource() { return this.record(super.createBufferSource(), true) }
 
     resume() {
-      if (!suspended) return super.resume()
+      if (!this.manualResume) {
+        this.state = 'running'
+        return Promise.resolve()
+      }
       return new Promise(resolve => this.resumeResolvers.push(() => {
         if (this.state !== 'closed') this.state = 'running'
         resolve()
       }))
+    }
+
+    suspend() {
+      this.state = 'suspended'
+      return Promise.resolve()
     }
 
     advanceTo(time) {
