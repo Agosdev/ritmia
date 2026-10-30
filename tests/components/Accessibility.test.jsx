@@ -67,7 +67,7 @@ describe('accesibilidad de controles y diálogos', () => {
   it('usa foco visible y elimina transiciones con movimiento reducido', () => {
     render(<App />)
     const levelToggle = screen.getByRole('checkbox', { name: 'Reducir movimiento' })
-    expect(levelToggle).toBeChecked()
+    expect(levelToggle).not.toBeChecked()
     const styleSheet = new ServerStyleSheet()
     renderToString(styleSheet.collectStyles(
       <ThemeProvider theme={theme}><GlobalStyles /></ThemeProvider>,

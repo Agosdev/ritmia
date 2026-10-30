@@ -86,7 +86,7 @@ export function RitmiaProvider({ children }) {
 
   // Preferencias UX / Accesibilidad
   const [safeMode, setSafeMode] = useState(true)
-  const [reduceMotion, setReduceMotion] = useState(true)
+  const [reduceMotion, setReduceMotion] = useState(false)
   const [metronome, setMetronome] = useState(true)
 
   // Modales

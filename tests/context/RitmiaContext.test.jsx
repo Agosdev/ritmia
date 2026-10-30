@@ -33,6 +33,13 @@ function runNextFrame() {
 }
 
 describe('RitmiaProvider ciclo de vida del transporte', () => {
+  it('inicia con movimiento normal y permite activar su reducción interna', () => {
+    const { result } = renderHook(useRitmia, { wrapper })
+    expect(result.current.reduceMotion).toBe(false)
+    act(() => result.current.setReduceMotion(true))
+    expect(result.current.reduceMotion).toBe(true)
+  })
+
   it('desmontar cancela fuentes futuras, rAF, timer, conexiones y contexto', async () => {
     const { result, unmount } = renderHook(useRitmia, { wrapper })
     await act(async () => { await result.current.startPlayback() })

@@ -31,7 +31,7 @@ describe('BeatGrid Component', () => {
 
     const buttons = screen.getAllByRole('button')
     expect(buttons).toHaveLength(4)
-    expect(getComputedStyle(buttons[0]).transition).toBe('none')
+    expect(getComputedStyle(buttons[0]).transition).toBe('all 120ms ease')
   })
 
   it('al hacer clic en un pulso, cicla el acento (0 -> 1)', async () => {
