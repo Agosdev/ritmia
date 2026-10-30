@@ -99,7 +99,7 @@ const SelectBox = styled.select`
 
 const FreeTextRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.5rem;
 `
 
@@ -112,6 +112,8 @@ const FreeTextInput = styled.input`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 12px;
   color: ${({ theme }) => theme.colors.textBright};
+  min-width: 0;
+  width: 100%;
 
   &::placeholder {
     font-size: 11px;
