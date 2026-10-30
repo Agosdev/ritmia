@@ -31,11 +31,11 @@ const MainContent = styled.main`
   margin: 1rem auto 0;
   padding: 0 1rem 5rem;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1.25fr 0.9fr;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr);
     padding: 0 1.5rem 5rem;
   }
 `
@@ -44,16 +44,19 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 `
 
 const PanelHeader = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
 `
 
 const PanelTitle = styled.h2`
+  min-width: 0;
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 11px;
   text-transform: uppercase;
@@ -63,14 +66,20 @@ const PanelTitle = styled.h2`
 
 const BadgesRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 `
 
 const GridHeaderRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.35rem;
+
+  > div {
+    flex-wrap: wrap;
+  }
 `
 
 const GridLabel = styled.span`

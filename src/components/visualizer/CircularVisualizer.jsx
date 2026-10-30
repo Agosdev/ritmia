@@ -15,12 +15,11 @@ const VisualizerWrapper = styled.div`
 
 const SvgContainer = styled.div`
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: min(100%, 280px);
+  aspect-ratio: 1;
 
   @media (min-width: 640px) {
-    width: 320px;
-    height: 320px;
+    width: min(100%, 320px);
   }
 `
 

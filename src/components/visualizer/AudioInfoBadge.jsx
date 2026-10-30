@@ -6,9 +6,16 @@ import { Badge } from '../ui/Badge'
 
 const HeaderRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+
+  > span {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 `
 
 const SectionTitle = styled.span`
