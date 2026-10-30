@@ -87,6 +87,23 @@ test('long pulse grids begin at the first position and scroll focused pulses int
 
     expect(initial.scrollWidth).toBeGreaterThan(initial.clientWidth)
     expect(initial.scrollLeft).toBe(0)
+    await grid.scrollIntoViewIfNeeded()
+    const visibleRegion = await grid.evaluate(element => {
+      const gridRect = element.getBoundingClientRect()
+      const firstRect = element.querySelector('button').getBoundingClientRect()
+      const left = gridRect.left + element.clientLeft
+      const top = gridRect.top + element.clientTop
+      return {
+        scrollLeft: element.scrollLeft,
+        firstIsHorizontallyVisible:
+          firstRect.left >= left && firstRect.right <= left + element.clientWidth,
+        firstIsVerticallyVisible:
+          firstRect.top >= top && firstRect.bottom <= top + element.clientHeight,
+      }
+    })
+    expect(visibleRegion.scrollLeft).toBe(0)
+    expect(visibleRegion.firstIsHorizontallyVisible).toBe(true)
+    expect(visibleRegion.firstIsVerticallyVisible).toBe(true)
     await expect(first).toBeInViewport()
 
     await last.focus()
