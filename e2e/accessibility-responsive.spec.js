@@ -15,6 +15,70 @@ for (const width of [320, 375, 768, 1280]) {
       document: document.documentElement.scrollWidth,
       body: document.body.scrollWidth,
     }))
+    if (
+      documentWidths.document > documentWidths.viewport ||
+      documentWidths.body > documentWidths.viewport
+    ) {
+      const diagnostics = await page.evaluate(() => {
+        const viewport = document.documentElement.clientWidth
+        const describe = element => {
+          const rect = element.getBoundingClientRect()
+          const styles = getComputedStyle(element)
+          return {
+            tag: element.tagName.toLowerCase(),
+            class: element.getAttribute('class'),
+            text: (
+              element.getAttribute('aria-label') ||
+              element.id ||
+              element.textContent
+            )
+              .trim()
+              .replace(/\s+/g, ' ')
+              .slice(0, 100),
+            rect: {
+              left: rect.left,
+              right: rect.right,
+              width: rect.width,
+            },
+            scrollWidth: element.scrollWidth,
+            clientWidth: element.clientWidth,
+            computed: {
+              overflowX: styles.overflowX,
+              minWidth: styles.minWidth,
+              width: styles.width,
+              whiteSpace: styles.whiteSpace,
+            },
+          }
+        }
+        const elements = [document.documentElement, ...document.body.querySelectorAll('*')]
+        const overflows = elements.filter(element => {
+          const rect = element.getBoundingClientRect()
+          return (
+            rect.left < -1 ||
+            rect.right > viewport + 1 ||
+            element.scrollWidth > element.clientWidth + 1
+          )
+        })
+
+        return {
+          viewport,
+          document: document.documentElement.scrollWidth,
+          body: document.body.scrollWidth,
+          elements: overflows.map(element => {
+            const parents = []
+            for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+              parents.push(describe(parent))
+            }
+            return { ...describe(element), parents }
+          }),
+        }
+      })
+      console.error('Horizontal overflow diagnostics:', JSON.stringify(diagnostics))
+      await test.info().attach('horizontal-overflow-diagnostics', {
+        body: JSON.stringify(diagnostics, null, 2),
+        contentType: 'application/json',
+      })
+    }
     expect(documentWidths.document).toBeLessThanOrEqual(documentWidths.viewport)
     expect(documentWidths.body).toBeLessThanOrEqual(documentWidths.viewport)
 
