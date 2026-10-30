@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
-import { GROUP_COLORS } from '../../music/constants'
 import { Badge } from '../ui/Badge'
 
 const GroupingContainer = styled.div`
@@ -62,14 +61,14 @@ const SuggestionPill = styled.button`
   font-size: 11px;
   padding: 0.25rem 0.6rem;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 184, 0, 0.3);
-  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid ${({ theme }) => `${theme.colors.amber}55`};
+  background: ${({ theme }) => `${theme.colors.amber}1a`};
   color: ${({ theme }) => theme.colors.amberSoft};
   font-family: ${({ theme }) => theme.fonts.mono};
   transition: ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background: rgba(255, 184, 0, 0.2);
+    background: ${({ theme }) => `${theme.colors.amber}33`};
   }
 `
 
@@ -96,6 +95,7 @@ const InfoLegend = styled.div`
 `
 
 export function GroupingInput() {
+  const theme = useTheme()
   const {
     numA,
     groupingA,
@@ -145,7 +145,7 @@ export function GroupingInput() {
           {activeGroupingA.map((_, i) => (
             <Segment
               key={`seg-${i}`}
-              $color={GROUP_COLORS[i % GROUP_COLORS.length]}
+              $color={theme.accent.groupColors[i % theme.accent.groupColors.length]}
             />
           ))}
         </ColorSegmentsBar>

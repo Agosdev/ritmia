@@ -1,21 +1,26 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import { theme } from './styles/theme'
+import { artTheme, theme } from './styles/theme'
 import { GlobalStyles } from './styles/GlobalStyles'
 import { RitmiaProvider } from './context/RitmiaContext'
 import { MainLayout } from './components/layout/MainLayout'
 import { ExperimentalRhythmPrototype } from './components/visualizer/ExperimentalRhythmPrototype'
+import { RitmiaArt } from './components/layout/RitmiaArt'
 
 export function App() {
-  const showPrototype =
-    import.meta.env.DEV &&
-    new URLSearchParams(window.location.search).get('prototype') === 'rhythm-a'
+  const prototype = new URLSearchParams(window.location.search).get('prototype')
+  const showArt = import.meta.env.DEV && prototype === 'rhythm-art'
+  const showPrototype = import.meta.env.DEV && prototype === 'rhythm-a'
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={showArt ? artTheme : theme}>
       <GlobalStyles />
       <RitmiaProvider>
-        {showPrototype ? <ExperimentalRhythmPrototype /> : <MainLayout />}
+        {showArt
+          ? <RitmiaArt />
+          : showPrototype
+            ? <ExperimentalRhythmPrototype />
+            : <MainLayout />}
       </RitmiaProvider>
     </ThemeProvider>
   )

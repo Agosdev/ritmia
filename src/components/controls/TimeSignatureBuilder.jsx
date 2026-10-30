@@ -44,8 +44,8 @@ const PresetBtn = styled.button`
   border-radius: ${({ theme }) => theme.radii.full};
   font-size: 10px;
   border: 1px solid
-    ${({ $isSelected, theme }) => ($isSelected ? '#ffffff' : theme.colors.border)};
-  background: ${({ $isSelected }) => ($isSelected ? '#ffffff' : 'transparent')};
+    ${({ $isSelected, theme }) => ($isSelected ? theme.colors.selectedControl : theme.colors.border)};
+  background: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.selectedControl : 'transparent')};
   color: ${({ $isSelected, theme }) => ($isSelected ? '#000000' : theme.colors.textDim)};
   transition: ${({ theme }) => theme.transitions.fast};
 

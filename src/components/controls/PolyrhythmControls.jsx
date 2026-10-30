@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { MAX_NUM, DENOMINATORS } from '../../music/constants'
 import { CLAVE_PATTERNS } from '../../music/clavePatterns'
@@ -107,10 +107,10 @@ const ModeButton = styled.button`
   padding: 0.75rem;
   border-radius: 10px;
   border: 1px solid
-    ${({ $isActive, theme }) => ($isActive ? '#ffffff' : theme.colors.border)};
+    ${({ $isActive, theme }) => ($isActive ? theme.colors.selectedControl : theme.colors.border)};
   font-size: 11px;
   line-height: 1.35;
-  background: ${({ $isActive, theme }) => ($isActive ? '#ffffff' : theme.colors.panel2)};
+  background: ${({ $isActive, theme }) => ($isActive ? theme.colors.selectedControl : theme.colors.panel2)};
   color: ${({ $isActive, theme }) => ($isActive ? '#000000' : theme.colors.textDim)};
   transition: ${({ theme }) => theme.transitions.fast};
 
@@ -157,18 +157,19 @@ const SuggestionPill = styled.button`
   font-size: 11px;
   padding: 0.25rem 0.6rem;
   border-radius: 9999px;
-  border: 1px solid rgba(0, 229, 255, 0.3);
-  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid ${({ theme }) => `${theme.colors.cyan}55`};
+  background: ${({ theme }) => `${theme.colors.cyan}1a`};
   color: ${({ theme }) => theme.colors.cyanSoft};
   font-family: ${({ theme }) => theme.fonts.mono};
   transition: ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background: rgba(0, 229, 255, 0.2);
+    background: ${({ theme }) => `${theme.colors.cyan}33`};
   }
 `
 
 export function PolyrhythmControls() {
+  const theme = useTheme()
   const {
     numA,
     numB,
@@ -303,7 +304,7 @@ export function PolyrhythmControls() {
 
       {suggestionsB.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-          <span style={{ fontSize: '10px', color: '#9a9ab0', width: '100%' }}>
+          <span style={{ fontSize: '10px', color: theme.colors.textDim, width: '100%' }}>
             Sugerencias B para {numB}:
           </span>
           {suggestionsB.map(sug => (
@@ -319,7 +320,7 @@ export function PolyrhythmControls() {
       )}
 
       <ModesGrid>
-        <div style={{ gridColumn: 'span 2', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#9a9ab0', fontFamily: 'monospace' }}>
+        <div style={{ gridColumn: 'span 2', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: theme.colors.textDim, fontFamily: theme.fonts.mono }}>
           Modos con cálculo preciso
         </div>
         {modes.map(m => (
@@ -350,7 +351,7 @@ export function PolyrhythmControls() {
             onChange={e => setMorphAmount(parseFloat(e.target.value))}
             aria-label="Porcentaje de morphing"
           />
-          <div style={{ fontSize: '10px', color: '#9a9ab0' }}>
+          <div style={{ fontSize: '10px', color: theme.colors.textDim }}>
             volA * (1 - morph) + volB * morph, sin cambio de tempo ni desfase métrico.
           </div>
         </MorphContainer>

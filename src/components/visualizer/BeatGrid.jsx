@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
-import { GROUP_COLORS } from '../../music/constants'
+import styled, { useTheme } from 'styled-components'
 import { groupIndexForBeat } from '../../music/groupingSuggestions'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 
@@ -28,10 +27,10 @@ const BeatBox = styled.button`
   gap: 4px;
   border-radius: 10px;
   border: 1px solid ${({ $isActive, $accentColor, theme }) => ($isActive ? $accentColor : theme.colors.border)};
-  background: ${({ $accent, $accentColor, $isTrackB }) => {
+  background: ${({ $accent, $accentColor, $isTrackB, theme }) => {
     if ($accent === 2) return `${$accentColor}25`
-    if ($accent === 1) return $isTrackB ? '#111A28' : '#1A1A28'
-    return $isTrackB ? '#0F141E' : '#0F0F18'
+    if ($accent === 1) return $isTrackB ? theme.colors.inactiveBeatSoftB : theme.colors.inactiveBeatSoft
+    return $isTrackB ? theme.colors.inactiveBeatB : theme.colors.inactiveBeat
   }};
   box-shadow: ${({ $isActive, $accentColor }) =>
     $isActive ? `0 0 0 1px ${$accentColor}, 0 0 18px ${$accentColor}66` : 'none'};
@@ -75,13 +74,16 @@ export function BeatGrid({
   isValidGrouping,
   trackType = 'A', // 'A' | 'B'
   label,
+  reduceMotionOverride,
 }) {
-  const { reduceMotion } = useRitmia()
+  const { reduceMotion: contextReduceMotion } = useRitmia()
+  const theme = useTheme()
+  const reduceMotion = reduceMotionOverride ?? contextReduceMotion
   const { currentBeatA, currentBeatB } = useRitmiaRealtime()
   const isScrollable = numBeats >= 16
   const isTrackB = trackType === 'B'
   const currentBeat = isTrackB ? currentBeatB : currentBeatA
-  const defaultColor = isTrackB ? '#00E5FF' : '#FFB800'
+  const defaultColor = isTrackB ? theme.colors.cyan : theme.colors.amber
 
   const handleBeatClick = index => {
     const nextAccents = [...accents]
@@ -106,7 +108,7 @@ export function BeatGrid({
           const grpIdx = parsedGrouping ? groupIndexForBeat(index, parsedGrouping) : 0
           const color =
             parsedGrouping && isValidGrouping
-              ? GROUP_COLORS[grpIdx % GROUP_COLORS.length]
+              ? theme.accent.groupColors[grpIdx % theme.accent.groupColors.length]
               : defaultColor
 
           return (

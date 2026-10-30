@@ -146,7 +146,8 @@ const BpmNumber = styled.input`
   color: ${({ theme }) => theme.colors.textBright};
 `
 
-export function Header() {
+export function Header({ variant = 'lab' }) {
+  const isArt = variant === 'art'
   const {
     bpm,
     setBpm,
@@ -164,14 +165,18 @@ export function Header() {
         <BrandSection>
           <VersionBadge>v3.1</VersionBadge>
           <Titles>
-            <Title>Ritmia — Lab Rítmico</Title>
-            <Subtitle>Precisión Total — 1 a 32 pulsos sin drift</Subtitle>
+            <Title>{isArt ? 'Ritmia Art' : 'Ritmia — Lab Rítmico'}</Title>
+            <Subtitle>
+              {isArt ? 'Un espacio para escuchar y explorar ritmos' : 'Precisión Total — 1 a 32 pulsos sin drift'}
+            </Subtitle>
           </Titles>
-          <TechBadges>
-            <Badge $variant="pill">lookahead 100ms</Badge>
-            <Badge $variant="pill">schedule 25ms</Badge>
-            <Badge $variant="pill">AudioContext.master</Badge>
-          </TechBadges>
+          {!isArt && (
+            <TechBadges>
+              <Badge $variant="pill">lookahead 100ms</Badge>
+              <Badge $variant="pill">schedule 25ms</Badge>
+              <Badge $variant="pill">AudioContext.master</Badge>
+            </TechBadges>
+          )}
         </BrandSection>
 
         <ControlsSection>
@@ -202,7 +207,7 @@ export function Header() {
           </BpmBox>
 
           <Button
-            $variant="primary"
+            $variant={isArt ? 'accent' : 'primary'}
             $height="2.75rem"
             onClick={startPlayback}
             style={{ minWidth: '92px' }}
@@ -233,13 +238,15 @@ export function Header() {
             ↺ RESET
           </Button>
 
-          <IconButton
-            onClick={() => setIsWelcomeOpen(true)}
-            title="Guía y Ayuda"
-            aria-label="Abrir guía de uso"
-          >
-            ?
-          </IconButton>
+          {!isArt && (
+            <IconButton
+              onClick={() => setIsWelcomeOpen(true)}
+              title="Guía y Ayuda"
+              aria-label="Abrir guía de uso"
+            >
+              ?
+            </IconButton>
+          )}
         </ControlsSection>
       </HeaderInner>
     </HeaderContainer>
