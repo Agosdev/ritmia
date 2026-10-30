@@ -31,6 +31,22 @@ function createVoice(ctx, branches) {
   return voice
 }
 
+export function playSample(ctx, destination, time, buffer, velocity = 1, volume = 1) {
+  if (!ctx || !destination || !buffer) return
+  const source = ctx.createBufferSource()
+  const gain = ctx.createGain()
+
+  source.buffer = buffer
+  gain.gain.setValueAtTime(velocity * volume, time)
+  source.connect(gain)
+  gain.connect(destination)
+
+  source.start(time)
+  source.stop(time + buffer.duration)
+
+  return createVoice(ctx, [{ source, nodes: [gain] }])
+}
+
 let cachedNoiseBuffer = null
 
 /**

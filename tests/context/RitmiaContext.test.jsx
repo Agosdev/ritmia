@@ -9,6 +9,10 @@ let frames
 beforeEach(() => {
   vi.useFakeTimers()
   vi.stubGlobal('AudioContext', controlledAudioContext())
+  vi.stubGlobal('fetch', vi.fn(async () => ({
+    ok: true,
+    arrayBuffer: async () => new ArrayBuffer(8),
+  })))
   frames = new Map()
   let nextFrame = 0
   vi.stubGlobal('requestAnimationFrame', callback => {

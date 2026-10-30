@@ -37,6 +37,9 @@ export function controlledAudioContext({ suspended = false } = {}) {
     createDynamicsCompressor() { return this.record(super.createDynamicsCompressor()) }
     createOscillator() { return this.record(super.createOscillator(), true) }
     createBufferSource() { return this.record(super.createBufferSource(), true) }
+    decodeAudioData() {
+      return Promise.resolve(this.createBuffer(1, 1, this.sampleRate))
+    }
 
     resume() {
       if (!this.manualResume) {

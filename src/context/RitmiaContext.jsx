@@ -8,6 +8,7 @@ import { audioEngine } from '../audio/AudioEngine'
 
 const RitmiaContext = createContext(null)
 const RitmiaRealtimeContext = createContext(null)
+const isSoundKit = value => value === 'acoustic' || value === 'synth'
 
 // Preserva la API de setter de React, incluidos los actualizadores funcionales.
 function useValidatedState(initial, validate) {
@@ -93,6 +94,7 @@ export function RitmiaProvider({ children }) {
   const [safeMode, setSafeMode] = useState(true)
   const [reduceMotion, setReduceMotion] = useState(false)
   const [metronome, setMetronome] = useState(true)
+  const [soundKit, setSoundKit] = useValidatedState('acoustic', isSoundKit)
 
   // Modales
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(false)
@@ -203,8 +205,9 @@ export function RitmiaProvider({ children }) {
       volumeB,
       morph: morphAmount,
       metronome,
+      soundKit,
     })
-  }, [level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome])
+  }, [level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome, soundKit])
 
   // Loop de Animación Visual Sincronizado (rAF)
   const updateRealtimeState = useCallback(() => {
@@ -274,6 +277,7 @@ export function RitmiaProvider({ children }) {
         volumeB,
         morph: morphAmount,
         metronome,
+        soundKit,
       })
       if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
       setTransportState('playing')
@@ -284,7 +288,7 @@ export function RitmiaProvider({ children }) {
       console.error('Error al iniciar audio:', err)
     }
   }, [
-    level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome,
+    level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome, soundKit,
     runAnimationLoop,
   ])
 
@@ -505,6 +509,8 @@ export function RitmiaProvider({ children }) {
     setReduceMotion,
     metronome,
     setMetronome,
+    soundKit,
+    setSoundKit,
 
     timing,
     audioDescription,
@@ -527,7 +533,7 @@ export function RitmiaProvider({ children }) {
     isValidGroupingB, activeGroupingB, groupingStatusB, groupingFeedbackB, suggestionsB,
     mode, setMode, morphAmount, setMorphAmount, claveIndex, setClaveIndex, safeMode,
     setSafeMode, reduceMotion, setReduceMotion, metronome, setMetronome, timing,
-    audioDescription, isWelcomeOpen, setIsWelcomeOpen, isTestOpen, setIsTestOpen,
+    soundKit, setSoundKit, audioDescription, isWelcomeOpen, setIsWelcomeOpen, isTestOpen, setIsTestOpen,
     testData, testFeedback, setTestFeedback, openTest,
   ])
 

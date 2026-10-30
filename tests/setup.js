@@ -96,6 +96,7 @@ class MockAudioContext {
       channels,
       length,
       sampleRate,
+      duration: length / sampleRate,
       getChannelData: vi.fn(() => new Float32Array(length)),
     }
   }

@@ -129,6 +129,7 @@ export function MainLayout() {
     activeGroupingA,
     activeGroupingB,
     openTest,
+    soundKit,
   } = useRitmia()
 
   return (
@@ -246,27 +247,27 @@ export function MainLayout() {
 
           {/* Especificaciones del motor sonoro */}
           <SynthSpecsCard>
-            <SynthTitle>Motor de Audio — Síntesis Analógica</SynthTitle>
-            <SynthList>
-              <div>
-                <b>Kick:</b> seno 160→45Hz linearRamp 0.11s, gain 0.85→0 0.28s
-              </div>
-              <div>
-                <b>Snare:</b> noise 0.18s bandpass 180Hz Q1 + seno 185Hz 0.12s gain 0.42
-              </div>
-              <div>
-                <b>Hat:</b> noise highpass 6500Hz gain 0.11 decay 0.045s
-              </div>
-              <div>
-                <b>Woodblock:</b> seno 850Hz decay 0.12s gain 0.38 (metrónomo tiempo 1)
-              </div>
-              <div>
-                <b>Bajo:</b> triangle 110Hz lowpass 850Hz gain 0.22 decay 0.32s
-              </div>
-              <div>
-                <b>Master:</b> masterGain 0.6 → DynamicsCompressor (-20dB, 6:1) → destino
-              </div>
-            </SynthList>
+            <SynthTitle>
+              {soundKit === 'acoustic' ? 'Motor de audio — percusión acústica' : 'Motor de audio — síntesis original'}
+            </SynthTitle>
+            {soundKit === 'acoustic' ? (
+              <SynthList>
+                <div><b>Pista A:</b> kick grabado, con capas suave y fuerte.</div>
+                <div><b>Pista B:</b> snare grabado, con capas suave y fuerte.</div>
+                <div><b>Metrónomo:</b> señal independiente en el inicio del ciclo.</div>
+                <div><b>Muestras:</b> CC0, mono, 22.05 kHz; carga al iniciar y se reutilizan.</div>
+                <div><b>Master:</b> ganancia 0.6 y compresor; no garantiza evitar clipping.</div>
+              </SynthList>
+            ) : (
+              <SynthList>
+                <div><b>Kick:</b> seno 160→45Hz, envolvente percusiva.</div>
+                <div><b>Snare:</b> ruido filtrado + cuerpo tonal.</div>
+                <div><b>Hat:</b> ruido pasa-altos de duración corta.</div>
+                <div><b>Woodblock:</b> señal sintética independiente al inicio del ciclo.</div>
+                <div><b>Bajo:</b> pulso triangular filtrado.</div>
+                <div><b>Master:</b> ganancia 0.6 y compresor; no garantiza evitar clipping.</div>
+              </SynthList>
+            )}
           </SynthSpecsCard>
         </Column>
       </MainContent>

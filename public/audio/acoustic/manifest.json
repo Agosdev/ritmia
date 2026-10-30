@@ -1,0 +1,48 @@
+{
+  "name": "Ritmia compact acoustic kit",
+  "license": "CC0-1.0",
+  "source": "Virtuosity Drums",
+  "sourceUrl": "https://versilian-studios.com/virtuosity-drums/",
+  "repository": "https://github.com/sfzinstruments/virtuosity_drums",
+  "sourceRevision": "9f04cf9a734527edfbb0a4eee1f674e45bbf71bc",
+  "licenseEvidence": "The pinned repository contains LICENSE declaring CC0 1.0 Universal.",
+  "samples": [
+    {
+      "file": "kick-soft.wav",
+      "instrument": "Kick, soft layer",
+      "author": "Performance by Austin McMahon; Virtuosity Drums by Versilian Studios LLC",
+      "sourceFile": "Samples/mid/kick/mid_kick_snoff_vl1_rr1.flac",
+      "license": "CC0-1.0",
+      "transformations": "FLAC decoded; stereo downmixed to mono; 48 kHz resampled to 22.05 kHz; trimmed to 0.65 s; 45 ms cosine fade; peak normalized to 0.24 linear (-12.4 dBFS).",
+      "bytes": 28708
+    },
+    {
+      "file": "kick-strong.wav",
+      "instrument": "Kick, strong layer",
+      "author": "Performance by Austin McMahon; Virtuosity Drums by Versilian Studios LLC",
+      "sourceFile": "Samples/mid/kick/mid_kick_snoff_vl3_rr1.flac",
+      "license": "CC0-1.0",
+      "transformations": "FLAC decoded; stereo downmixed to mono; 48 kHz resampled to 22.05 kHz; trimmed to 0.65 s; 45 ms cosine fade; peak normalized to 0.58 linear (-4.7 dBFS).",
+      "bytes": 28708
+    },
+    {
+      "file": "snare-soft.wav",
+      "instrument": "Snare center hit, soft layer",
+      "author": "Performance by Austin McMahon; Virtuosity Drums by Versilian Studios LLC",
+      "sourceFile": "Samples/mid/snare/mid_snare_center_vl1.flac",
+      "license": "CC0-1.0",
+      "transformations": "FLAC decoded; stereo downmixed to mono; 48 kHz resampled to 22.05 kHz; trimmed to 0.55 s; 45 ms cosine fade; peak normalized to 0.24 linear (-12.4 dBFS).",
+      "bytes": 24300
+    },
+    {
+      "file": "snare-strong.wav",
+      "instrument": "Snare center hit, strong layer",
+      "author": "Performance by Austin McMahon; Virtuosity Drums by Versilian Studios LLC",
+      "sourceFile": "Samples/mid/snare/mid_snare_center_vl36.flac",
+      "license": "CC0-1.0",
+      "transformations": "FLAC decoded; stereo downmixed to mono; 48 kHz resampled to 22.05 kHz; trimmed to 0.55 s; 45 ms cosine fade; peak normalized to 0.58 linear (-4.7 dBFS).",
+      "bytes": 24300
+    }
+  ],
+  "totalBytes": 106016
+}

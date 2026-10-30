@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
+import { audioEngine } from '../../audio/AudioEngine'
 import { Toggle } from '../ui/Toggle'
 
 const TabsRow = styled.div`
@@ -66,6 +67,38 @@ const TogglesGroup = styled.div`
   }
 `
 
+const SoundKitControl = styled.label`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.full};
+  background: ${({ theme }) => theme.colors.panel};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 11px;
+`
+
+const SoundKitSelect = styled.select`
+  min-height: 2rem;
+  max-width: 13rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 6px;
+  padding: 0 0.4rem;
+  background: ${({ theme }) => theme.colors.bg};
+  color: ${({ theme }) => theme.colors.textBright};
+
+  &:disabled {
+    opacity: 0.65;
+  }
+`
+
+const SoundKitStatus = styled.span`
+  color: ${({ theme }) => theme.colors.amber};
+  font-size: 10px;
+`
+
 export function LevelTabs() {
   const {
     level,
@@ -76,6 +109,9 @@ export function LevelTabs() {
     setReduceMotion,
     metronome,
     setMetronome,
+    soundKit,
+    setSoundKit,
+    transportState,
   } = useRitmia()
 
   const levels = [
@@ -101,6 +137,21 @@ export function LevelTabs() {
       </LevelPillGroup>
 
       <TogglesGroup>
+        <SoundKitControl>
+          <span>Kit de sonido</span>
+          <SoundKitSelect
+            aria-label="Kit de sonido"
+            value={soundKit}
+            disabled={transportState === 'playing'}
+            onChange={event => setSoundKit(event.target.value)}
+          >
+            <option value="acoustic">Percusión acústica</option>
+            <option value="synth">Sintetizador original</option>
+          </SoundKitSelect>
+        </SoundKitControl>
+        {soundKit === 'acoustic' && audioEngine.soundBankError && (
+          <SoundKitStatus role="status">Muestras no disponibles; se usa síntesis.</SoundKitStatus>
+        )}
         <Toggle
           id="toggle-safe-mode"
           label="Modo seguro"

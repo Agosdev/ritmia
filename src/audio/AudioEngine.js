@@ -1,5 +1,6 @@
 import { createMasterBus } from './masterBus'
-import { playKick, playBass, playSnare, playHat, playWoodblock } from './instruments'
+import { playKick, playBass, playSnare, playHat, playWoodblock, playSample } from './instruments'
+import { loadAcousticSoundBank } from './soundBank'
 
 export class AudioEngine {
   constructor() {
@@ -11,6 +12,10 @@ export class AudioEngine {
     this.startPromise = null
     this.pausePromise = null
     this.activeVoices = new Set()
+    this.sampleBankPromise = null
+    this.sampleBankContext = null
+    this.sampleBankBuffers = null
+    this.soundBankError = null
 
     this.isPlaying = false
     this.transportState = 'stopped'
@@ -39,6 +44,27 @@ export class AudioEngine {
       volumeB: 1,
       morph: 0.5,
       metronome: true,
+      soundKit: 'synth',
+    }
+  }
+
+  async ensureAcousticSoundBank() {
+    if (this.sampleBankContext !== this.ctx) {
+      this.sampleBankContext = this.ctx
+      this.sampleBankPromise = null
+      this.sampleBankBuffers = null
+      this.soundBankError = null
+    }
+    if (this.sampleBankBuffers) return
+    if (this.soundBankError) return
+
+    this.sampleBankPromise ??= loadAcousticSoundBank(this.ctx)
+    try {
+      this.sampleBankBuffers = await this.sampleBankPromise
+    } catch (error) {
+      this.soundBankError = error
+      this.sampleBankPromise = null
+      console.error('No se pudo cargar el kit acústico; se usará la síntesis original:', error)
     }
   }
 
@@ -115,6 +141,10 @@ export class AudioEngine {
       // Stop/dispose invalidan también solicitudes que están esperando resume().
       if (generation !== this.transportGeneration) return
       if (this.ctx.state !== 'running') throw new Error('AudioContext no está activo')
+      if (this.params.soundKit === 'acoustic') {
+        await this.ensureAcousticSoundBank()
+        if (generation !== this.transportGeneration) return
+      }
       if (this.isPlaying) return
 
       if (this.transportState === 'stopped') {
@@ -218,9 +248,13 @@ export class AudioEngine {
       volumeB,
       morph,
       metronome,
+      soundKit,
     } = this.params
 
     const dest = this.masterGain
+    const acousticBuffers = soundKit === 'acoustic' && this.sampleBankContext === this.ctx
+      ? this.sampleBankBuffers
+      : null
     const validA = this.advancePastNotes('A', now, stepA)
     // B conserva su fase aun mientras está silenciada por el nivel.
     const validB = this.advancePastNotes('B', now, stepB)
@@ -244,7 +278,10 @@ export class AudioEngine {
 
       if (accentA !== 0) {
         const velA = accentA === 2 ? 1 : 0.6
-        if (accentA === 2) {
+        if (acousticBuffers) {
+          const sample = accentA === 2 ? acousticBuffers.kickStrong : acousticBuffers.kickSoft
+          voices.push(this.trackVoice(playSample(this.ctx, dest, this.nextNoteTimeA, sample, 1, volA)))
+        } else if (accentA === 2) {
           voices.push(this.trackVoice(playKick(this.ctx, dest, this.nextNoteTimeA, velA, volA)))
         } else {
           voices.push(this.trackVoice(playBass(this.ctx, dest, this.nextNoteTimeA, velA, volA)))
@@ -284,7 +321,10 @@ export class AudioEngine {
 
         if (accentB !== 0) {
           const velB = accentB === 2 ? 1 : 0.58
-          if (accentB === 2) {
+          if (acousticBuffers) {
+            const sample = accentB === 2 ? acousticBuffers.snareStrong : acousticBuffers.snareSoft
+            voices.push(this.trackVoice(playSample(this.ctx, dest, this.nextNoteTimeB, sample, 1, volB)))
+          } else if (accentB === 2) {
             voices.push(this.trackVoice(playSnare(this.ctx, dest, this.nextNoteTimeB, velB, volB)))
           } else {
             voices.push(this.trackVoice(playHat(this.ctx, dest, this.nextNoteTimeB, velB, volB)))
@@ -347,6 +387,10 @@ export class AudioEngine {
     this.ctx = null
     this.masterGain = null
     this.compressor = null
+    this.sampleBankBuffers = null
+    this.sampleBankContext = null
+    this.sampleBankPromise = null
+    this.soundBankError = null
     if (ctx && ctx.state !== 'closed') return ctx.close()
   }
 }
