@@ -44,7 +44,7 @@ const NumberBox = styled.input`
   width: 3.5rem;
   height: 2rem;
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.mono};
@@ -56,7 +56,7 @@ const SelectBox = styled.select`
   width: 5rem;
   height: 2rem;
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.mono};
@@ -107,12 +107,17 @@ const ModeButton = styled.button`
   padding: 0.75rem;
   border-radius: 10px;
   border: 1px solid
-    ${({ $isActive, theme }) => ($isActive ? theme.colors.selectedControl : theme.colors.border)};
+    ${({ $isActive, theme }) => ($isActive
+      ? theme.variant === 'lite' ? theme.colors.amber : theme.colors.selectedControl
+      : theme.colors.border)};
   font-size: 11px;
   line-height: 1.35;
   background: ${({ $isActive, theme }) => ($isActive ? theme.colors.selectedControl : theme.colors.panel2)};
   color: ${({ $isActive, theme }) => ($isActive ? '#000000' : theme.colors.textDim)};
   transition: ${({ theme }) => theme.transitions.fast};
+  box-shadow: ${({ $isActive, theme }) => theme.variant === 'lite'
+    ? ($isActive ? theme.shadows.glowAmber : theme.shadows.sm)
+    : 'none'};
 
   &:hover {
     color: ${({ $isActive, theme }) => ($isActive ? '#000000' : theme.colors.textBright)};
@@ -136,11 +141,16 @@ const ClaveButton = styled.button`
   border-radius: 10px;
   border: 1px solid
     ${({ $isActive, theme }) => ($isActive ? theme.colors.cyan : theme.colors.border)};
-  background: ${({ $isActive, theme }) => ($isActive ? theme.colors.cyan : theme.colors.panel2)};
-  color: ${({ $isActive }) => ($isActive ? '#000000' : 'inherit')};
+  background: ${({ $isActive, theme }) => ($isActive
+    ? theme.variant === 'lite' ? theme.colors.cyanControl : theme.colors.cyan
+    : theme.colors.panel2)};
+  color: ${({ $isActive, theme }) => ($isActive && theme.variant !== 'lite' ? '#000000' : 'inherit')};
   font-size: 11px;
   font-weight: 500;
   transition: ${({ theme }) => theme.transitions.fast};
+  box-shadow: ${({ $isActive, theme }) => theme.variant === 'lite'
+    ? ($isActive ? theme.shadows.glowCyan : theme.shadows.sm)
+    : 'none'};
 `
 
 const StatsBox = styled(Panel2)`

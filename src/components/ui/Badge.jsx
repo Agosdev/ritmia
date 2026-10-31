@@ -9,7 +9,8 @@ export const Badge = styled.span`
   font-size: 10px;
   font-family: ${({ theme }) => theme.fonts.mono};
   font-weight: 500;
-  white-space: nowrap;
+  white-space: ${({ theme }) => theme.variant === 'lite' ? 'normal' : 'nowrap'};
+  max-width: ${({ theme }) => theme.variant === 'lite' ? '100%' : 'none'};
   letter-spacing: 0.05em;
 
   ${({ $variant, theme }) => {

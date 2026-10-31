@@ -57,6 +57,7 @@ export const theme = {
 }
 
 export const artTheme = {
+  variant: 'art',
   ...theme,
   colors: {
     ...theme.colors,
@@ -91,5 +92,48 @@ export const artTheme = {
     lg: '0 20px 60px rgba(0, 0, 0, 0.34)',
     glowAmber: '0 0 14px rgba(255, 128, 111, 0.24)',
     glowCyan: '0 0 14px rgba(105, 216, 242, 0.22)',
+  },
+}
+
+export const liteTheme = {
+  ...theme,
+  variant: 'lite',
+  colors: {
+    ...theme.colors,
+    bg: '#e9e7e2',
+    bgGlass: '#efede8',
+    panel: '#eeece7',
+    panel2: '#e5e3de',
+    panelLight: '#f5f3ee',
+    border: '#cbc9c3',
+    borderStrong: '#8b9295',
+    borderLight: 'rgba(41, 52, 61, 0.12)',
+    text: '#29343d',
+    textDim: '#505d66',
+    textMuted: '#58656d',
+    textBright: '#202a31',
+    amber: '#a43e43',
+    amberControl: '#f3aaa2',
+    amberGlow: 'rgba(164, 62, 67, 0.18)',
+    amberSoft: '#873239',
+    cyan: '#176a70',
+    cyanControl: '#a6d9d7',
+    cyanGlow: 'rgba(23, 106, 112, 0.18)',
+    cyanSoft: '#155b61',
+    inactiveBeat: '#f2f0eb',
+    inactiveBeatB: '#edf1ef',
+    inactiveBeatSoft: '#e8e5df',
+    inactiveBeatSoftB: '#e1eae8',
+    selectedControl: '#ffc0b8',
+  },
+  accent: {
+    groupColors: ['#9a5522', '#a43e43', '#65549a', '#176a70', '#365f88', '#815273'],
+  },
+  shadows: {
+    sm: '3px 3px 8px #c7c5bf, -3px -3px 8px #ffffff',
+    md: '5px 5px 12px #c7c5bf, -5px -5px 12px #ffffff',
+    lg: '8px 8px 18px #c7c5bf, -8px -8px 18px #ffffff',
+    glowAmber: 'inset 2px 2px 4px rgba(164, 62, 67, 0.12), inset -2px -2px 4px #ffffff',
+    glowCyan: 'inset 2px 2px 4px rgba(23, 106, 112, 0.12), inset -2px -2px 4px #ffffff',
   },
 }

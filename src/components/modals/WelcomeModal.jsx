@@ -75,7 +75,7 @@ const SlideTitle = styled.h2`
 const SlideBody = styled.p`
   font-size: 13px;
   line-height: 1.6;
-  color: #c9c9d6;
+  color: ${({ theme }) => theme.colors.textDim};
   margin-top: 0.75rem;
 `
 
@@ -104,20 +104,20 @@ export function WelcomeModal() {
 
   const slides = [
     {
-      title: 'Bienvenido a Ritmia — Lab Rítmico v3.1',
-      desc: `Motor de audio de precisión absoluta hasta ${MAX_NUM} pulsos. El reloj maestro es AudioContext.currentTime, nunca Date.now o setInterval para el disparo sonoro. Cada sonido se programa con osc.start(atTime) anticipadamente en una ventana de lookahead de 100ms para cero jitter y cero drift.`,
+      title: 'Bienvenido a Ritmia',
+      desc: `Ritmia comparte un motor musical y de audio preciso en sus presentaciones Lite y Art. El reloj maestro es AudioContext.currentTime y las voces se programan anticipadamente para mantener la relación temporal entre pistas.`,
     },
     {
       title: 'Nivel 1 — Un compás hasta 32',
-      desc: 'Construye compases precisos: numerador de 1 a 32, denominadores 1, 2, 4, 8, 16. Admite compases extensos como 12/4, 12/8, 15/8, 24/16. Toca los pulsos de la grilla para alternar: 0 (silencio), 1 (suave/bajo) y 2 (fuerte/kick). Grilla con scroll horizontal para más de 16 pulsos.',
+      desc: `Construye compases de 1 a ${MAX_NUM} posiciones y elige denominadores de 1, 2, 4, 8 o 16. Toca los pulsos para alternar entre silencio, acento suave y fuerte. Las grillas largas se desplazan horizontalmente.`,
     },
     {
       title: 'Nivel 2 — Agrupación rítmica',
-      desc: 'Escribe agrupaciones aditivas como "3+2+2" o "3+3+3+3". Para compases complejos ofrecemos sugerencias automáticas inmediatas. Validamos en tiempo real que la suma de los grupos coincida con el numerador. Cada grupo se ilumina con arcos de colores diferenciados.',
+      desc: 'En Explorar, escribe agrupaciones aditivas como "3+2+2". Ritmia valida que la suma de los grupos coincida con el numerador y distingue las agrupaciones en la visualización.',
     },
     {
       title: 'Nivel 3 — Polirritmia, Polimetría, Morph y Clave',
-      desc: `Experimenta con dos compases concurrentes: Polirritmia comprime/estira la pista B para que ambos coincidan en el mismo tiempo absoluto; Polimetría mantiene igual valor métrico (corchea=corchea) con cálculo de reencuentro por MCM exacto, sin truncamiento; Morph crossfadea volumen; y Clave aplica 6 patrones afrocubanos clásicos.`,
+      desc: 'Activa la pista B para explorar polirritmia, polimetría, Morph y patrones de clave. Cambiar entre Lite y Art conserva el patrón y el estado del transporte.',
     },
   ]
 
@@ -167,7 +167,7 @@ export function WelcomeModal() {
               $height="2.75rem"
               onClick={() => setIsWelcomeOpen(false)}
             >
-              Entrar al laboratorio
+              Volver a Ritmia
             </Button>
           ) : (
             <Button

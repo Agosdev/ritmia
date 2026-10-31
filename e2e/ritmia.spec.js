@@ -4,7 +4,7 @@ test('main musical workflow works with user input and no uncaught JavaScript err
   const pageErrors = []
   page.on('pageerror', error => pageErrors.push(error.message))
 
-  await page.goto('/')
+  await page.goto('/?prototype=lab')
   await expect(page.getByRole('heading', { name: 'Ritmia — Lab Rítmico' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Iniciar reproducción' })).toHaveAttribute('aria-pressed', 'false')
 
@@ -58,7 +58,7 @@ test('main musical workflow works with user input and no uncaught JavaScript err
 })
 
 test('level three transport freezes both tracks across pause, mode changes, and reset', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/?prototype=lab')
   await page.getByRole('button', { name: 'Nivel 3 — Polirritmia' }).click()
 
   const progressA = page.getByTestId('progress-track-a')

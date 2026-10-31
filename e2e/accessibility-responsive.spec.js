@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 for (const width of [320, 375, 768, 1280]) {
   test(`layout at ${width}px keeps primary controls usable without horizontal overflow`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/')
+    await page.goto('/?prototype=lab')
     await expect(page.getByRole('heading', { name: 'Ritmia — Lab Rítmico' })).toBeVisible()
     await expect(page.getByRole('slider', { name: 'Ajustar tempo BPM' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Iniciar reproducción' })).toBeEnabled()
@@ -95,7 +95,7 @@ for (const width of [320, 375, 768, 1280]) {
 
 test('long beat grids scroll horizontally and remain keyboard reachable', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 })
-  await page.goto('/')
+  await page.goto('/?prototype=lab')
   await page.getByRole('button', { name: 'Nivel 3 — Polirritmia' }).click()
   const numerator = page.getByRole('spinbutton', { name: 'Numerador compás A' })
   await numerator.fill('16')
@@ -111,7 +111,7 @@ test('long beat grids scroll horizontally and remain keyboard reachable', async 
 
 test('dialog fits small viewports and isolates background focus', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/')
+  await page.goto('/?prototype=lab')
   const trigger = page.getByRole('button', { name: 'Abrir guía de uso' })
   await trigger.click()
   const dialog = page.getByRole('dialog', { name: /Bienvenido a Ritmia/ })
@@ -126,7 +126,7 @@ test('dialog fits small viewports and isolates background focus', async ({ page 
 
 test('dialog remains operable by keyboard on a small viewport', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/')
+  await page.goto('/?prototype=lab')
   const trigger = page.getByRole('button', { name: 'Abrir guía de uso' })
   await trigger.focus()
   await page.keyboard.press('Enter')

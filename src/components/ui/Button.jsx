@@ -15,7 +15,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   &:active {
-    transform: scale(0.98);
+    transform: ${({ theme }) => theme.variant === 'lite' ? 'translateY(1px)' : 'scale(0.98)'};
+    ${({ theme }) => theme.variant === 'lite' && `box-shadow: ${theme.shadows.glowAmber};`}
   }
 
   &:disabled {
@@ -37,20 +38,22 @@ export const Button = styled.button`
         `
       case 'accent':
         return css`
-          background: ${theme.colors.amber};
-          color: #000000;
+          background: ${theme.variant === 'lite' ? theme.colors.amberControl : theme.colors.amber};
+          color: ${theme.variant === 'lite' ? theme.colors.textBright : '#000000'};
+          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.amberSoft}; box-shadow: ${theme.shadows.sm};`}
           &:hover:not(:disabled) {
-            filter: brightness(1.1);
-            box-shadow: 0 0 14px ${theme.colors.amberGlow};
+            filter: ${theme.variant === 'lite' ? 'brightness(0.97)' : 'brightness(1.1)'};
+            box-shadow: ${theme.variant === 'lite' ? theme.shadows.sm : `0 0 14px ${theme.colors.amberGlow}`};
           }
         `
       case 'cyan':
         return css`
-          background: ${theme.colors.cyan};
-          color: #000000;
+          background: ${theme.variant === 'lite' ? theme.colors.cyanControl : theme.colors.cyan};
+          color: ${theme.variant === 'lite' ? theme.colors.textBright : '#000000'};
+          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.cyanSoft}; box-shadow: ${theme.shadows.sm};`}
           &:hover:not(:disabled) {
-            filter: brightness(1.1);
-            box-shadow: 0 0 14px ${theme.colors.cyanGlow};
+            filter: ${theme.variant === 'lite' ? 'brightness(0.97)' : 'brightness(1.1)'};
+            box-shadow: ${theme.variant === 'lite' ? theme.shadows.sm : `0 0 14px ${theme.colors.cyanGlow}`};
           }
         `
       case 'outline':
@@ -58,6 +61,7 @@ export const Button = styled.button`
           background: transparent;
           border: 1px solid ${theme.colors.border};
           color: ${theme.colors.textDim};
+          ${theme.variant === 'lite' && `box-shadow: ${theme.shadows.sm};`}
           &:hover:not(:disabled) {
             border-color: ${theme.colors.borderStrong};
             color: ${theme.colors.textBright};
@@ -68,6 +72,7 @@ export const Button = styled.button`
           background: ${theme.colors.panel2};
           border: 1px solid ${theme.colors.border};
           color: ${theme.colors.textDim};
+          ${theme.variant === 'lite' && `box-shadow: ${theme.shadows.sm};`}
           &:hover:not(:disabled) {
             border-color: ${theme.colors.borderStrong};
             color: ${theme.colors.textBright};

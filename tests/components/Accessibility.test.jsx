@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet, ThemeProvider } from 'styled-components'
 import { App } from '../../src/App'
@@ -9,6 +9,10 @@ import { GlobalStyles } from '../../src/styles/GlobalStyles'
 import { theme } from '../../src/styles/theme'
 
 describe('accesibilidad de controles y diálogos', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/?prototype=lab')
+  })
+
   it('los controles de nivel son botones semánticos y operables con teclado', async () => {
     const user = userEvent.setup()
     render(<App />)

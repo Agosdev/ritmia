@@ -9,10 +9,11 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: var(--safe-top);
   z-index: 30;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: ${({ theme }) => theme.variant === 'lite' ? 'none' : 'blur(20px)'};
+  -webkit-backdrop-filter: ${({ theme }) => theme.variant === 'lite' ? 'none' : 'blur(20px)'};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.bgGlass};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.sm : 'none'};
 `
 
 const HeaderInner = styled.div`
@@ -41,7 +42,7 @@ const VersionBadge = styled.div`
   height: 2.25rem;
   border-radius: ${({ theme }) => theme.radii.md};
   background: ${({ theme }) => theme.colors.amber};
-  color: #000000;
+  color: ${({ theme }) => theme.variant === 'lite' ? '#ffffff' : '#000000'};
   display: grid;
   place-items: center;
   font-family: ${({ theme }) => theme.fonts.mono};
@@ -103,6 +104,7 @@ const BpmBox = styled.div`
   border-radius: ${({ theme }) => theme.radii.full};
   padding: 0 0.85rem;
   height: 2.75rem;
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.glowAmber : 'none'};
 
   @media (max-width: 520px) {
     flex: 1 1 190px;
@@ -138,16 +140,45 @@ const BpmNumber = styled.input`
   width: 52px;
   height: 2rem;
   border-radius: ${({ theme }) => theme.radii.sm};
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   text-align: center;
   font-size: 13px;
   font-family: ${({ theme }) => theme.fonts.mono};
   color: ${({ theme }) => theme.colors.textBright};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
 `
 
-export function Header({ variant = 'lab' }) {
+const PresentationSwitch = styled.div`
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.full};
+  background: ${({ theme }) => theme.colors.panel2};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.glowAmber : 'none'};
+`
+
+const PresentationButton = styled.button`
+  min-height: 2.25rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: ${({ theme }) => theme.radii.full};
+  background: ${({ $active, theme }) => $active ? theme.colors.panelLight : 'transparent'};
+  color: ${({ $active, theme }) => $active ? theme.colors.textBright : theme.colors.textDim};
+  font-size: 11px;
+  font-weight: 650;
+  box-shadow: ${({ $active, theme }) =>
+    $active && theme.variant === 'lite' ? '2px 2px 5px #c7c5bf, -2px -2px 5px #ffffff' : 'none'};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.textBright};
+  }
+`
+
+export function Header({ variant = 'lab', onPresentationChange }) {
   const isArt = variant === 'art'
+  const isLite = variant === 'lite'
+  const isLab = variant === 'lab'
   const {
     bpm,
     setBpm,
@@ -165,12 +196,16 @@ export function Header({ variant = 'lab' }) {
         <BrandSection>
           <VersionBadge>v3.1</VersionBadge>
           <Titles>
-            <Title>{isArt ? 'Ritmia Art' : 'Ritmia — Lab Rítmico'}</Title>
+            <Title>{isArt ? 'Ritmia Art' : isLite ? 'Ritmia Lite' : 'Ritmia — Lab Rítmico'}</Title>
             <Subtitle>
-              {isArt ? 'Un espacio para escuchar y explorar ritmos' : 'Precisión Total — 1 a 32 pulsos sin drift'}
+              {isArt
+                ? 'Un espacio para escuchar y explorar ritmos'
+                : isLite
+                  ? 'Un instrumento para escuchar y explorar ritmos'
+                  : 'Precisión Total — 1 a 32 pulsos sin drift'}
             </Subtitle>
           </Titles>
-          {!isArt && (
+          {isLab && (
             <TechBadges>
               <Badge $variant="pill">lookahead 100ms</Badge>
               <Badge $variant="pill">schedule 25ms</Badge>
@@ -180,6 +215,26 @@ export function Header({ variant = 'lab' }) {
         </BrandSection>
 
         <ControlsSection>
+          {(isArt || isLite) && onPresentationChange && (
+            <PresentationSwitch role="group" aria-label="Presentación visual">
+              <PresentationButton
+                type="button"
+                $active={isLite}
+                aria-pressed={isLite}
+                onClick={() => onPresentationChange('lite')}
+              >
+                Lite
+              </PresentationButton>
+              <PresentationButton
+                type="button"
+                $active={isArt}
+                aria-pressed={isArt}
+                onClick={() => onPresentationChange('art')}
+              >
+                Art
+              </PresentationButton>
+            </PresentationSwitch>
+          )}
           <BpmBox>
             <BpmLabel>BPM</BpmLabel>
             <BpmRange
@@ -207,7 +262,7 @@ export function Header({ variant = 'lab' }) {
           </BpmBox>
 
           <Button
-            $variant={isArt ? 'accent' : 'primary'}
+            $variant={isArt || isLite ? 'accent' : 'primary'}
             $height="2.75rem"
             onClick={startPlayback}
             style={{ minWidth: '92px' }}
@@ -238,15 +293,13 @@ export function Header({ variant = 'lab' }) {
             ↺ RESET
           </Button>
 
-          {!isArt && (
-            <IconButton
-              onClick={() => setIsWelcomeOpen(true)}
-              title="Guía y Ayuda"
-              aria-label="Abrir guía de uso"
-            >
-              ?
-            </IconButton>
-          )}
+          <IconButton
+            onClick={() => setIsWelcomeOpen(true)}
+            title="Guía y Ayuda"
+            aria-label="Abrir guía de uso"
+          >
+            ?
+          </IconButton>
         </ControlsSection>
       </HeaderInner>
     </HeaderContainer>

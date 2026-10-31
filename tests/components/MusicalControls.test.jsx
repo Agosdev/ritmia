@@ -1,11 +1,15 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { expect, it } from 'vitest'
+import { beforeEach, expect, it } from 'vitest'
 import { App } from '../../src/App'
 
 const change = (label, value) => fireEvent.change(screen.getByLabelText(label), { target: { value: String(value) } })
 const level = name => fireEvent.click(screen.getByRole('button', { name }))
 const level3 = () => level('Nivel 3 — Polirritmia')
+
+beforeEach(() => {
+  window.history.replaceState({}, '', '/?prototype=lab')
+})
 
 it('muestra relaciones con unidades coherentes y la fórmula de B según modo', () => {
   render(<App />)

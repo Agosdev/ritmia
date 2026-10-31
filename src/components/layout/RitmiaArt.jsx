@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, Suspense, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { audioEngine } from '../../audio/AudioEngine'
@@ -7,16 +7,17 @@ import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
 import { GroupingInput } from '../controls/GroupingInput'
 import { PolyrhythmControls } from '../controls/PolyrhythmControls'
 import { BeatGrid } from '../visualizer/BeatGrid'
-import { RitmiaArtVisualizer } from '../visualizer/RitmiaArtVisualizer'
+import { LiteRhythmVisualizer } from '../visualizer/LiteRhythmVisualizer'
 import { TestModal } from '../modals/TestModal'
+import { WelcomeModal } from '../modals/WelcomeModal'
 import { Button } from '../ui/Button'
 import { Toggle } from '../ui/Toggle'
 
 const Page = styled.div`
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 50% -18%, rgba(201, 111, 160, 0.1), transparent 45%),
-    ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite'
+    ? theme.colors.bg
+    : `radial-gradient(ellipse at 50% -18%, rgba(201, 111, 160, 0.1), transparent 45%), ${theme.colors.bg}`};
   color: ${({ theme }) => theme.colors.text};
 `
 
@@ -25,6 +26,7 @@ const Main = styled.main`
   margin: 0 auto;
   padding: 1rem 1rem 5rem;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 
   @media (min-width: 760px) {
@@ -41,7 +43,9 @@ const Intro = styled.div`
   gap: 0.75rem;
 
   h2 {
-    font: 500 clamp(1.35rem, 3vw, 2rem)/1.2 ${({ theme }) => theme.fonts.serif};
+    font: ${({ theme }) => theme.variant === 'lite'
+      ? `650 clamp(1.25rem, 3vw, 1.75rem)/1.2 ${theme.fonts.sans}`
+      : `500 clamp(1.35rem, 3vw, 2rem)/1.2 ${theme.fonts.serif}`};
   }
 
   p {
@@ -56,6 +60,14 @@ const SectionNav = styled.nav`
   display: flex;
   gap: 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  ${({ theme }) => theme.variant === 'lite' && `
+    padding: 0.25rem;
+    border: 0;
+    border-radius: 999px;
+    background: ${theme.colors.panel2};
+    box-shadow: ${theme.shadows.sm};
+    width: fit-content;
+  `}
 `
 
 const NavButton = styled.button`
@@ -64,6 +76,13 @@ const NavButton = styled.button`
   border-bottom: 2px solid ${({ $active, theme }) => $active ? theme.colors.amber : 'transparent'};
   color: ${({ $active, theme }) => $active ? theme.colors.text : theme.colors.textDim};
   font-weight: 600;
+  ${({ $active, theme }) => theme.variant === 'lite' && `
+    border: 1px solid ${$active ? theme.colors.amber : 'transparent'};
+    border-bottom: 1px solid ${$active ? theme.colors.amber : 'transparent'};
+    border-radius: 999px;
+    background: ${$active ? theme.colors.panel : 'transparent'};
+    box-shadow: ${$active ? theme.shadows.sm : 'none'};
+  `}
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
@@ -81,8 +100,14 @@ const Card = styled.section`
   padding: clamp(0.9rem, 3vw, 1.35rem);
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 18px;
-  background: linear-gradient(145deg, rgba(21, 27, 37, 0.96), rgba(16, 21, 30, 0.96));
+  background: ${({ theme }) => theme.variant === 'lite'
+    ? theme.colors.panel
+    : 'linear-gradient(145deg, rgba(21, 27, 37, 0.96), rgba(16, 21, 30, 0.96))'};
   box-shadow: ${({ theme }) => theme.shadows.sm};
+  ${({ theme }) => theme.variant === 'lite' && `
+    border-color: ${theme.colors.panelLight};
+    box-shadow: ${theme.shadows.md};
+  `}
 `
 
 const CardHeader = styled.div`
@@ -94,7 +119,9 @@ const CardHeader = styled.div`
   margin-bottom: 0.8rem;
 
   h3 {
-    font: 500 1.1rem/1.3 ${({ theme }) => theme.fonts.serif};
+    font: ${({ theme }) => theme.variant === 'lite'
+      ? `650 1.05rem/1.3 ${theme.fonts.sans}`
+      : `500 1.1rem/1.3 ${theme.fonts.serif}`};
   }
 
   p {
@@ -105,6 +132,8 @@ const CardHeader = styled.div`
 
 const ControlStack = styled.div`
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   gap: 1rem;
 `
 
@@ -137,6 +166,7 @@ const SoundSelect = styled.select`
   border-radius: 6px;
   background: ${({ theme }) => theme.colors.bg};
   color: ${({ theme }) => theme.colors.textBright};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
 
   &:disabled {
     opacity: 0.65;
@@ -145,6 +175,7 @@ const SoundSelect = styled.select`
 
 const GridSection = styled.div`
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.55rem;
   min-width: 0;
   margin-top: 0.75rem;
@@ -169,6 +200,11 @@ const ActiveSummary = styled.div`
   background: ${({ theme }) => theme.colors.panel};
   color: ${({ theme }) => theme.colors.textDim};
   font-size: 13px;
+  ${({ theme }) => theme.variant === 'lite' && `
+    border: 1px solid ${theme.colors.border};
+    border-left: 3px solid ${theme.colors.amber};
+    box-shadow: inset 2px 2px 5px #d1cfca, inset -2px -2px 5px #ffffff;
+  `}
 
   strong {
     color: ${({ theme }) => theme.colors.text};
@@ -190,6 +226,12 @@ const ExploreIntro = styled.div`
   }
 `
 
+const ArtVisualizer = lazy(() =>
+  import('../visualizer/RitmiaArtVisualizer').then(module => ({
+    default: module.RitmiaArtVisualizer,
+  }))
+)
+
 function useSystemReducedMotion() {
   const [reduced, setReduced] = useState(false)
 
@@ -209,7 +251,8 @@ function useSystemReducedMotion() {
   return reduced
 }
 
-export function RitmiaArt() {
+export function RitmiaArt({ variant = 'art', onPresentationChange }) {
+  const isLite = variant === 'lite'
   const {
     level,
     setLevel,
@@ -279,7 +322,7 @@ export function RitmiaArt() {
 
   return (
     <Page>
-      <Header variant="art" />
+      <Header variant={variant} onPresentationChange={onPresentationChange} />
       <Main>
         <Intro>
           <div>
@@ -292,7 +335,7 @@ export function RitmiaArt() {
           <Button $variant="panel" onClick={openTest}>Probar lectura</Button>
         </Intro>
 
-        <SectionNav aria-label="Secciones de Ritmia Art">
+        <SectionNav aria-label={`Secciones de Ritmia ${isLite ? 'Lite' : 'Art'}`}>
           <NavButton
             type="button"
             $active={section === 'practice'}
@@ -313,7 +356,13 @@ export function RitmiaArt() {
 
         {section === 'practice' ? (
           <Section aria-label="Practicar ritmo">
-            <RitmiaArtVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} />
+            {isLite
+              ? <LiteRhythmVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} />
+              : (
+                <Suspense fallback={<Card role="status">Cargando visualizador…</Card>}>
+                  <ArtVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} />
+                </Suspense>
+              )}
 
             <Card>
               <CardHeader>
@@ -464,6 +513,7 @@ export function RitmiaArt() {
           </Section>
         )}
       </Main>
+      <WelcomeModal />
       <TestModal />
     </Page>
   )

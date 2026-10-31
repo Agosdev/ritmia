@@ -32,8 +32,12 @@ const BeatBox = styled.button`
     if ($accent === 1) return $isTrackB ? theme.colors.inactiveBeatSoftB : theme.colors.inactiveBeatSoft
     return $isTrackB ? theme.colors.inactiveBeatB : theme.colors.inactiveBeat
   }};
-  box-shadow: ${({ $isActive, $accentColor }) =>
-    $isActive ? `0 0 0 1px ${$accentColor}, 0 0 18px ${$accentColor}66` : 'none'};
+  box-shadow: ${({ $isActive, $accentColor, theme }) => {
+    if (!$isActive) return theme.variant === 'lite' ? theme.shadows.sm : 'none'
+    return theme.variant === 'lite'
+      ? `inset 2px 2px 5px rgba(41, 52, 61, 0.2), inset -2px -2px 5px #ffffff, 0 0 0 1px ${$accentColor}`
+      : `0 0 0 1px ${$accentColor}, 0 0 18px ${$accentColor}66`
+  }};
   transform: ${({ $isActive, $reduceMotion }) =>
     $isActive && !$reduceMotion ? 'scale(1.05)' : 'scale(1)'};
   transition: ${({ $reduceMotion }) => ($reduceMotion ? 'none' : 'all 120ms ease')};

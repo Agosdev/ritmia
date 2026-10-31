@@ -27,12 +27,13 @@ const GroupingTextInput = styled.input`
   width: 100%;
   height: 2.75rem;
   border-radius: 10px;
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   padding: 0 0.75rem;
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.amber};

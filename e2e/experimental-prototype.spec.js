@@ -20,7 +20,7 @@ test('the development prototype is isolated from the main lab', async ({ page })
   expect(pageErrors).toEqual([])
 
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Ritmia — Lab Rítmico' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ritmia Lite' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Un ciclo, muchas huellas' })).toHaveCount(0)
   expect(pageErrors).toEqual([])
 })

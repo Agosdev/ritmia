@@ -10,6 +10,7 @@ const BuilderSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 `
 
 const HeaderRow = styled.div`
@@ -44,7 +45,9 @@ const PresetBtn = styled.button`
   border-radius: ${({ theme }) => theme.radii.full};
   font-size: 10px;
   border: 1px solid
-    ${({ $isSelected, theme }) => ($isSelected ? theme.colors.selectedControl : theme.colors.border)};
+    ${({ $isSelected, theme }) => ($isSelected
+      ? theme.variant === 'lite' ? theme.colors.amber : theme.colors.selectedControl
+      : theme.colors.border)};
   background: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.selectedControl : 'transparent')};
   color: ${({ $isSelected, theme }) => ($isSelected ? '#000000' : theme.colors.textDim)};
   transition: ${({ theme }) => theme.transitions.fast};
@@ -77,7 +80,7 @@ const NumberBox = styled.input`
   width: 3.5rem;
   height: 2rem;
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.mono};
@@ -89,7 +92,7 @@ const SelectBox = styled.select`
   width: 5rem;
   height: 2rem;
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.bg};
+  background: ${({ theme }) => theme.variant === 'lite' ? theme.colors.panel2 : theme.colors.bg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   text-align: center;
   font-family: ${({ theme }) => theme.fonts.mono};
@@ -114,6 +117,7 @@ const FreeTextInput = styled.input`
   color: ${({ theme }) => theme.colors.textBright};
   min-width: 0;
   width: 100%;
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
 
   &::placeholder {
     font-size: 11px;
