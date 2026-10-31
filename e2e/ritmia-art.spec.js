@@ -43,25 +43,33 @@ test('Art explicitly activates B and exposes the existing advanced modes and gri
 test('Art transport freezes phase on pause and reset returns to the start', async ({ page }) => {
   await page.goto('/?prototype=rhythm-art')
   const phase = page.getByTestId('art-phase-a')
+  const startPosition = await phase.evaluate(element => ({
+    cx: element.getAttribute('cx'),
+    cy: element.getAttribute('cy'),
+  }))
 
   await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
-  await expect.poll(() => phase.getAttribute('cx')).not.toBe('380')
+  await expect.poll(() => phase.getAttribute('cy')).not.toBe(startPosition.cy)
   await expect(page.getByText('Reproduciendo')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
   await page.waitForTimeout(300)
   await page.getByRole('button', { name: 'Pausar reproducción' }).click()
   await expect(page.getByText('En pausa')).toBeVisible()
-  const positionWhenPaused = await phase.getAttribute('cx')
-  expect(positionWhenPaused).not.toBe('380')
+  const positionWhenPaused = await phase.evaluate(element => ({
+    cx: element.getAttribute('cx'),
+    cy: element.getAttribute('cy'),
+  }))
+  expect(positionWhenPaused).not.toEqual(startPosition)
   await page.waitForTimeout(120)
-  await expect(phase).toHaveAttribute('cx', positionWhenPaused)
+  await expect(phase).toHaveAttribute('cx', positionWhenPaused.cx)
+  await expect(phase).toHaveAttribute('cy', positionWhenPaused.cy)
 
   await page.getByRole('button', { name: 'Reanudar reproducción' }).click()
   await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
   await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
   await expect(page.getByText('Patrón en reposo')).toBeVisible()
-  await expect(phase).toHaveAttribute('cx', '380')
-  await expect(phase).toHaveAttribute('cy', '87')
+  await expect(phase).toHaveAttribute('cx', startPosition.cx)
+  await expect(phase).toHaveAttribute('cy', startPosition.cy)
 })
 
 test('Art stays within supported viewport widths and respects reduced-motion preference', async ({ page }) => {
