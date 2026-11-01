@@ -32,3 +32,11 @@ dist-ssr
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Local references, backups and review artifacts (never distributed)
+/design-references/
+/backups/
+/artifacts/
+/review/
+*.bundle
+/docs/08E.2-lite.md

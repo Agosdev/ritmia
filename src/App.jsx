@@ -11,27 +11,29 @@ import { RitmiaArt } from './components/layout/RitmiaArt'
 export function App() {
   const prototype = new URLSearchParams(window.location.search).get('prototype')
   const [presentation, setPresentation] = useState(() => {
+    if (!import.meta.env.DEV) return 'lite'
     const params = new URLSearchParams(window.location.search)
     if (params.get('interface') === 'art' || params.get('prototype') === 'rhythm-art') return 'art'
     if (params.get('interface') === 'lite') return 'lite'
     return 'lite'
   })
   const initialPresentation = useRef(presentation)
-  const showArt = presentation === 'art'
+  const showArt = import.meta.env.DEV && presentation === 'art'
   const showPrototype = import.meta.env.DEV && prototype === 'rhythm-a'
-  const showLegacyLab = prototype === 'lab'
+  const showLegacyLab = import.meta.env.DEV && prototype === 'lab'
 
   useEffect(() => {
     const syncPresentation = () => {
       initialPresentation.current = null
       const params = new URLSearchParams(window.location.search)
-      setPresentation(params.get('interface') === 'art' || params.get('prototype') === 'rhythm-art' ? 'art' : 'lite')
+      setPresentation(import.meta.env.DEV && (params.get('interface') === 'art' || params.get('prototype') === 'rhythm-art') ? 'art' : 'lite')
     }
     window.addEventListener('popstate', syncPresentation)
     return () => window.removeEventListener('popstate', syncPresentation)
   }, [])
 
   const changePresentation = next => {
+    if (!import.meta.env.DEV) return
     initialPresentation.current = null
     const url = new URL(window.location.href)
     url.searchParams.delete('prototype')
