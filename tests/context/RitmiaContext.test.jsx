@@ -37,11 +37,21 @@ function runNextFrame() {
 }
 
 describe('RitmiaProvider ciclo de vida del transporte', () => {
-  it('inicia con movimiento normal y permite activar su reducción interna', () => {
-    const { result } = renderHook(useRitmia, { wrapper })
-    expect(result.current.reduceMotion).toBe(false)
-    act(() => result.current.setReduceMotion(true))
-    expect(result.current.reduceMotion).toBe(true)
+  it('limita las actualizaciones React a 30 Hz sin cambiar eventos del motor', async () => {
+    const { result } = renderHook(() => ({ config: useRitmia(), visual: useRitmiaRealtime() }), { wrapper })
+    await act(async () => { await result.current.config.startPlayback() })
+    const ctx = audioEngine.ctx
+    ctx.advanceTo(.2)
+    runNextFrame()
+    expect(result.current.visual.audioTime).toBe(.2)
+    const notes = [...audioEngine.scheduledNotes]
+    ctx.advanceTo(.21)
+    runNextFrame()
+    expect(result.current.visual.audioTime).toBe(.2)
+    ctx.advanceTo(.235)
+    runNextFrame()
+    expect(result.current.visual.audioTime).toBe(.235)
+    expect(audioEngine.scheduledNotes).toEqual(notes)
   })
 
   it('desmontar cancela fuentes futuras, rAF, timer, conexiones y contexto', async () => {
@@ -217,16 +227,17 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     const rendersAfterStart = mainRenders
 
     ctx.advanceTo(startTime)
-    expect(ctx.audibleAt(startTime)).toHaveLength(2)
+    expect(ctx.audibleAt(startTime)).toHaveLength(1)
     runNextFrame()
-    expect(realtime.currentBeatA).toBe(0)
+    // Audio is already audible; React waits for the next bounded visual tick.
+    expect(realtime.currentBeatA).toBe(-1)
     expect(realtime.progressA).toBe(0)
     expect(mainRenders).toBe(rendersAfterStart)
 
-    ctx.advanceTo(startTime + 0.02)
+    ctx.advanceTo(startTime + 0.025)
     runNextFrame()
     expect(realtime.currentBeatA).toBe(0)
-    expect(realtime.progressA).toBeCloseTo(0.01, 10)
+    expect(realtime.progressA).toBeCloseTo(0.0125, 10)
     expect(mainRenders).toBe(rendersAfterStart)
   })
 

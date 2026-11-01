@@ -1,41 +1,30 @@
 # Ritmia
 
-Laboratorio rítmico interactivo con interfaz neumórfica, construido con React, Vite, Styled Components y Web Audio API.
+Laboratorio rítmico interactivo con interfaz neumórfica y percusión acústica.
 
-**Sitio:** https://agosdev.github.io/ritmia/
+Construí patrones de hasta 32 posiciones, editá acentos fuertes, suaves y silencios, ajustá BPM y volumen, y explorá tres niveles de navegación libre:
 
-Permite editar compases de hasta 32 pulsos, alternar acentos fuertes, suaves y silencios, ajustar BPM y volumen, y reproducir, pausar, reanudar o reiniciar patrones. Incluye un visualizador circular, percusión acústica y un kit de síntesis, opciones de movimiento reducido y ejercicios de lectura.
+- **Ritmo:** una pista, compás y secuenciador.
+- **Agrupaciones:** grupos aditivos configurables.
+- **Dos pistas:** A/B, polirritmia, polimetría, Morph y clave.
 
-## Tres niveles de navegación libre
+Incluye presets pedagógicos editables de bulerías, tangos flamencos y tango argentino marcato en cuatro. Sus alcances y fuentes se describen en [el informe de cierre](docs/10-cierre-ritmia.md).
 
-- **Ritmo:** una pista A, compás, acentos, silencios y secuenciador.
-- **Agrupaciones:** añade agrupaciones aditivas configurables, como `3+2+2`.
-- **Dos pistas:** combina A/B con polirritmia, polimetría, Morph (ganancia cruzada) y patrones de clave.
+El visualizador clásico es predeterminado. Rebote 2D (Canvas) y Órbita 3D (Three.js) son opcionales; Three.js se descarga al activar 3D. Se respeta automáticamente el movimiento reducido del sistema y se ofrece fallback 2D si WebGL no está disponible.
 
-Lite es la única interfaz accesible en producción. El código de Art y del laboratorio original se conserva para inspección en desarrollo; los parámetros de URL no habilitan esas interfaces en el build público.
+Reproducir/Detener conserva la fase; Reiniciar vuelve al principio y continúa solamente si se estaba reproduciendo. La marcación acústica del inicio de compás es opcional y comienza apagada.
 
-## Instalación y desarrollo
+## Desarrollo
 
-Requisitos: Node 22 y npm 10. `.nvmrc` fija la versión usada localmente.
+React, Vite, Styled Components y Web Audio API. Usá Node 22 (ver `.nvmrc`).
 
 ```sh
-git clone https://github.com/Agosdev/ritmia.git
-cd ritmia
-nvm use                 # si utilizás NVM
+nvm use
 npm ci
 npm run dev
 ```
 
-Abrí la URL que muestra Vite. El desarrollo local usa `/`.
-
-Rutas de inspección, exclusivamente en desarrollo:
-
-- `/?dev=1`: selector Lite/Art, con estado musical compartido.
-- `/?interface=art`: Art.
-- `/?prototype=lab`: laboratorio original.
-- `/?prototype=rhythm-a`: prototipo visual.
-
-## Tests
+## Verificación
 
 ```sh
 npm test
@@ -44,44 +33,21 @@ npm run test:e2e
 git diff --check
 ```
 
-Los E2E usan Playwright y arrancan Vite automáticamente en `127.0.0.1:5173`. Para instalar su Chromium en una plataforma compatible:
-
-```sh
-npx playwright install chromium
-```
-
-En un Mac con Chrome local ya instalado se puede usar:
-
-```sh
-CHROME_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' npm run test:e2e
-```
-
-El workflow existente de pruebas conserva las verificaciones unitarias y E2E en Ubuntu.
+Playwright puede usar Chrome local con `CHROME_PATH`. Las pruebas unitarias usan mocks; las comprobaciones de navegador no sustituyen una escucha musical humana.
 
 ## GitHub Pages
 
-En **Settings → Pages → Build and deployment → Source**, seleccioná **GitHub Actions**. El workflow `Deploy GitHub Pages` se activa con un push a `main` o manualmente desde Actions. Usa Node 22, `npm ci`, tests, build y despliegue de `dist` mediante las acciones oficiales de Pages.
-
-Para comprobar localmente el mismo build:
+URL: <https://agosdev.github.io/ritmia/>. Los cambios locales necesitan aprobación y publicación para aparecer allí.
 
 ```sh
 npm run build -- --mode pages
 npm run preview -- --mode pages
 ```
 
-Abrí `http://localhost:4173/ritmia/`. El modo `pages` fija la base `/ritmia/`; los builds normales y el desarrollo mantienen `/`. El banco acústico resuelve sus archivos mediante `import.meta.env.BASE_URL`.
+El build Pages usa `/ritmia/`; el desarrollo local usa `/`. El workflow existente despliega al hacer push a `main`, después de las verificaciones configuradas.
 
-La ejecución del workflow y la URL pública deben verificarse en Actions antes de dar por terminado el despliegue.
+## Atribuciones
 
-## Samples y atribuciones
+Los cuatro WAV proceden de [Virtuosity Drums](https://versilian-studios.com/virtuosity-drums/), interpretados por Austin McMahon y publicados por Versilian Studios/Karoryfer bajo CC0. [Manifiesto de procedencia y transformaciones](public/audio/acoustic/manifest.json) y [licencia CC0](public/audio/acoustic/LICENSE.txt).
 
-El kit acústico deriva de **Virtuosity Drums**, de Versilian Studios LLC y Karoryfer Lecolds, con interpretación de **Austin McMahon**. La fuente declara **CC0 1.0 Universal**.
-
-- [Proyecto original](https://versilian-studios.com/virtuosity-drums/).
-- [Fuente fijada y licencia](https://github.com/sfzinstruments/virtuosity_drums/blob/9f04cf9a734527edfbb0a4eee1f674e45bbf71bc/LICENSE).
-- [Licencia incluida](public/audio/acoustic/LICENSE.txt).
-- [Manifiesto local](public/audio/acoustic/manifest.json): archivos originales, revisión, transformaciones y tamaños de las cuatro muestras distribuidas.
-
-Las muestras se adaptaron a mono y 22,05 kHz, con recorte, fade y ajuste de amplitud. La referencia artística JPEG local no forma parte del repositorio ni del sitio.
-
-CC0 se refiere a esas muestras. Este repositorio no declara una licencia general para su código; no debe inferirse una a partir de la licencia del audio.
+Three.js utiliza [licencia MIT](public/licenses/three-MIT.txt). No se declara una licencia general del código de Ritmia; las licencias de audio y dependencias no deben interpretarse como tal.

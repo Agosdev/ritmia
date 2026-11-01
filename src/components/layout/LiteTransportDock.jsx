@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { MAX_BPM, MIN_BPM } from '../../music/constants'
-import { Button } from '../ui/Button'
+import { TransportActions } from './TransportActions'
 
 const Dock = styled.div`
   display: none;
@@ -59,8 +59,10 @@ const BpmNumber = styled.input`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.45rem;
+
+  > label { grid-column: 1 / -1; justify-self: center; }
 
   button {
     min-width: 0;
@@ -72,8 +74,7 @@ const Actions = styled.div`
 `
 
 export function LiteTransportDock() {
-  const { bpm, setBpm, transportState, startPlayback, pausePlayback, stopPlayback } = useRitmia()
-  const isPlaying = transportState === 'playing'
+  const { bpm, setBpm } = useRitmia()
 
   useEffect(() => {
     const viewport = window.visualViewport
@@ -121,33 +122,7 @@ export function LiteTransportDock() {
           />
         </BpmControl>
         <Actions>
-          <Button
-            type="button"
-            $variant="accent"
-            onClick={startPlayback}
-            aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
-            aria-pressed={isPlaying}
-          >
-            {transportState === 'paused' ? '▶ Reanudar' : '▶ Reproducir'}
-          </Button>
-          <Button
-            type="button"
-            $variant="outline"
-            onClick={pausePlayback}
-            disabled={!isPlaying}
-            aria-label="Pausar reproducción"
-          >
-            Ⅱ Pausar
-          </Button>
-          <Button
-            type="button"
-            $variant="outline"
-            onClick={stopPlayback}
-            disabled={transportState === 'stopped'}
-            aria-label="Reiniciar ciclo"
-          >
-            ↺ Reiniciar
-          </Button>
+          <TransportActions id="mobile" />
         </Actions>
       </DockInner>
     </Dock>

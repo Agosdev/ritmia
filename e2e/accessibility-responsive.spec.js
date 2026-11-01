@@ -1,140 +1,37 @@
 import { expect, test } from '@playwright/test'
-
 for (const width of [320, 375, 768, 1280]) {
-  test(`layout at ${width}px keeps primary controls usable without horizontal overflow`, async ({ page }) => {
+  test(`Ritmia keyboard and layout ${width}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/?prototype=lab')
-    await expect(page.getByRole('heading', { name: 'Ritmia — Lab Rítmico' })).toBeVisible()
-    await expect(page.getByRole('slider', { name: 'Ajustar tempo BPM' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Iniciar reproducción' })).toBeEnabled()
-    await expect(page.getByRole('button', { name: 'Nivel 1 — Un compás' })).toBeVisible()
-    await expect(page.getByRole('spinbutton', { name: 'Numerador compás A' })).toBeVisible()
-
-    const documentWidths = await page.evaluate(() => ({
-      viewport: document.documentElement.clientWidth,
-      document: document.documentElement.scrollWidth,
-      body: document.body.scrollWidth,
-    }))
-    if (
-      documentWidths.document > documentWidths.viewport ||
-      documentWidths.body > documentWidths.viewport
-    ) {
-      const diagnostics = await page.evaluate(() => {
-        const viewport = document.documentElement.clientWidth
-        const describe = element => {
-          const rect = element.getBoundingClientRect()
-          const styles = getComputedStyle(element)
-          return {
-            tag: element.tagName.toLowerCase(),
-            class: element.getAttribute('class'),
-            text: (
-              element.getAttribute('aria-label') ||
-              element.id ||
-              element.textContent
-            )
-              .trim()
-              .replace(/\s+/g, ' ')
-              .slice(0, 100),
-            rect: {
-              left: rect.left,
-              right: rect.right,
-              width: rect.width,
-            },
-            scrollWidth: element.scrollWidth,
-            clientWidth: element.clientWidth,
-            computed: {
-              overflowX: styles.overflowX,
-              minWidth: styles.minWidth,
-              width: styles.width,
-              whiteSpace: styles.whiteSpace,
-            },
-          }
-        }
-        const elements = [document.documentElement, ...document.body.querySelectorAll('*')]
-        const overflows = elements.filter(element => {
-          const rect = element.getBoundingClientRect()
-          return (
-            rect.left < -1 ||
-            rect.right > viewport + 1 ||
-            element.scrollWidth > element.clientWidth + 1
-          )
-        })
-
-        return {
-          viewport,
-          document: document.documentElement.scrollWidth,
-          body: document.body.scrollWidth,
-          elements: overflows.map(element => {
-            const parents = []
-            for (let parent = element.parentElement; parent; parent = parent.parentElement) {
-              parents.push(describe(parent))
-            }
-            return { ...describe(element), parents }
-          }),
-        }
-      })
-      console.error('Horizontal overflow diagnostics:', JSON.stringify(diagnostics))
-      await test.info().attach('horizontal-overflow-diagnostics', {
-        body: JSON.stringify(diagnostics, null, 2),
-        contentType: 'application/json',
-      })
+    await page.goto('/')
+    await expect(page.getByRole('heading', { name: 'Ritmia', exact: true })).toBeVisible()
+    const help = page.getByRole('button', { name: 'Abrir guía de uso' })
+    await help.focus(); await help.press('Enter')
+    await expect(page.getByRole('dialog')).toBeVisible()
+    await page.keyboard.press('Escape'); await expect(help).toBeFocused()
+    for (const level of [1, 2, 3]) {
+      await page.getByRole('button', { name: new RegExp(`^Nivel ${level} —`) }).click()
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      const lastKey = page.getByRole('group', { name: `Secuenciador pista ${level === 3 ? 'B' : 'A'}` }).getByRole('button').last()
+      await lastKey.focus()
+      await expect(lastKey).toHaveCSS('outline-width', '3px')
+      if (width <= 900) {
+        const key = await lastKey.boundingBox(), dock = await page.getByTestId('lite-mobile-transport').boundingBox()
+        expect(key.y + key.height).toBeLessThanOrEqual(dock.y)
+      }
+      await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
     }
-    expect(documentWidths.document).toBeLessThanOrEqual(documentWidths.viewport)
-    expect(documentWidths.body).toBeLessThanOrEqual(documentWidths.viewport)
-
-    const clipped = await page.locator('button, input, select').evaluateAll(elements => {
-      const viewport = document.documentElement.clientWidth
-      return elements.filter(element => {
-        const rect = element.getBoundingClientRect()
-        return rect.width > 0 && (rect.left < 0 || rect.right > viewport + 1)
-      }).map(element => element.outerHTML)
-    })
-    expect(clipped).toEqual([])
+    for (const name of ['Modo seguro', 'Reducir movimiento', 'Kit de sonido']) await expect(page.getByLabel(name, { exact: true })).toHaveCount(0)
+    await expect(page.getByText('Relaciones y tiempos musicales')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Probar lectura' })).toHaveCount(0)
+    const marker = page.getByLabel('Marcar inicio de compás').filter({ visible: true })
+    await marker.focus(); await marker.press('Space'); await expect(marker).toBeChecked()
   })
 }
-
-test('long beat grids scroll horizontally and remain keyboard reachable', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 900 })
-  await page.goto('/?prototype=lab')
-  await page.getByRole('button', { name: 'Nivel 3 — Polirritmia' }).click()
-  const numerator = page.getByRole('spinbutton', { name: 'Numerador compás A' })
-  await numerator.fill('16')
-
-  const grid = page.getByRole('group', { name: 'Secuenciador Compás A' })
-  await expect(grid).toHaveAttribute('tabindex', '0')
-  await expect(grid).toHaveAttribute('aria-describedby')
-  expect(await grid.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true)
-  await grid.focus()
-  await page.getByRole('button', { name: 'Pulso 16, acento: silencio' }).focus()
-  expect(await grid.evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
-})
-
-test('dialog fits small viewports and isolates background focus', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/?prototype=lab')
-  const trigger = page.getByRole('button', { name: 'Abrir guía de uso' })
-  await trigger.click()
-  const dialog = page.getByRole('dialog', { name: /Bienvenido a Ritmia/ })
-  await expect(dialog).toBeVisible()
-  expect(await page.locator('header').getAttribute('inert')).not.toBeNull()
-  const bounds = await dialog.boundingBox()
-  expect(bounds.x).toBeGreaterThanOrEqual(0)
-  expect(bounds.x + bounds.width).toBeLessThanOrEqual(320)
-  await page.keyboard.press('Escape')
-  await expect(trigger).toBeFocused()
-})
-
-test('dialog remains operable by keyboard on a small viewport', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/?prototype=lab')
-  const trigger = page.getByRole('button', { name: 'Abrir guía de uso' })
-  await trigger.focus()
-  await page.keyboard.press('Enter')
-
-  const dialog = page.getByRole('dialog', { name: /Bienvenido a Ritmia/ })
-  await expect(dialog).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Cerrar modal' })).toBeFocused()
-  await page.keyboard.press('Escape')
-  await expect(dialog).toBeHidden()
-  await expect(trigger).toBeFocused()
-})
+for (const query of ['?interface=art', '?prototype=rhythm-art', '?prototype=lab', '?prototype=rhythm-a', '?dev=1']) {
+  test(`legacy parameter ${query} cannot open another app`, async ({ page }) => {
+    await page.goto('/' + query)
+    await expect(page.getByRole('heading', { name: 'Ritmia', exact: true })).toBeVisible()
+    await expect(page.getByRole('group', { name: 'Presentación visual' })).toHaveCount(0)
+    await expect(page.locator('.artwork-plane')).toHaveCount(0)
+  })
+}

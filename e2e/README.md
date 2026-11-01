@@ -1,10 +1,5 @@
-# E2E de Ritmia
+# Pruebas de navegador de Ritmia
 
-Playwright verifica recorridos principales de Ritmia y responsive en Chromium.
-La suite se ejecuta en GitHub Actions sobre Ubuntu 24.04; la configuración
-Chromium evita depender de navegadores que no son compatibles con macOS Monterey.
+Usar Node 22 y `npm run test:e2e`. `CHROME_PATH` permite usar Chrome local. Playwright inicia Vite en 5173 o reutiliza ese servidor.
 
-Para ejecutar localmente: `npx playwright install chromium` y
-`npx playwright test`. En equipos sin navegador compatible se puede comprobar
-el descubrimiento con `npx playwright test --list`; esto no sustituye la
-ejecución E2E en CI.
+La suite verifica tres niveles, edición, transporte, presets, audio acústico/error/reintento, teclado, responsive, movimiento reducido del sistema, visualizadores opcionales y ausencia de rutas heredadas. El audio real se decodifica en navegador; los tests no equivalen a una escucha humana. `scripts/verify-pages.mjs` valida el preview con base `/ritmia/`.

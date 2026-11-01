@@ -100,6 +100,7 @@ export function GroupingInput() {
   const theme = useTheme()
   const {
     numA,
+    beatLabelsA,
     groupingA,
     setGroupingA,
     activeGroupingA,
@@ -154,7 +155,7 @@ export function GroupingInput() {
       )}
 
       <InfoLegend>
-        {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: numA }).map((_, i) => i + 1).join(' ')} —
+        {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: numA }).map((_, i) => beatLabelsA?.[i] ?? i + 1).join(' ')} —
         {theme.variant === 'lite' ? 'cada grupo comienza con una marca lateral.' : 'acentos: 0 silencio, 1 suave (bajo triangle 110Hz), 2 fuerte (kick 160→45Hz)'}
       </InfoLegend>
     </GroupingContainer>

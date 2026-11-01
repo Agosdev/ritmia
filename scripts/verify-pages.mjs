@@ -31,7 +31,7 @@ try {
       }
     })
     await page.goto(url, { waitUntil: 'networkidle' })
-    await expect(page.getByRole('heading', { name: 'Ritmia Lite' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ritmia' })).toBeVisible()
     await page.getByRole('spinbutton', { name: 'Valor numérico BPM' }).fill('120')
     await expect(page.getByRole('spinbutton', { name: 'Valor numérico BPM' })).toHaveValue('120')
     const first = page.getByRole('group', { name: 'Secuenciador pista A' }).getByRole('button').first()
@@ -49,39 +49,38 @@ try {
       await page.evaluate(() => scrollTo(0, 0))
       await page.screenshot({ path: path.join(output, `pages-${width}-level-${level}.png`), fullPage: true })
     }
-    await page.getByText('Sonido y preferencias', { exact: true }).click()
-    await expect(page.getByLabel('Kit de sonido')).toHaveValue('acoustic')
-    await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
+    await page.getByRole('button', { name: 'Reproducir' }).click()
     await expect.poll(() => samples.size).toBe(4)
     await expect.poll(() => page.evaluate(() => window.__decodedSamples)).toBe(4)
     expect([...samples].every(sample => new URL(sample).pathname.startsWith('/ritmia/audio/acoustic/'))).toBe(true)
     const phases = ['A', 'B'].map(track => page.getByTestId(`lite-track-${track}-progress`))
     for (const phase of phases) await expect.poll(() => phase.getAttribute('stroke-dasharray')).not.toMatch(/^0 /)
-    await page.getByRole('button', { name: 'Pausar reproducción' }).click()
+    await page.getByRole('button', { name: 'Detener reproducción' }).click()
     for (const phase of phases) {
       const frozen = await phase.getAttribute('stroke-dasharray')
       await page.waitForTimeout(120)
       await expect(phase).toHaveAttribute('stroke-dasharray', frozen)
     }
     const frozen = await phases[0].getAttribute('stroke-dasharray')
-    await page.getByRole('button', { name: 'Reanudar reproducción' }).click()
+    await page.getByRole('button', { name: 'Reproducir' }).click()
     await expect.poll(() => phases[0].getAttribute('stroke-dasharray')).not.toBe(frozen)
+    await page.getByRole('button', { name: 'Detener reproducción' }).click()
     await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
     for (const phase of phases) await expect(phase).toHaveAttribute('stroke-dasharray', /^0 /)
     report.widths.push({ width, levels: [1, 2, 3], decodedAcousticSamples: 4, sampleURLs: [...samples], transport: 'play/pause/resume/reset verified' })
     if (width === 1280) {
       for (const query of ['?interface=art', '?prototype=rhythm-art', '?prototype=lab', '?prototype=rhythm-a', '?dev=1&interface=art']) {
         await page.goto(url + query, { waitUntil: 'networkidle' })
-        await expect(page.getByRole('heading', { name: 'Ritmia Lite' })).toBeVisible()
+        await expect(page.getByRole('heading', { name: 'Ritmia' })).toBeVisible()
         await expect(page.getByRole('group', { name: 'Presentación visual' })).toHaveCount(0)
         await expect(page.locator('.artwork-plane')).toHaveCount(0)
-        report.productionRoutes.push({ query, interface: 'Lite' })
+        report.productionRoutes.push({ query, interface: 'Ritmia' })
       }
       await page.evaluate(() => {
         history.pushState({}, '', '?interface=art')
         dispatchEvent(new PopStateEvent('popstate'))
       })
-      await expect(page.getByRole('heading', { name: 'Ritmia Lite' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Ritmia' })).toBeVisible()
     }
     await page.close()
   }

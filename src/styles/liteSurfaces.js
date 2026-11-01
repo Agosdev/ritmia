@@ -18,7 +18,7 @@ export const litePressable = css`
   }
   &[aria-pressed='true'] {
     box-shadow: ${({ theme }) => theme.physical.selected};
-    border-color: ${({ theme }) => theme.colors.borderStrong};
+    border-color: ${({ theme }) => theme.colors.borderLight};
     font-weight: 750;
   }
   &:active:not(:disabled) {
@@ -38,13 +38,13 @@ export const litePressable = css`
 // Scoped to the Lite page, including reused laboratory controls.
 export const liteControls = css`
   button { ${liteSurface} ${litePressable} min-height: 44px; color: ${({ theme }) => theme.colors.text}; }
-  button[data-playing='true'] { box-shadow: ${({ theme }) => theme.physical.selected}; border-color: ${({ theme }) => theme.colors.borderStrong}; }
+  button[data-playing='true'] { box-shadow: ${({ theme }) => theme.physical.selected}; border-color: ${({ theme }) => theme.colors.borderLight}; }
   button:disabled { opacity: .45; cursor: not-allowed; }
   input:not([type='range']):not([type='checkbox']), select {
     min-height: 44px;
     background: ${({ theme }) => theme.colors.panel2};
     box-shadow: ${({ theme }) => theme.physical.inset};
-    border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+    border: 1px solid ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.text};
   }
   input[type='range'] {
@@ -60,14 +60,14 @@ export const liteControls = css`
     border-radius: 10px;
     background: ${({ theme }) => theme.colors.panel2};
     box-shadow: ${({ theme }) => theme.physical.inset};
-    border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+    border: 1px solid ${({ theme }) => theme.colors.border};
   }
   input[type='range']::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
     width: 25px; height: 25px; margin-top: -9px;
     border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+    border: 1px solid ${({ theme }) => theme.colors.border};
     background: ${({ theme }) => theme.colors.panelLight};
     box-shadow: ${({ theme }) => theme.physical.elevated};
   }
@@ -75,11 +75,11 @@ export const liteControls = css`
     height: 8px; border-radius: 10px;
     background: ${({ theme }) => theme.colors.panel2};
     box-shadow: ${({ theme }) => theme.physical.inset};
-    border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+    border: 1px solid ${({ theme }) => theme.colors.border};
   }
   input[type='range']::-moz-range-thumb {
     width: 25px; height: 25px; border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+    border: 1px solid ${({ theme }) => theme.colors.border};
     background: ${({ theme }) => theme.colors.panelLight};
     box-shadow: ${({ theme }) => theme.physical.elevated};
   }
@@ -90,7 +90,7 @@ export const liteControls = css`
       box-shadow: ${({ theme }) => theme.physical.elevated};
     }
   }
-  button[data-track] { scroll-margin-block: calc(var(--safe-top) + 9rem) calc(10rem + var(--lite-keyboard-inset, 0px)); }
+  button[data-track] { scroll-margin-block: calc(var(--safe-top) + 9rem) calc(12rem + var(--lite-keyboard-inset, 0px)); }
   :focus-visible { outline: 3px solid ${({ theme }) => theme.colors.text}; outline-offset: 3px; }
   &[data-reduced-motion='true'] button { transform: none !important; }
   &[data-reduced-motion='true'] *, &[data-reduced-motion='true'] *::before {

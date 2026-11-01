@@ -114,3 +114,8 @@ class MockAudioContext {
 
 window.AudioContext = MockAudioContext
 window.webkitAudioContext = MockAudioContext
+
+// Unit tests never access the network; real WAV decoding is covered in browser tests.
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) })))
+})

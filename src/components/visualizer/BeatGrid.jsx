@@ -100,6 +100,7 @@ const AccentDot = styled.span`
 `
 
 export function BeatGrid({
+  beatLabels,
   numBeats,
   accents,
   onAccentsChange,
@@ -159,11 +160,11 @@ export function BeatGrid({
               $isCompact={isScrollable}
               $isTrackB={isTrackB}
               data-group-start={parsedGrouping && isValidGrouping && (index === 0 || groupIndexForBeat(index, parsedGrouping) !== groupIndexForBeat(index - 1, parsedGrouping)) || undefined}
-              aria-label={`Pulso ${index + 1}, acento: ${
+              aria-label={`Pulso ${beatLabels?.[index] ?? index + 1}, acento: ${
                 accentVal === 2 ? 'fuerte' : accentVal === 1 ? 'suave' : 'silencio'
               }`}
             >
-              <BeatNumber $isCompact={isScrollable}>{index + 1}</BeatNumber>
+              <BeatNumber $isCompact={isScrollable}>{beatLabels?.[index] ?? index + 1}</BeatNumber>
               <AccentDot $active={isActive} $trackB={isTrackB} $color={color} $accent={accentVal} $reduceMotion={reduceMotion} />
             </BeatBox>
           )

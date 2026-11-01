@@ -82,29 +82,14 @@ describe('Contexto: validación musical antes del motor', () => {
     expect(result.current.morphAmount).toBe(0.5)
   })
 
-  it('el cuestionario usa la agrupación aplicada, no el borrador inválido', () => {
-    const { result } = renderHook(useRitmia, { wrapper })
-    act(() => { result.current.setLevel(2); result.current.setGroupingA('abc') })
-    act(() => result.current.openTest())
-    expect(result.current.testData.q).toContain('3+2+2')
-    expect(result.current.testData.a).toBe('3')
-    act(() => result.current.setNumA(4))
-    act(() => result.current.openTest())
-    expect(result.current.testData.q).toContain('ninguna aplicada')
-    expect(result.current.testData.a).toBe('0')
-    expect(new Set(result.current.testData.options).size).toBe(3)
-  })
-
-  it('descripción y cuestionario usan el ratio de pasos correcto en 3/4 vs 2/8', () => {
+  it('descripción usan el ratio de pasos correcto en 3/4 vs 2/8', () => {
     const { result } = renderHook(useRitmia, { wrapper })
     act(() => {
       result.current.setLevel(3)
       result.current.setNumA(3); result.current.setDenA(4)
       result.current.setNumB(2); result.current.setDenB(8)
     })
-    act(() => result.current.openTest())
     expect(result.current.audioDescription).toContain('frecuencia de pasos A:B 3:2')
-    expect(result.current.testData.a).toContain('frecuencia de pasos A:B 3:2')
     act(() => result.current.setMode('polimetria'))
     expect(result.current.audioDescription).toContain('frecuencia de pasos A:B 1:2')
     expect(result.current.audioDescription).toContain('Reencuentro cada 1×A / 3×B')

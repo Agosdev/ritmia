@@ -56,45 +56,6 @@ export const theme = {
   },
 }
 
-export const artTheme = {
-  variant: 'art',
-  ...theme,
-  colors: {
-    ...theme.colors,
-    bg: '#090b10',
-    bgGlass: 'rgba(9, 11, 16, 0.94)',
-    panel: '#151b25',
-    panel2: '#1d2633',
-    panelLight: '#263342',
-    border: '#394555',
-    borderStrong: '#526174',
-    text: '#f4f2f5',
-    textDim: '#c2c5d0',
-    textMuted: '#9aa4b3',
-    amber: '#ff806f',
-    amberGlow: 'rgba(255, 128, 111, 0.32)',
-    amberSoft: '#ffb08a',
-    cyan: '#69d8f2',
-    cyanGlow: 'rgba(105, 216, 242, 0.3)',
-    cyanSoft: '#a3eaf5',
-    inactiveBeat: '#101520',
-    inactiveBeatB: '#101820',
-    inactiveBeatSoft: '#1d2633',
-    inactiveBeatSoftB: '#101820',
-    selectedControl: '#ff806f',
-  },
-  accent: {
-    groupColors: ['#ffb86b', '#e889b5', '#b8a0ff', '#75d5c5', '#8fb8ff'],
-  },
-  shadows: {
-    ...theme.shadows,
-    md: '0 12px 40px rgba(0, 0, 0, 0.24)',
-    lg: '0 20px 60px rgba(0, 0, 0, 0.34)',
-    glowAmber: '0 0 14px rgba(255, 128, 111, 0.24)',
-    glowCyan: '0 0 14px rgba(105, 216, 242, 0.22)',
-  },
-}
-
 export const liteTheme = {
   ...theme,
   variant: 'lite',
@@ -116,15 +77,15 @@ export const liteTheme = {
   },
   accent: { groupColors: ['#4c5b69', '#75818c', '#4c5b69'] },
   physical: {
-    elevated: '4px 5px 9px #c5cdd4, -4px -4px 9px #ffffff, inset 1px 1px 0 #ffffff',
-    hover: '6px 7px 12px #bdc7cf, -5px -5px 11px #ffffff, inset 1px 1px 0 #ffffff',
+    elevated: '4px 5px 12px #cbd2d9, -4px -4px 12px #ffffff, inset 1px 1px 0 #ffffff',
+    hover: '6px 7px 15px #c7d0d8, -5px -5px 14px #ffffff, inset 1px 1px 0 #ffffff',
     inset: 'inset 3px 3px 6px #bcc6cf, inset -3px -3px 6px #ffffff',
     pressed: 'inset 4px 4px 7px #b5c0ca, inset -2px -2px 4px #ffffff',
     selected: 'inset 2px 3px 5px #bbc5ce, inset -2px -2px 4px #ffffff, 0 1px 0 #ffffff',
     shell: '9px 12px 24px #c9d1d8, -8px -8px 20px #ffffff, inset 1px 1px 0 #ffffff',
   },
   shadows: {
-    sm: '4px 5px 9px #c5cdd4, -4px -4px 9px #ffffff',
+    sm: '4px 5px 12px #cbd2d9, -4px -4px 12px #ffffff',
     md: '7px 9px 18px #c5cdd4, -7px -7px 18px #ffffff',
     lg: '10px 14px 26px #c5cdd4, -9px -9px 24px #ffffff',
     glowAmber: 'inset 3px 3px 6px #bcc6cf, inset -3px -3px 6px #ffffff',

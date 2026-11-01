@@ -16,8 +16,8 @@ describe('accesibilidad de controles y diálogos', () => {
   it('los controles de nivel son botones semánticos y operables con teclado', async () => {
     const user = userEvent.setup()
     render(<App />)
-    const levels = screen.getByRole('group', { name: 'Nivel de dificultad pedagógica' })
-    const levelTwo = within(levels).getByRole('button', { name: 'Nivel 2 — Agrupa' })
+    const levels = screen.getByRole('navigation', { name: 'Niveles musicales' })
+    const levelTwo = within(levels).getByRole('button', { name: 'Nivel 2 — Agrupaciones' })
     expect(levelTwo).toHaveAttribute('aria-pressed', 'false')
     levelTwo.focus()
     await user.keyboard('{Enter}')
@@ -30,9 +30,9 @@ describe('accesibilidad de controles y diálogos', () => {
     for (const name of [
       'Ajustar tempo BPM', 'Valor numérico BPM', 'Numerador compás A',
       'Denominador compás A', 'Entrada libre de pulsos', 'Volumen pista A',
-      'Modo seguro', 'Reducir movimiento', 'Metrónomo 1',
+      'Marcar inicio de compás',
     ]) {
-      expect(screen.getByLabelText(name)).toBeInTheDocument()
+      expect(screen.getAllByLabelText(name).length).toBeGreaterThan(0)
     }
   })
 
@@ -54,24 +54,9 @@ describe('accesibilidad de controles y diálogos', () => {
     expect(document.querySelector('header')).not.toHaveAttribute('inert')
   })
 
-  it('cierra TestModal con Escape y anuncia feedback sin ocultar el contenido', async () => {
-    const user = userEvent.setup()
-    render(<App />)
-    await user.click(screen.getByRole('button', { name: 'Test Nivel →' }))
-    const dialog = screen.getByRole('dialog', { name: 'Test de Nivel 1' })
-    expect(dialog).toHaveAttribute('aria-describedby', 'test-modal-question')
-    const option = within(dialog).getAllByRole('button')[0]
-    fireEvent.click(option)
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite')
-    await user.keyboard('{Escape}')
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Test Nivel →' })).toHaveFocus()
-  })
-
   it('usa foco visible y elimina transiciones con movimiento reducido', () => {
     render(<App />)
-    const levelToggle = screen.getByRole('checkbox', { name: 'Reducir movimiento' })
-    expect(levelToggle).not.toBeChecked()
+    expect(screen.queryByRole('checkbox', { name: 'Reducir movimiento' })).not.toBeInTheDocument()
     const styleSheet = new ServerStyleSheet()
     renderToString(styleSheet.collectStyles(
       <ThemeProvider theme={theme}><GlobalStyles /></ThemeProvider>,

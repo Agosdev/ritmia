@@ -1,26 +1,35 @@
 import { expect, test } from '@playwright/test'
 
-test('acoustic samples load once before playback and the original synth remains selectable', async ({ page }) => {
-  const sampleRequests = new Set()
-  page.on('requestfinished', request => {
-    if (request.url().includes('/audio/acoustic/')) sampleRequests.add(request.url())
-  })
-
+test('acoustic only, samples cached across pause/reset and marker disabled by default', async ({ page }) => {
+  const requests = []
+  page.on('request', request => { if (/\/audio\/acoustic\/.*\.wav/.test(request.url())) requests.push(request.url()) })
   await page.goto('/')
-  await page.getByText('Sonido y preferencias', { exact: true }).click()
-  const kit = page.getByLabel('Kit de sonido')
-  await expect(kit).toHaveValue('acoustic')
-
-  await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
-  await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
-  await expect.poll(() => sampleRequests.size).toBe(4)
-  await expect(kit).toBeDisabled()
-
-  await page.getByRole('button', { name: 'Pausar reproducción' }).click()
-  await expect(kit).toBeEnabled()
-  await kit.selectOption('synth')
-  await expect(kit).toHaveValue('synth')
-  await page.getByRole('button', { name: 'Reanudar reproducción' }).click()
-  await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
-  expect(sampleRequests.size).toBe(4)
+  await expect(page.getByLabel('Kit de sonido')).toHaveCount(0)
+  await expect(page.getByLabel('Marcar inicio de compás').filter({ visible: true })).not.toBeChecked()
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  expect(requests).toHaveLength(4)
+  await page.getByRole('button', { name: 'Detener reproducción' }).click()
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
+  await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
+  await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+  await page.getByLabel('Tipo de visualizador').selectOption('bounce')
+  await expect(page.getByLabel('Marcar inicio de compás').filter({ visible: true })).not.toBeChecked()
+  expect(requests).toHaveLength(4)
 })
+
+for (const width of [375, 1280]) {
+test(`failed sample load at ${width} presents a visible retry without synthesis`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 })
+  await page.route('**/audio/acoustic/*.wav', route => route.fulfill({ status: 503, body: '' }))
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
+  await expect(page.getByRole('alert')).toContainText('No se pudo iniciar la percusión acústica')
+  await expect(page.getByRole('alert')).toBeInViewport()
+  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toHaveCount(0)
+  await page.unroute('**/audio/acoustic/*.wav')
+  await page.getByRole('button', { name: 'Reintentar audio' }).click()
+  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+})
+}

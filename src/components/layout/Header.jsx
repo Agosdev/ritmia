@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { Button, IconButton } from '../ui/Button'
 import { MIN_BPM, MAX_BPM } from '../../music/constants'
-import { Badge } from '../ui/Badge'
+import { TransportActions } from './TransportActions'
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -49,20 +49,6 @@ const BrandSection = styled.div`
   `}
 `
 
-const VersionBadge = styled.div`
-  width: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
-  height: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
-  flex: 0 0 auto;
-  border-radius: ${({ theme }) => theme.radii.md};
-  background: ${({ theme }) => theme.colors.amber};
-  color: ${({ theme }) => theme.variant === 'lite' ? '#ffffff' : '#000000'};
-  display: grid;
-  place-items: center;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-weight: 700;
-  font-size: 11px;
-`
-
 const Titles = styled.div`
   display: flex;
   flex-direction: column;
@@ -91,17 +77,6 @@ const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.textDim};
 
   ${({ theme }) => theme.variant === 'lite' && 'display: none;'}
-`
-
-const TechBadges = styled.div`
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: 1.25rem;
-
-  @media (min-width: 880px) {
-    display: flex;
-  }
 `
 
 const ControlsSection = styled.div`
@@ -192,166 +167,19 @@ const BpmNumber = styled.input`
   box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
 `
 
-const PresentationSwitch = styled.div`
-  display: inline-flex;
-  padding: 3px;
-  gap: 2px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.full};
-  background: ${({ theme }) => theme.colors.panel2};
-  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.glowAmber : 'none'};
-`
-
-const PresentationButton = styled.button`
-  min-height: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
-  padding: 0.35rem 0.7rem;
-  border-radius: ${({ theme }) => theme.radii.full};
-  background: ${({ $active, theme }) => $active ? theme.colors.panelLight : 'transparent'};
-  color: ${({ $active, theme }) => $active ? theme.colors.textBright : theme.colors.textDim};
-  border: 1px solid ${({ $active, theme }) => $active && theme.variant === 'lite' ? theme.colors.borderStrong : 'transparent'};
-  font-size: 11px;
-  font-weight: 650;
-  box-shadow: ${({ $active, theme }) =>
-    $active && theme.variant === 'lite' ? '2px 2px 5px #c7c5bf, -2px -2px 5px #ffffff' : 'none'};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.textBright};
-  }
-`
-
-export function Header({ variant = 'lab', onPresentationChange }) {
-  const isArt = variant === 'art'
-  const isLite = variant === 'lite'
-  const isLab = variant === 'lab'
-  const {
-    bpm,
-    setBpm,
-    transportState,
-    startPlayback,
-    pausePlayback,
-    stopPlayback,
-    setIsWelcomeOpen,
-  } = useRitmia()
-  const isPlaying = transportState === 'playing'
-
-  return (
-    <HeaderContainer>
-      <HeaderInner $isLite={isLite}>
-        <BrandSection>
-          <VersionBadge>v3.1</VersionBadge>
-          <Titles>
-            <Title>{isArt ? 'Ritmia Art' : isLite ? 'Ritmia Lite' : 'Ritmia — Lab Rítmico'}</Title>
-            <Subtitle>
-              {isArt
-                ? 'Un espacio para escuchar y explorar ritmos'
-                : isLite
-                  ? 'Un instrumento para escuchar y explorar ritmos'
-                  : 'Precisión Total — 1 a 32 pulsos sin drift'}
-            </Subtitle>
-          </Titles>
-          {isLab && (
-            <TechBadges>
-              <Badge $variant="pill">lookahead 100ms</Badge>
-              <Badge $variant="pill">schedule 25ms</Badge>
-              <Badge $variant="pill">AudioContext.master</Badge>
-            </TechBadges>
-          )}
-        </BrandSection>
-
-        <ControlsSection $isLite={isLite}>
-          {(isArt || isLite) && onPresentationChange && (
-            <PresentationSwitch role="group" aria-label="Presentación visual">
-              <PresentationButton
-                type="button"
-                $active={isLite}
-                aria-pressed={isLite}
-                onClick={() => onPresentationChange('lite')}
-              >
-                Lite
-              </PresentationButton>
-              <PresentationButton
-                type="button"
-                $active={isArt}
-                aria-pressed={isArt}
-                onClick={() => onPresentationChange('art')}
-              >
-                Art
-              </PresentationButton>
-            </PresentationSwitch>
-          )}
-          <DesktopPlayback
-            $isLite={isLite}
-            role={isLite ? 'group' : undefined}
-            aria-label={isLite ? 'Controles de reproducción' : undefined}
-          >
-            <BpmBox>
-              <BpmLabel>BPM</BpmLabel>
-              <BpmRange
-                type="range"
-                min={MIN_BPM}
-                max={MAX_BPM}
-                value={bpm}
-                onChange={e => setBpm(parseInt(e.target.value, 10))}
-                aria-label="Ajustar tempo BPM"
-              />
-              <BpmNumber
-                type="number"
-                min={MIN_BPM}
-                max={MAX_BPM}
-                value={bpm}
-                onChange={e => {
-                  if (!e.target.value.trim()) return
-                  const val = Number(e.target.value)
-                  if (Number.isInteger(val)) {
-                    setBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, val)))
-                  }
-                }}
-                aria-label="Valor numérico BPM"
-              />
-            </BpmBox>
-
-            <Button
-              $variant={isArt || isLite ? 'accent' : 'primary'}
-              $height={isLite ? '2.25rem' : '2.75rem'}
-              onClick={startPlayback}
-              style={{ minWidth: isLite ? '82px' : '92px' }}
-              id="play-button"
-              aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
-              aria-pressed={isPlaying}
-            >
-              {transportState === 'paused' ? '▶ REANUDAR' : '▶ PLAY'}
-            </Button>
-
-            <Button
-              $variant="outline"
-              $height={isLite ? '2.25rem' : '2.75rem'}
-              onClick={pausePlayback}
-              disabled={!isPlaying}
-              aria-label="Pausar reproducción"
-            >
-              Ⅱ PAUSA
-            </Button>
-
-            <Button
-              $variant="outline"
-              $height={isLite ? '2.25rem' : '2.75rem'}
-              onClick={stopPlayback}
-              disabled={transportState === 'stopped'}
-              aria-label="Reiniciar ciclo"
-            >
-              ↺ RESET
-            </Button>
-          </DesktopPlayback>
-
-          <IconButton
-            onClick={() => setIsWelcomeOpen(true)}
-            title="Guía y Ayuda"
-            aria-label="Abrir guía de uso"
-          >
-            ?
-          </IconButton>
-        </ControlsSection>
-      </HeaderInner>
-    </HeaderContainer>
-  )
+export function Header() {
+  const { bpm, setBpm, setIsWelcomeOpen } = useRitmia()
+  return <HeaderContainer><HeaderInner $isLite>
+    <BrandSection><Titles><Title>Ritmia</Title><Subtitle style={{ display: 'block', letterSpacing: 0, textTransform: 'none' }}>Laboratorio rítmico interactivo</Subtitle></Titles></BrandSection>
+    <ControlsSection $isLite>
+      <DesktopPlayback $isLite role="group" aria-label="Controles de reproducción">
+        <BpmBox><BpmLabel>BPM</BpmLabel>
+          <BpmRange type="range" min={MIN_BPM} max={MAX_BPM} value={bpm} onChange={e => setBpm(Number(e.target.value))} aria-label="Ajustar tempo BPM" />
+          <BpmNumber type="number" min={MIN_BPM} max={MAX_BPM} value={bpm} onChange={e => { const n = Number(e.target.value); if (Number.isInteger(n) && e.target.value) setBpm(Math.max(MIN_BPM, Math.min(MAX_BPM, n))) }} aria-label="Valor numérico BPM" />
+        </BpmBox>
+        <TransportActions id="desktop" />
+      </DesktopPlayback>
+      <IconButton onClick={() => setIsWelcomeOpen(true)} aria-label="Abrir guía de uso">?</IconButton>
+    </ControlsSection>
+  </HeaderInner></HeaderContainer>
 }

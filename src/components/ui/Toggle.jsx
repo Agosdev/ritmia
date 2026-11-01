@@ -26,7 +26,7 @@ const Label = styled.label`
   }
   ${({ theme, $checked }) => theme.variant === 'lite' && `
     box-shadow: ${$checked ? theme.physical.selected : theme.physical.elevated};
-    border-color: ${theme.colors.borderStrong};
+    border-color: ${theme.colors.borderLight};
   `}
 
 `

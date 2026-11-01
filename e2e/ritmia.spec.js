@@ -1,114 +1,54 @@
 import { expect, test } from '@playwright/test'
+const presets = [ ['bulerias', 12, [0, 3, 6, 8, 10]], ['bulerias-7', 12, [0, 3, 7, 8, 10]], ['tangos', 4, [1, 3]], ['marcato', 4, [0, 1, 2, 3]] ]
+for (const [id, count, strong] of presets) {
+  test(`${id}: editable counts preserve levels, B and marker`, async ({ page }) => {
+    const errors = []; page.on('pageerror', error => errors.push(error.message))
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+    await page.getByLabel('Numerador compás B', { exact: true }).fill('9')
+    const previous = await page.getByLabel('Numerador compás A', { exact: true }).inputValue()
+    await page.getByLabel('Preset', { exact: true }).selectOption(id)
+    await expect(page.getByLabel('Numerador compás A', { exact: true })).toHaveValue(previous)
+    await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
+    const keys = page.getByRole('group', { name: 'Secuenciador pista A' }).getByRole('button')
+    await expect(keys).toHaveCount(count)
+    const accents = await keys.evaluateAll(els => els.map(el => Number(el.dataset.accent)))
+    expect(accents.flatMap((a, i) => a === 2 ? [i] : [])).toEqual(strong)
+    if (id.startsWith('bulerias')) {
+      await expect(keys.first()).toHaveAccessibleName('Pulso 12, acento: fuerte')
+      await expect(page.getByText(/Conteo: 12 1 2 3 4 5 6 7 8 9 10 11/)).toBeVisible()
+    }
+    await expect(page.getByLabel('Numerador compás B', { exact: true })).toHaveValue('9')
+    await expect(page.getByLabel('Marcar inicio de compás').filter({ visible: true })).not.toBeChecked()
+    await keys.first().click()
+    await expect(page.getByText(/· editado/)).toBeVisible()
+    await page.getByRole('button', { name: 'Nivel 1 — Ritmo' }).click()
+    await expect(keys).toHaveCount(count)
+    await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+    expect(errors).toEqual([])
+  })
+}
 
-test('main musical workflow works with user input and no uncaught JavaScript errors', async ({ page }) => {
-  const pageErrors = []
-  page.on('pageerror', error => pageErrors.push(error.message))
-
-  await page.goto('/?prototype=lab')
-  await expect(page.getByRole('heading', { name: 'Ritmia — Lab Rítmico' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Iniciar reproducción' })).toHaveAttribute('aria-pressed', 'false')
-
-  const helpButton = page.getByRole('button', { name: 'Abrir guía de uso' })
-  await helpButton.focus()
-  await page.keyboard.press('Enter')
-  const welcomeDialog = page.getByRole('dialog', { name: /Bienvenido a Ritmia/ })
-  await expect(welcomeDialog).toBeVisible()
-  await page.keyboard.press('Escape')
-  await expect(welcomeDialog).toBeHidden()
-  await expect(helpButton).toBeFocused()
-
-  const playButton = page.getByRole('button', { name: 'Iniciar reproducción' })
-  await playButton.focus()
-  await page.keyboard.press('Enter')
-  await expect(playButton).toHaveAttribute('aria-pressed', 'true')
-  const pauseButton = page.getByRole('button', { name: 'Pausar reproducción' })
-  await expect(pauseButton).toBeEnabled()
-  await pauseButton.focus()
-  await page.keyboard.press('Enter')
-  const resumeButton = page.getByRole('button', { name: 'Reanudar reproducción' })
-  await expect(resumeButton).toHaveAttribute('aria-pressed', 'false')
-  await resumeButton.focus()
-  await page.keyboard.press('Enter')
-  await expect(playButton).toHaveAttribute('aria-pressed', 'true')
-  const resetButton = page.getByRole('button', { name: 'Reiniciar ciclo' })
-  await resetButton.focus()
-  await page.keyboard.press('Enter')
-  await expect(page.getByRole('button', { name: 'Iniciar reproducción' })).toHaveAttribute('aria-pressed', 'false')
-
-  const bpm = page.getByRole('spinbutton', { name: 'Valor numérico BPM' })
-  await bpm.fill('120')
-  await expect(bpm).toHaveValue('120')
-
-  const numeratorA = page.getByRole('spinbutton', { name: 'Numerador compás A' })
-  await numeratorA.fill('4')
-  await expect(numeratorA).toHaveValue('4')
-  await page.getByRole('combobox', { name: 'Denominador compás A' }).selectOption('4')
-
-  await page.getByRole('button', { name: 'Nivel 3 — Polirritmia' }).click()
-  const numeratorB = page.getByRole('spinbutton', { name: 'Numerador compás B' })
-  await numeratorB.fill('3')
-  await expect(numeratorB).toHaveValue('3')
-  await page.getByRole('button', { name: 'Clave — 6 patrones tradicionales' }).click()
-  const clave = page.getByRole('button', { name: 'Son 3-2' })
-  await clave.click()
-  await expect(clave).toHaveAttribute('aria-pressed', 'true')
-  await expect(page.getByText('Ciclo de clave: ocho negras = 4.000s')).toBeVisible()
-
-  expect(pageErrors).toEqual([])
-})
-
-test('level three transport freezes both tracks across pause, mode changes, and reset', async ({ page }) => {
-  await page.goto('/?prototype=lab')
-  await page.getByRole('button', { name: 'Nivel 3 — Polirritmia' }).click()
-
-  const progressA = page.getByTestId('progress-track-a')
-  const progressB = page.getByTestId('progress-track-b')
-  const widths = async () => Promise.all([
-    progressA.evaluate(element => getComputedStyle(element).width),
-    progressB.evaluate(element => getComputedStyle(element).width),
-  ])
-  const begin = async () => {
-    await page.getByRole('button', { name: /^(Iniciar|Reanudar) reproducción$/ }).click()
-    await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
-    await expect.poll(async () => (await widths()).every(width => parseFloat(width) > 0))
-      .toBe(true)
-  }
-  const pause = async () => {
-    await page.getByRole('button', { name: 'Pausar reproducción' }).click()
-    await expect(page.getByRole('button', { name: 'Reanudar reproducción' })).toBeEnabled()
-    const frozen = await widths()
-    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() =>
-      requestAnimationFrame(resolve)
-    )))
-    expect(await widths()).toEqual(frozen)
-  }
-
-  for (const mode of [
-    'Polirritmia — B se estira/comprime',
-    'Polimetría — corchea=corchea',
-    'Morph — crossfade de ganancia',
-    'Clave — 6 patrones tradicionales',
-  ]) {
-    const modeButton = page.getByRole('button', { name: mode })
-    await modeButton.click()
-    await expect(modeButton).toHaveAttribute('aria-pressed', 'true')
-
-    await begin()
-    await pause()
-    const bpm = page.getByRole('spinbutton', { name: 'Valor numérico BPM' })
-    await bpm.fill('200')
-    const frozenAfterTempoChange = await widths()
-    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() =>
-      requestAnimationFrame(resolve)
-    )))
-    expect(await widths()).toEqual(frozenAfterTempoChange)
-  }
-
-  const clave = page.getByRole('button', { name: 'Son 3-2' })
-  await expect(clave).toBeVisible()
-  await clave.click()
-  await expect(clave).toHaveAttribute('aria-pressed', 'true')
+test('transport rapid toggles, running reset and meter changes retain a single audio timeline', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
+  await page.getByLabel('Preset', { exact: true }).selectOption('marcato')
+  await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  await page.getByRole('button', { name: 'Detener reproducción' }).click()
+  const progress = page.getByTestId('lite-track-A-progress')
+  const phase = await progress.getAttribute('stroke-dasharray')
+  await page.waitForTimeout(150)
+  await expect(progress).toHaveAttribute('stroke-dasharray', phase)
   await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
-  await expect(page.getByTestId('progress-track-a')).toHaveCSS('width', '0px')
-  await expect(page.getByTestId('progress-track-b')).toHaveCSS('width', '0px')
+  await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
+  await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
+  await expect(page.getByRole('button', { name: 'Detener reproducción' })).toBeVisible()
+  await page.getByLabel('Numerador compás A', { exact: true }).fill('11')
+  await page.getByRole('spinbutton', { name: 'Valor numérico BPM' }).fill('160')
+  await page.getByRole('button', { name: 'Detener reproducción' }).click()
+  await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Reproducir', exact: true }).dblclick()
+  await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
 })

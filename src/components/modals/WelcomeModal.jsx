@@ -105,7 +105,7 @@ export function WelcomeModal() {
   const slides = [
     {
       title: 'Bienvenido a Ritmia',
-      desc: `Ritmia comparte un motor musical y de audio preciso en sus presentaciones Lite y Art. El reloj maestro es AudioContext.currentTime y las voces se programan anticipadamente para mantener la relación temporal entre pistas.`,
+      desc: `Explorá ritmos, agrupaciones y dos pistas con percusión acústica. Elegí un preset editable o construí tu patrón. Reproducir y Detener conservan la posición; Reiniciar vuelve al principio.`,
     },
     {
       title: 'Nivel 1 — Un compás hasta 32',
@@ -113,11 +113,11 @@ export function WelcomeModal() {
     },
     {
       title: 'Nivel 2 — Agrupación rítmica',
-      desc: 'En Explorar, escribe agrupaciones aditivas como "3+2+2". Ritmia valida que la suma de los grupos coincida con el numerador y distingue las agrupaciones en la visualización.',
+      desc: 'Escribe agrupaciones aditivas como "3+2+2". Ritmia valida que la suma de los grupos coincida con el numerador y distingue las agrupaciones en la visualización.',
     },
     {
       title: 'Nivel 3 — Polirritmia, Polimetría, Morph y Clave',
-      desc: 'Activa la pista B para explorar polirritmia, polimetría, Morph y patrones de clave. Cambiar entre Lite y Art conserva el patrón y el estado del transporte.',
+      desc: 'Activa la pista B para explorar polirritmia, polimetría, Morph y patrones de clave. Podés elegir entre los visualizadores Clásico, Rebote 2D y Órbita 3D.',
     },
   ]
 
@@ -182,7 +182,7 @@ export function WelcomeModal() {
 
         <TechnicalNote>
           Precisión: lookahead 100ms, scheduleInterval 25ms, audioCtx.currentTime reloj maestro,
-          osc.start(atTime) absoluto.
+          buffers programados en tiempo absoluto.
         </TechnicalNote>
       </ModalCard>
     </ModalOverlay>

@@ -246,7 +246,7 @@ describe('AudioEngine transporte y scheduler', () => {
     expect(notes[0].pos).toBe(3)
     expect(engine.startTime).toBe(0.08)
     expect(engine.nextNoteTimeA).toBeCloseTo(1.58, 10)
-    expect(ctx.audibleAt(1.21)).toHaveLength(2) // Dos fuentes del snare.
+    expect(ctx.audibleAt(1.21)).toHaveLength(1) // Una muestra de snare.
   })
 
   it('salta diez segundos de atraso en ambas pistas conservando fase y horizonte', async () => {
@@ -274,9 +274,9 @@ describe('AudioEngine transporte y scheduler', () => {
   it('Stop cancela todos los sonidos futuros, incluyendo snare y metrónomo', async () => {
     await engine.start({ ...params, level: 3, metronome: true })
     const ctx = engine.ctx
-    expect(ctx.sources).toHaveLength(4)
+    expect(ctx.sources).toHaveLength(3)
     expect(ctx.sources.every(s => s.startTime > ctx.currentTime)).toBe(true)
-    expect(ctx.audibleAt(0.09)).toHaveLength(4)
+    expect(ctx.audibleAt(0.09)).toHaveLength(3)
     engine.stop()
     expect(ctx.audibleAt(0.09)).toEqual([])
     expect(ctx.sources.every(s => s.stopTime === 0 && s.connections.size === 0)).toBe(true)
@@ -319,12 +319,12 @@ describe('AudioEngine transporte y scheduler', () => {
   it('libera voces y nodos al terminar naturalmente, sin esperar Stop', async () => {
     await engine.start({ ...params, level: 3, metronome: true })
     const ctx = engine.ctx
-    ctx.advanceTo(0.22) // Cuerpo tonal del snare finalizó; ruido sigue vivo.
-    expect(engine.activeVoices.size).toBe(2) // kick y snare; woodblock terminó.
-    ctx.advanceTo(0.5)
+    ctx.advanceTo(0.22) // El marcador acústico breve ya terminó.
+    expect(engine.activeVoices.size).toBe(2) // kick y snare continúan.
+    ctx.advanceTo(0.8)
     expect(engine.activeVoices.size).toBe(0)
     expect(ctx.sources.every(s => s.onended === null && s.connections.size === 0)).toBe(true)
-    expect(ctx.audibleAt(0.5)).toEqual([])
+    expect(ctx.audibleAt(0.8)).toEqual([])
   })
 
   it('dispose desconecta el grafo, cierra el contexto y permite un contexto nuevo', async () => {
