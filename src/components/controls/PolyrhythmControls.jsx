@@ -153,7 +153,12 @@ const ClaveButton = styled.button`
     : 'none'};
 `
 
+const StatsDisclosure = styled.div`
+  ${({ theme }) => theme.variant !== 'lite' && 'display: contents;'}
+`
+
 const StatsBox = styled(Panel2)`
+  ${({ theme }) => theme.variant === 'lite' && 'overflow-wrap: anywhere;'}
   font-size: 11px;
   font-family: ${({ theme }) => theme.fonts.mono};
   line-height: 1.5;
@@ -383,32 +388,35 @@ export function PolyrhythmControls() {
         </ClaveGrid>
       )}
 
-      <StatsBox>
-        <div>measureSecA = (60/bpm)*numA*(4/denA) = {timing.measureA.toFixed(3)}s</div>
-        <div>stepA = {timing.stepA.toFixed(4)}s, stepB = {timing.stepB.toFixed(4)}s</div>
-        <div>
-          {canonicalClaveCycle
-            ? 'Pasos A por compás / B por ciclo'
-            : 'Pasos por compás propio A:B'} = {numA}:{numB}
-          {' '}(reducido {timing.pulseRatio.a}:{timing.pulseRatio.b}; incluye silencios)
-        </div>
-        <div>Frecuencia de pasos A:B = {timing.eventRatio.a}:{timing.eventRatio.b}</div>
-        <div>Duración efectiva A:B = {timing.durationRatio.a}:{timing.durationRatio.b}</div>
-        <div>Duraciones escritas en fusas: A {timing.ticksA}, B {timing.ticksB}</div>
-        {canonicalClaveCycle && <div>Ciclo de clave: ocho negras = {timing.measureB.toFixed(3)}s</div>}
-        {mode === 'polimetria' && <div>MCM exacto = {timing.lcmTicks} fusas</div>}
-        <div>
-          {canonicalClaveCycle
-            ? `Reencuentro A×${timing.reunionA} compases / B×${timing.reunionB} ciclos`
-            : `Reencuentro A×${timing.reunionA} / B×${timing.reunionB}`}
-          , ≈{timing.reunionSec.toFixed(3)}s (desde inicio conjunto)
-        </div>
-        {(numA >= 12 || numB >= 12) && (
-          <div style={{ color: '#ffd88a', marginTop: '2px' }}>
-            Compás largo: usa scroll horizontal en la grilla
+      <StatsDisclosure as={theme.variant === 'lite' ? 'details' : 'div'}>
+        {theme.variant === 'lite' && <summary style={{ minHeight: 44, cursor: 'pointer', fontSize: 12 }}>Relaciones y tiempos musicales</summary>}
+        <StatsBox>
+          <div>measureSecA = (60/bpm)*numA*(4/denA) = {timing.measureA.toFixed(3)}s</div>
+          <div>stepA = {timing.stepA.toFixed(4)}s, stepB = {timing.stepB.toFixed(4)}s</div>
+          <div>
+            {canonicalClaveCycle
+              ? 'Pasos A por compás / B por ciclo'
+              : 'Pasos por compás propio A:B'} = {numA}:{numB}
+            {' '}(reducido {timing.pulseRatio.a}:{timing.pulseRatio.b}; incluye silencios)
           </div>
-        )}
-      </StatsBox>
+          <div>Frecuencia de pasos A:B = {timing.eventRatio.a}:{timing.eventRatio.b}</div>
+          <div>Duración efectiva A:B = {timing.durationRatio.a}:{timing.durationRatio.b}</div>
+          <div>Duraciones escritas en fusas: A {timing.ticksA}, B {timing.ticksB}</div>
+          {canonicalClaveCycle && <div>Ciclo de clave: ocho negras = {timing.measureB.toFixed(3)}s</div>}
+          {mode === 'polimetria' && <div>MCM exacto = {timing.lcmTicks} fusas</div>}
+          <div>
+            {canonicalClaveCycle
+              ? `Reencuentro A×${timing.reunionA} compases / B×${timing.reunionB} ciclos`
+              : `Reencuentro A×${timing.reunionA} / B×${timing.reunionB}`}
+            , ≈{timing.reunionSec.toFixed(3)}s (desde inicio conjunto)
+          </div>
+          {(numA >= 12 || numB >= 12) && (
+            <div style={{ color: theme.variant === 'lite' ? theme.colors.textDim : '#ffd88a', marginTop: '2px' }}>
+              Compás largo: usa scroll horizontal en la grilla
+            </div>
+          )}
+        </StatsBox>
+      </StatsDisclosure>
     </PolyrhythmContainer>
   )
 }

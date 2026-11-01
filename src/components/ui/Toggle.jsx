@@ -10,6 +10,7 @@ const Label = styled.label`
   border-radius: ${({ theme }) => theme.radii.full};
   padding: 0 0.75rem;
   min-height: 2.75rem;
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.sm : 'none'};
   font-size: 11px;
   cursor: pointer;
   user-select: none;
@@ -23,6 +24,11 @@ const Label = styled.label`
     outline: 3px solid ${({ theme }) => theme.colors.amber};
     outline-offset: 3px;
   }
+  ${({ theme, $checked }) => theme.variant === 'lite' && `
+    box-shadow: ${$checked ? theme.physical.selected : theme.physical.elevated};
+    border-color: ${theme.colors.borderStrong};
+  `}
+
 `
 
 const HiddenInput = styled.input`
@@ -44,9 +50,23 @@ const Dot = styled.span`
   height: 8px;
   border-radius: ${({ theme }) => theme.radii.full};
   background: ${({ $active, theme, $color }) =>
-    $active ? $color || theme.colors.emerald : theme.colors.borderStrong};
-  box-shadow: ${({ $active, theme }) => ($active ? `0 0 8px ${theme.colors.emerald}` : 'none')};
+    $active ? $color || (theme.variant === 'lite' ? theme.colors.cyan : theme.colors.emerald) : theme.colors.borderStrong};
+  box-shadow: ${({ $active, theme }) => ($active
+    ? theme.variant === 'lite' ? `0 0 0 2px ${theme.colors.panel}, 0 0 0 3px ${theme.colors.cyan}` : `0 0 8px ${theme.colors.emerald}`
+    : 'none')};
   transition: ${({ theme }) => theme.transitions.fast};
+  ${({ theme, $active }) => theme.variant === 'lite' && `
+    width: 12px; height: 12px;
+    border: 1px solid ${theme.colors.textDim};
+    border-radius: 3px;
+    background: ${theme.colors.panel};
+    box-shadow: none;
+    &::after {
+      content: '${$active ? '✓' : ''}'; display: block; color: ${theme.colors.text};
+      font-size: 10px; line-height: 10px; font-weight: 800;
+    }
+  `}
+
 `
 
 const Text = styled.span`
@@ -55,7 +75,7 @@ const Text = styled.span`
 
 export function Toggle({ checked, onChange, label, activeColor, id }) {
   return (
-    <Label htmlFor={id}>
+    <Label htmlFor={id} $checked={checked}>
       <HiddenInput
         id={id}
         type="checkbox"

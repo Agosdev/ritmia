@@ -53,4 +53,10 @@ export const Badge = styled.span`
         `
     }
   }}
+  ${({ theme }) => theme.variant === 'lite' && css`
+    background: ${theme.colors.panel2};
+    border-color: ${theme.colors.border};
+    color: ${theme.colors.text};
+  `}
+
 `

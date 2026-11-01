@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { audioEngine } from '../../audio/AudioEngine'
 import { Header } from './Header'
+import { LiteTransportDock } from './LiteTransportDock'
 import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
 import { GroupingInput } from '../controls/GroupingInput'
 import { PolyrhythmControls } from '../controls/PolyrhythmControls'
@@ -19,6 +20,11 @@ const Page = styled.div`
     ? theme.colors.bg
     : `radial-gradient(ellipse at 50% -18%, rgba(201, 111, 160, 0.1), transparent 45%), ${theme.colors.bg}`};
   color: ${({ theme }) => theme.colors.text};
+  ${({ $isLite }) => $isLite && `
+    @media (max-width: 900px) {
+      padding-bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px));
+    }
+  `}
 `
 
 const Main = styled.main`
@@ -33,6 +39,18 @@ const Main = styled.main`
     padding: 1.5rem 1.5rem 5rem;
     gap: 1.25rem;
   }
+
+  ${({ theme }) => theme.variant === 'lite' && `
+    padding-top: 0.6rem;
+    padding-bottom: 2rem;
+    gap: 0.7rem;
+
+    @media (min-width: 760px) {
+      padding-top: 0.8rem;
+      padding-bottom: 2.5rem;
+      gap: 0.8rem;
+    }
+  `}
 `
 
 const Intro = styled.div`
@@ -41,6 +59,10 @@ const Intro = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem;
+  ${({ theme }) => theme.variant === 'lite' && `
+    align-items: center;
+    gap: 0.45rem;
+  `}
 
   h2 {
     font: ${({ theme }) => theme.variant === 'lite'
@@ -54,6 +76,11 @@ const Intro = styled.div`
     color: ${({ theme }) => theme.colors.textDim};
     font-size: 14px;
   }
+
+  ${({ theme }) => theme.variant === 'lite' && `
+    h2 { font-size: 1rem; }
+    p { display: none; }
+  `}
 `
 
 const SectionNav = styled.nav`
@@ -61,7 +88,7 @@ const SectionNav = styled.nav`
   gap: 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   ${({ theme }) => theme.variant === 'lite' && `
-    padding: 0.25rem;
+    padding: 0.2rem;
     border: 0;
     border-radius: 999px;
     background: ${theme.colors.panel2};
@@ -71,7 +98,7 @@ const SectionNav = styled.nav`
 `
 
 const NavButton = styled.button`
-  min-height: 2.75rem;
+  min-height: ${({ theme }) => theme.variant === 'lite' ? '2.4rem' : '2.75rem'};
   padding: 0.45rem 0.9rem;
   border-bottom: 2px solid ${({ $active, theme }) => $active ? theme.colors.amber : 'transparent'};
   color: ${({ $active, theme }) => $active ? theme.colors.text : theme.colors.textDim};
@@ -106,7 +133,7 @@ const Card = styled.section`
   box-shadow: ${({ theme }) => theme.shadows.sm};
   ${({ theme }) => theme.variant === 'lite' && `
     border-color: ${theme.colors.panelLight};
-    box-shadow: ${theme.shadows.md};
+    box-shadow: ${theme.shadows.sm}, inset 1px 1px 0 rgba(255,255,255,0.65);
   `}
 `
 
@@ -179,6 +206,30 @@ const GridSection = styled.div`
   gap: 0.55rem;
   min-width: 0;
   margin-top: 0.75rem;
+  scroll-margin-bottom: ${({ theme }) => theme.variant === 'lite' ? '10rem' : '0'};
+`
+
+const Preferences = styled.details`
+  min-width: 0;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 14px;
+  background: ${({ theme }) => theme.colors.panel2};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.shadows.sm : 'none'};
+
+  summary {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 0.85rem;
+    color: ${({ theme }) => theme.colors.text};
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  > div {
+    padding: 0.25rem 0.75rem 0.8rem;
+  }
 `
 
 const GridHeading = styled.div`
@@ -251,7 +302,7 @@ function useSystemReducedMotion() {
   return reduced
 }
 
-export function RitmiaArt({ variant = 'art', onPresentationChange }) {
+export function RitmiaArt({ variant = 'art', onPresentationChange, initializePattern = true }) {
   const isLite = variant === 'lite'
   const {
     level,
@@ -298,13 +349,14 @@ export function RitmiaArt({ variant = 'art', onPresentationChange }) {
     const defaultAccents = accentsA.length === 7 &&
       accentsA[0] === 2 &&
       accentsA.slice(1).every((accent, index) => accent === ([0, 1, 0, 1, 0, 0][index]))
-    if (numA === 7 && denA === 8 && groupingA === '3+2+2' && defaultAccents) {
+    if (initializePattern && numA === 7 && denA === 8 && groupingA === '3+2+2' && defaultAccents) {
       setNumA(4)
       setDenA(4)
       setAccentsA([2, 0, 1, 0])
       setGroupingA('2+2')
     }
   }, [
+    initializePattern,
     accentsA,
     denA,
     groupingA,
@@ -320,13 +372,68 @@ export function RitmiaArt({ variant = 'art', onPresentationChange }) {
     setExploreOpen(true)
   }
 
+  const soundOptions = (
+    <SoundAndOptions>
+      <SoundControl>
+        <span>Kit de sonido</span>
+        <SoundSelect
+          aria-label="Kit de sonido"
+          value={soundKit}
+          disabled={transportState === 'playing'}
+          onChange={event => setSoundKit(event.target.value)}
+        >
+          <option value="acoustic">Percusión acústica</option>
+          <option value="synth">Sintetizador original</option>
+        </SoundSelect>
+      </SoundControl>
+      <Toggle
+        id="art-metronome"
+        label="Señal de inicio"
+        checked={metronome}
+        onChange={setMetronome}
+      />
+      <Toggle
+        id="art-reduce-motion"
+        label="Reducir movimiento"
+        checked={reduceMotion || systemReducedMotion}
+        onChange={setReduceMotion}
+      />
+      <Toggle
+        id="art-safe-mode"
+        label="Modo seguro"
+        checked={safeMode}
+        onChange={setSafeMode}
+        activeColor="#75d5c5"
+      />
+    </SoundAndOptions>
+  )
+  const gridA = (
+    <GridSection>
+      <GridHeading>
+        <span>Secuenciador A · {numA}/{denA}</span>
+        <span>{activeGroupingA ? `Agrupación ${activeGroupingA.join('+')}` : 'Sin agrupación válida'}</span>
+      </GridHeading>
+      <BeatGrid
+        trackType="A"
+        label="Secuenciador pista A"
+        numBeats={numA}
+        accents={accentsA}
+        onAccentsChange={setAccentsA}
+        parsedGrouping={activeGroupingA}
+        isValidGrouping={!!activeGroupingA}
+        reduceMotionOverride={effectiveReduceMotion}
+      />
+    </GridSection>
+  )
+
   return (
-    <Page>
+    <Page $isLite={isLite}>
       <Header variant={variant} onPresentationChange={onPresentationChange} />
+      {isLite && <LiteTransportDock />}
       <Main>
         <Intro>
           <div>
-            <h2>Practicar primero. Explorar después.</h2>
+            <h2>{isLite ? 'Tu ritmo, listo para tocar.' : 'Practicar primero. Explorar después.'}</h2>
             <p>
               Construye un patrón con A; abre Explorar cuando quieras combinar ciclos,
               agrupaciones y clave. Tus ajustes musicales se mantienen al cambiar de sección.
@@ -357,7 +464,7 @@ export function RitmiaArt({ variant = 'art', onPresentationChange }) {
         {section === 'practice' ? (
           <Section aria-label="Practicar ritmo">
             {isLite
-              ? <LiteRhythmVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} />
+              ? <LiteRhythmVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} compact />
               : (
                 <Suspense fallback={<Card role="status">Cargando visualizador…</Card>}>
                   <ArtVisualizer showTrackB={showB} reduceMotion={effectiveReduceMotion} />
@@ -366,65 +473,20 @@ export function RitmiaArt({ variant = 'art', onPresentationChange }) {
 
             <Card>
               <CardHeader>
-                <h3>Tu patrón</h3>
+                <h3>{isLite ? 'Secuenciador A' : 'Tu patrón'}</h3>
                 <p>Selecciona una posición para alternar silencio, suave y fuerte.</p>
               </CardHeader>
+              {isLite && gridA}
               <ControlStack>
                 <TimeSignatureBuilder />
-                <SoundAndOptions>
-                  <SoundControl>
-                    <span>Kit de sonido</span>
-                    <SoundSelect
-                      aria-label="Kit de sonido"
-                      value={soundKit}
-                      disabled={transportState === 'playing'}
-                      onChange={event => setSoundKit(event.target.value)}
-                    >
-                      <option value="acoustic">Percusión acústica</option>
-                      <option value="synth">Sintetizador original</option>
-                    </SoundSelect>
-                  </SoundControl>
-                  <Toggle
-                    id="art-metronome"
-                    label="Señal de inicio"
-                    checked={metronome}
-                    onChange={setMetronome}
-                  />
-                  <Toggle
-                    id="art-reduce-motion"
-                    label="Reducir movimiento"
-                    checked={reduceMotion || systemReducedMotion}
-                    onChange={setReduceMotion}
-                  />
-                  <Toggle
-                    id="art-safe-mode"
-                    label="Modo seguro"
-                    checked={safeMode}
-                    onChange={setSafeMode}
-                    activeColor="#75d5c5"
-                  />
-                </SoundAndOptions>
+                {isLite
+                  ? <Preferences><summary>Sonido y preferencias</summary><div>{soundOptions}</div></Preferences>
+                  : soundOptions}
                 {soundKit === 'acoustic' && audioEngine.soundBankError && (
                   <p role="status">Muestras no disponibles; se usa síntesis.</p>
                 )}
               </ControlStack>
-
-              <GridSection>
-                <GridHeading>
-                  <span>Secuenciador A · {numA}/{denA}</span>
-                  <span>{activeGroupingA ? `Agrupación ${activeGroupingA.join('+')}` : 'Sin agrupación válida'}</span>
-                </GridHeading>
-                <BeatGrid
-                  trackType="A"
-                  label="Secuenciador pista A"
-                  numBeats={numA}
-                  accents={accentsA}
-                  onAccentsChange={setAccentsA}
-                  parsedGrouping={activeGroupingA}
-                  isValidGrouping={!!activeGroupingA}
-                  reduceMotionOverride={effectiveReduceMotion}
-                />
-              </GridSection>
+              {!isLite && gridA}
 
               {showB && (
                 <GridSection>

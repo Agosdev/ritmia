@@ -12,6 +12,7 @@ const GroupingContainer = styled.div`
 `
 
 const TitleRow = styled.div`
+  ${({ theme }) => theme.variant === 'lite' && 'flex-wrap: wrap; gap: .5rem;'}
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -153,8 +154,8 @@ export function GroupingInput() {
       )}
 
       <InfoLegend>
-        Conteo: {Array.from({ length: numA }).map((_, i) => i + 1).join(' ')} —
-        acentos: 0 silencio, 1 suave (bajo triangle 110Hz), 2 fuerte (kick 160→45Hz)
+        {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: numA }).map((_, i) => i + 1).join(' ')} —
+        {theme.variant === 'lite' ? 'cada grupo comienza con una marca lateral.' : 'acentos: 0 silencio, 1 suave (bajo triangle 110Hz), 2 fuerte (kick 160→45Hz)'}
       </InfoLegend>
     </GroupingContainer>
   )

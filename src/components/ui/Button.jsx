@@ -16,7 +16,9 @@ export const Button = styled.button`
 
   &:active {
     transform: ${({ theme }) => theme.variant === 'lite' ? 'translateY(1px)' : 'scale(0.98)'};
-    ${({ theme }) => theme.variant === 'lite' && `box-shadow: ${theme.shadows.glowAmber};`}
+    ${({ theme }) => theme.variant === 'lite' && `
+      box-shadow: inset 2px 2px 5px rgba(41, 52, 61, 0.18), inset -2px -2px 5px rgba(255,255,255,0.8);
+    `}
   }
 
   &:disabled {
@@ -40,7 +42,7 @@ export const Button = styled.button`
         return css`
           background: ${theme.variant === 'lite' ? theme.colors.amberControl : theme.colors.amber};
           color: ${theme.variant === 'lite' ? theme.colors.textBright : '#000000'};
-          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.amberSoft}; box-shadow: ${theme.shadows.sm};`}
+          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.amberSoft}; box-shadow: ${theme.shadows.sm}, inset 1px 1px 0 rgba(255,255,255,0.55);`}
           &:hover:not(:disabled) {
             filter: ${theme.variant === 'lite' ? 'brightness(0.97)' : 'brightness(1.1)'};
             box-shadow: ${theme.variant === 'lite' ? theme.shadows.sm : `0 0 14px ${theme.colors.amberGlow}`};
@@ -50,7 +52,7 @@ export const Button = styled.button`
         return css`
           background: ${theme.variant === 'lite' ? theme.colors.cyanControl : theme.colors.cyan};
           color: ${theme.variant === 'lite' ? theme.colors.textBright : '#000000'};
-          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.cyanSoft}; box-shadow: ${theme.shadows.sm};`}
+          ${theme.variant === 'lite' && `border: 1px solid ${theme.colors.cyanSoft}; box-shadow: ${theme.shadows.sm}, inset 1px 1px 0 rgba(255,255,255,0.55);`}
           &:hover:not(:disabled) {
             filter: ${theme.variant === 'lite' ? 'brightness(0.97)' : 'brightness(1.1)'};
             box-shadow: ${theme.variant === 'lite' ? theme.shadows.sm : `0 0 14px ${theme.colors.cyanGlow}`};

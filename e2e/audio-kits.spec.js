@@ -7,6 +7,7 @@ test('acoustic samples load once before playback and the original synth remains 
   })
 
   await page.goto('/')
+  await page.getByText('Sonido y preferencias', { exact: true }).click()
   const kit = page.getByLabel('Kit de sonido')
   await expect(kit).toHaveValue('acoustic')
 

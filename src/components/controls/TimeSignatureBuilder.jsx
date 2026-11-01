@@ -11,6 +11,11 @@ const BuilderSection = styled.div`
   flex-direction: column;
   gap: 1rem;
   min-width: 0;
+  &[data-compact] { gap: .65rem; }
+  &[data-compact] > div:first-child > div {
+    flex-wrap: nowrap; overflow-x: auto; padding: .4rem; gap: .55rem;
+    button { flex: 0 0 auto; min-width: 44px; }
+  }
 `
 
 const HeaderRow = styled.div`
@@ -49,7 +54,13 @@ const PresetBtn = styled.button`
       ? theme.variant === 'lite' ? theme.colors.amber : theme.colors.selectedControl
       : theme.colors.border)};
   background: ${({ $isSelected, theme }) => ($isSelected ? theme.colors.selectedControl : 'transparent')};
-  color: ${({ $isSelected, theme }) => ($isSelected ? '#000000' : theme.colors.textDim)};
+  color: ${({ $isSelected, theme }) => ($isSelected
+    ? theme.variant === 'lite' ? theme.colors.textBright : '#000000'
+    : theme.colors.textDim)};
+  font-weight: ${({ $isSelected, theme }) => theme.variant === 'lite' && $isSelected ? 650 : 'inherit'};
+  box-shadow: ${({ $isSelected, theme }) => $isSelected && theme.variant === 'lite'
+    ? `inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.75)`
+    : 'none'};
   transition: ${({ theme }) => theme.transitions.fast};
 
   &:hover {
@@ -86,6 +97,9 @@ const NumberBox = styled.input`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
+  box-shadow: ${({ theme }) => theme.variant === 'lite'
+    ? 'inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.8)'
+    : 'none'};
 `
 
 const SelectBox = styled.select`
@@ -98,6 +112,9 @@ const SelectBox = styled.select`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
+  box-shadow: ${({ theme }) => theme.variant === 'lite'
+    ? 'inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.8)'
+    : 'none'};
 `
 
 const FreeTextRow = styled.div`
@@ -137,7 +154,13 @@ const VolumeRow = styled.div`
   color: ${({ theme }) => theme.colors.textDim};
 `
 
-export function TimeSignatureBuilder() {
+const Advanced = styled.div`
+  summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 12px; color: ${({ theme }) => theme.colors.textDim}; }
+  summary::after { content: '+'; }
+  &[open] summary::after { content: '−'; }
+`
+
+export function TimeSignatureBuilder({ compact = false }) {
   const { numA, setNumA, denA, setDenA, volumeA, setVolumeA } = useRitmia()
   const [freeText, setFreeText] = useState('')
 
@@ -151,7 +174,7 @@ export function TimeSignatureBuilder() {
   }
 
   return (
-    <BuilderSection>
+    <BuilderSection data-compact={compact || undefined}>
       <HeaderRow>
         <SectionTitle>Compás A — MAX {MAX_NUM} pulsos</SectionTitle>
         <PresetsScroll>
@@ -209,27 +232,30 @@ export function TimeSignatureBuilder() {
         </FieldBox>
       </InputsGrid>
 
-      <FreeTextRow>
-        <FreeTextInput
-          type="text"
-          inputMode="numeric"
-          placeholder="Texto libre: escribe 12, 15, 24, 32 + Enter"
-          value={freeText}
-          onChange={e => setFreeText(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') handleApplyFreeText()
-          }}
-          aria-label="Entrada libre de pulsos"
-        />
-        <Button
-          $variant="panel"
-          $height="2.25rem"
-          onClick={handleApplyFreeText}
-          aria-label="Aplicar numerador de compás A"
-        >
-          Aplicar
-        </Button>
-      </FreeTextRow>
+      <Advanced as={compact ? 'details' : 'div'}>
+        {compact && <summary>Entrada avanzada de pulsos</summary>}
+        <FreeTextRow>
+          <FreeTextInput
+            type="text"
+            inputMode="numeric"
+            placeholder="Texto libre: escribe 12, 15, 24, 32 + Enter"
+            value={freeText}
+            onChange={e => setFreeText(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') handleApplyFreeText()
+            }}
+            aria-label="Entrada libre de pulsos"
+          />
+          <Button
+            $variant="panel"
+            $height="2.25rem"
+            onClick={handleApplyFreeText}
+            aria-label="Aplicar numerador de compás A"
+          >
+            Aplicar
+          </Button>
+        </FreeTextRow>
+      </Advanced>
 
       {numA >= 12 && (
         <div>

@@ -19,15 +19,22 @@ const HeaderContainer = styled.header`
 const HeaderInner = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0.75rem 1rem;
+  padding: ${({ $isLite }) => $isLite ? '0.45rem 1rem' : '0.75rem 1rem'};
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: ${({ $isLite }) => $isLite ? 'nowrap' : 'wrap'};
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
 
   @media (min-width: 768px) {
-    padding: 0.75rem 1.5rem;
+    padding: ${({ $isLite }) => $isLite ? '0.5rem 1.5rem' : '0.75rem 1.5rem'};
+  }
+
+  @media (max-width: 900px) {
+    ${({ $isLite }) => $isLite && `
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+    `}
   }
 `
 
@@ -35,11 +42,17 @@ const BrandSection = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
+
+  ${({ theme }) => theme.variant === 'lite' && `
+    gap: 0.55rem;
+  `}
 `
 
 const VersionBadge = styled.div`
-  width: 2.25rem;
-  height: 2.25rem;
+  width: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
+  height: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
+  flex: 0 0 auto;
   border-radius: ${({ theme }) => theme.radii.md};
   background: ${({ theme }) => theme.colors.amber};
   color: ${({ theme }) => theme.variant === 'lite' ? '#ffffff' : '#000000'};
@@ -53,16 +66,21 @@ const VersionBadge = styled.div`
 const Titles = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 0;
 `
 
 const Title = styled.h1`
   font-family: ${({ theme }) => theme.fonts.serif};
-  font-size: 18px;
+  font-size: ${({ theme }) => theme.variant === 'lite' ? '17px' : '18px'};
   line-height: 1.1;
   letter-spacing: -0.02em;
 
   @media (min-width: 768px) {
-    font-size: 20px;
+    font-size: ${({ theme }) => theme.variant === 'lite' ? '18px' : '20px'};
+  }
+
+  @media (max-width: 380px) {
+    font-size: ${({ theme }) => theme.variant === 'lite' ? '15px' : '18px'};
   }
 `
 
@@ -71,6 +89,8 @@ const Subtitle = styled.p`
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textDim};
+
+  ${({ theme }) => theme.variant === 'lite' && 'display: none;'}
 `
 
 const TechBadges = styled.div`
@@ -90,8 +110,31 @@ const ControlsSection = styled.div`
   gap: 0.5rem;
 
   @media (max-width: 520px) {
-    width: 100%;
-    flex-wrap: wrap;
+    ${({ $isLite }) => !$isLite && `
+      width: 100%;
+      flex-wrap: wrap;
+    `}
+  }
+
+  ${({ $isLite }) => $isLite && `
+    flex: 0 0 auto;
+    gap: 0.35rem;
+  `}
+`
+
+const DesktopPlayback = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex-wrap: ${({ $isLite }) => $isLite ? 'nowrap' : 'wrap'};
+
+  @media (max-width: 900px) {
+    ${({ $isLite }) => $isLite && 'display: none;'}
+  }
+
+  @media (max-width: 520px) {
+    ${({ $isLite }) => !$isLite && 'width: 100%;'}
   }
 `
 
@@ -160,11 +203,12 @@ const PresentationSwitch = styled.div`
 `
 
 const PresentationButton = styled.button`
-  min-height: 2.25rem;
+  min-height: ${({ theme }) => theme.variant === 'lite' ? '2rem' : '2.25rem'};
   padding: 0.35rem 0.7rem;
   border-radius: ${({ theme }) => theme.radii.full};
   background: ${({ $active, theme }) => $active ? theme.colors.panelLight : 'transparent'};
   color: ${({ $active, theme }) => $active ? theme.colors.textBright : theme.colors.textDim};
+  border: 1px solid ${({ $active, theme }) => $active && theme.variant === 'lite' ? theme.colors.borderStrong : 'transparent'};
   font-size: 11px;
   font-weight: 650;
   box-shadow: ${({ $active, theme }) =>
@@ -192,7 +236,7 @@ export function Header({ variant = 'lab', onPresentationChange }) {
 
   return (
     <HeaderContainer>
-      <HeaderInner>
+      <HeaderInner $isLite={isLite}>
         <BrandSection>
           <VersionBadge>v3.1</VersionBadge>
           <Titles>
@@ -214,7 +258,7 @@ export function Header({ variant = 'lab', onPresentationChange }) {
           )}
         </BrandSection>
 
-        <ControlsSection>
+        <ControlsSection $isLite={isLite}>
           {(isArt || isLite) && onPresentationChange && (
             <PresentationSwitch role="group" aria-label="Presentación visual">
               <PresentationButton
@@ -235,63 +279,69 @@ export function Header({ variant = 'lab', onPresentationChange }) {
               </PresentationButton>
             </PresentationSwitch>
           )}
-          <BpmBox>
-            <BpmLabel>BPM</BpmLabel>
-            <BpmRange
-              type="range"
-              min={MIN_BPM}
-              max={MAX_BPM}
-              value={bpm}
-              onChange={e => setBpm(parseInt(e.target.value, 10))}
-              aria-label="Ajustar tempo BPM"
-            />
-            <BpmNumber
-              type="number"
-              min={MIN_BPM}
-              max={MAX_BPM}
-              value={bpm}
-              onChange={e => {
-                if (!e.target.value.trim()) return
-                const val = Number(e.target.value)
-                if (Number.isInteger(val)) {
-                  setBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, val)))
-                }
-              }}
-              aria-label="Valor numérico BPM"
-            />
-          </BpmBox>
-
-          <Button
-            $variant={isArt || isLite ? 'accent' : 'primary'}
-            $height="2.75rem"
-            onClick={startPlayback}
-            style={{ minWidth: '92px' }}
-            id="play-button"
-            aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
-            aria-pressed={isPlaying}
+          <DesktopPlayback
+            $isLite={isLite}
+            role={isLite ? 'group' : undefined}
+            aria-label={isLite ? 'Controles de reproducción' : undefined}
           >
-            {transportState === 'paused' ? '▶ REANUDAR' : '▶ PLAY'}
-          </Button>
+            <BpmBox>
+              <BpmLabel>BPM</BpmLabel>
+              <BpmRange
+                type="range"
+                min={MIN_BPM}
+                max={MAX_BPM}
+                value={bpm}
+                onChange={e => setBpm(parseInt(e.target.value, 10))}
+                aria-label="Ajustar tempo BPM"
+              />
+              <BpmNumber
+                type="number"
+                min={MIN_BPM}
+                max={MAX_BPM}
+                value={bpm}
+                onChange={e => {
+                  if (!e.target.value.trim()) return
+                  const val = Number(e.target.value)
+                  if (Number.isInteger(val)) {
+                    setBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, val)))
+                  }
+                }}
+                aria-label="Valor numérico BPM"
+              />
+            </BpmBox>
 
-          <Button
-            $variant="outline"
-            $height="2.75rem"
-            onClick={pausePlayback}
-            disabled={!isPlaying}
-            aria-label="Pausar reproducción"
-          >
-            Ⅱ PAUSA
-          </Button>
+            <Button
+              $variant={isArt || isLite ? 'accent' : 'primary'}
+              $height={isLite ? '2.25rem' : '2.75rem'}
+              onClick={startPlayback}
+              style={{ minWidth: isLite ? '82px' : '92px' }}
+              id="play-button"
+              aria-label={transportState === 'paused' ? 'Reanudar reproducción' : 'Iniciar reproducción'}
+              aria-pressed={isPlaying}
+            >
+              {transportState === 'paused' ? '▶ REANUDAR' : '▶ PLAY'}
+            </Button>
 
-          <Button
-            $variant="outline"
-            $height="2.75rem"
-            onClick={stopPlayback}
-            disabled={transportState === 'stopped'}
-            aria-label="Reiniciar ciclo"
-          >
-            ↺ RESET
-          </Button>
+            <Button
+              $variant="outline"
+              $height={isLite ? '2.25rem' : '2.75rem'}
+              onClick={pausePlayback}
+              disabled={!isPlaying}
+              aria-label="Pausar reproducción"
+            >
+              Ⅱ PAUSA
+            </Button>
+
+            <Button
+              $variant="outline"
+              $height={isLite ? '2.25rem' : '2.75rem'}
+              onClick={stopPlayback}
+              disabled={transportState === 'stopped'}
+              aria-label="Reiniciar ciclo"
+            >
+              ↺ RESET
+            </Button>
+          </DesktopPlayback>
 
           <IconButton
             onClick={() => setIsWelcomeOpen(true)}

@@ -1,18 +1,29 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
-import { groupIndexForBeat } from '../../music/groupingSuggestions'
 
 const Surface = styled.section`
   min-width: 0;
   padding: clamp(0.75rem, 3vw, 1.25rem);
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 20px;
+  border-radius: 28px;
   background: ${({ theme }) => theme.colors.panel};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  box-shadow: ${({ theme }) => theme.physical.shell};
+  align-self: start;
+  @media (max-width: 999px) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(100px, .7fr);
+    align-items: center;
+    column-gap: .75rem;
+    > div:first-child { grid-column: 1 / -1; }
+    > div:nth-child(2) { grid-column: 1; grid-row: 2 / 4; }
+    > div:nth-child(3), > div:nth-child(4) { grid-column: 2; }
+    > div:nth-child(3) { flex-direction: column; gap: .45rem; align-items: flex-start; }
+    > div:nth-child(4) { grid-template-columns: 1fr; }
+  }
 
   h2 {
-    font-size: 1.1rem;
+    font-size: 13px;
     font-weight: 650;
   }
 `
@@ -32,14 +43,21 @@ const HeaderLine = styled.div`
 `
 
 const CircleFrame = styled.div`
-  width: min(100%, 340px);
-  margin: 0 auto;
+  width: min(100%, 310px);
+  margin: .5rem auto .8rem;
   aspect-ratio: 1;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.panel};
+  box-shadow: ${({ theme }) => theme.physical.inset};
+  @media (max-width: 999px) { width: min(100%, 220px); }
+  @media (max-width: 520px) { width: min(100%, 180px); }
 
   svg {
     display: block;
     width: 100%;
     height: 100%;
+    .active-beat-a { filter: drop-shadow(0 0 2px #ff7b88); }
+    .active-beat-b { filter: drop-shadow(0 0 2px #45dbe4); }
   }
 `
 
@@ -49,7 +67,7 @@ const Legend = styled.div`
   justify-content: center;
   gap: 0.5rem 1rem;
   color: ${({ theme }) => theme.colors.textDim};
-  font-size: 12px;
+  font-size: 10px;
 `
 
 const LegendItem = styled.span`
@@ -61,7 +79,7 @@ const LegendItem = styled.span`
     content: '';
     width: 0.7rem;
     height: 0.7rem;
-    border: 2px solid ${({ $trackB, theme }) => $trackB ? theme.colors.cyan : theme.colors.amber};
+    border: 2px solid ${({ theme }) => theme.colors.textDim};
     border-radius: ${({ $trackB }) => $trackB ? '2px' : '50%'};
     transform: ${({ $trackB }) => $trackB ? 'rotate(45deg)' : 'none'};
   }
@@ -75,8 +93,8 @@ const Summary = styled.div`
 `
 
 const SummaryItem = styled.p`
-  padding: 0.55rem 0.7rem;
-  border: 1px solid ${({ $trackB, theme }) => $trackB ? `${theme.colors.cyan}88` : `${theme.colors.amber}88`};
+  padding: 0.4rem 0.6rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.panel2};
   color: ${({ theme }) => theme.colors.textDim};
@@ -88,8 +106,8 @@ const CENTER = 120
 const RADIUS_A = 60
 const RADIUS_B = 88
 const COLORS = {
-  A: { main: '#a43e43', soft: '#d2756e' },
-  B: { main: '#176a70', soft: '#4b9695' },
+  A: { main: '#4c5b69', soft: '#75818c', neon: '#ff7b88' },
+  B: { main: '#4c5b69', soft: '#75818c', neon: '#45dbe4' },
 }
 
 function pointAt(radius, progress) {
@@ -100,21 +118,19 @@ function pointAt(radius, progress) {
   }
 }
 
-const BeatMark = memo(function BeatMark({ index, total, radius, track, accent, active, grouping, grouped }) {
+const BeatMark = memo(function BeatMark({ index, total, radius, track, accent, active }) {
   const point = pointAt(radius, index / total)
-  const color = grouped && grouping
-    ? `var(--group-color-${groupIndexForBeat(index, grouping) % 6})`
-    : COLORS[track].main
+  const color = active && accent > 0 ? COLORS[track].neon : COLORS[track].main
   const size = accent === 2 ? 4.2 : accent === 1 ? 3.2 : 2.4
-  const fill = accent === 2 ? color : accent === 1 ? COLORS[track].soft : '#eeece7'
+  const fill = active && accent > 0 ? color : accent === 2 ? color : accent === 1 ? COLORS[track].soft : '#e9edf0'
   const common = {
     fill,
-    stroke: color,
+    stroke: COLORS[track].main,
     strokeWidth: active ? 2.2 : accent === 0 ? 1.3 : 1,
   }
 
   return (
-    <g>
+    <g className={active && accent > 0 ? `active-beat-${track.toLowerCase()}` : undefined}>
       {active && <circle cx={point.x} cy={point.y} r={7} fill="none" stroke={color} strokeWidth="1.5" />}
       {track === 'B'
         ? <rect
@@ -147,8 +163,11 @@ const Track = memo(function Track({ track, count, accents, currentBeat, progress
 
   return (
     <g>
-      <circle cx={CENTER} cy={CENTER} r={radius} fill="none" stroke="#7b8588" strokeWidth="7" />
+      <circle cx={CENTER} cy={CENTER + 1} r={radius} fill="none" stroke="#ffffff" strokeWidth="9" />
+      <circle cx={CENTER} cy={CENTER - 1} r={radius} fill="none" stroke="#b8c3cd" strokeWidth="7" />
+      <circle cx={CENTER} cy={CENTER} r={radius} fill="none" stroke="#dce2e7" strokeWidth="4" />
       <circle
+        data-testid={`lite-track-${track}-progress`}
         cx={CENTER}
         cy={CENTER}
         r={radius}
@@ -179,16 +198,16 @@ const Track = memo(function Track({ track, count, accents, currentBeat, progress
             width="9"
             height="9"
             transform={`rotate(45 ${marker.x} ${marker.y})`}
-            fill="#f5f3ee"
+            fill="#f6f8fa"
             stroke={color}
             strokeWidth="2.5"
           />
-        : <circle cx={marker.x} cy={marker.y} r="5" fill="#f5f3ee" stroke={color} strokeWidth="2.5" />}
+        : <circle cx={marker.x} cy={marker.y} r="5" fill="#f6f8fa" stroke={color} strokeWidth="2.5" />}
     </g>
   )
 })
 
-export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false }) {
+export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, reduceMotion = false }) {
   const {
     accentsA,
     accentsB,
@@ -220,15 +239,7 @@ export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false 
           role="img"
           aria-labelledby="lite-cycle-title lite-cycle-description"
           data-testid="lite-cycle-title"
-          style={{
-            '--group-color-0': '#9a5522',
-            '--group-color-1': '#a43e43',
-            '--group-color-2': '#65549a',
-            '--group-color-3': '#176a70',
-            '--group-color-4': '#365f88',
-            '--group-color-5': '#815273',
-            transition: reduceMotion ? 'none' : undefined,
-          }}
+          style={{ transition: reduceMotion ? 'none' : undefined }}
         >
           <title id="lite-cycle-title">Visualizador circular de los ciclos musicales</title>
           <desc id="lite-cycle-description">
@@ -237,8 +248,8 @@ export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false 
           </desc>
           <defs>
             <radialGradient id="lite-center-fill">
-              <stop offset="0%" stopColor="#f5f3ee" />
-              <stop offset="100%" stopColor="#e2e0db" />
+              <stop offset="0%" stopColor="#f6f8fa" />
+              <stop offset="100%" stopColor="#d5dde4" />
             </radialGradient>
           </defs>
           {showTrackB && (
@@ -249,7 +260,7 @@ export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false 
               currentBeat={currentBeatB}
               progress={progressB}
               radius={RADIUS_B}
-              grouping={activeGroupingB}
+              grouping={showGrouping ? activeGroupingB : null}
             />
           )}
           <Track
@@ -258,10 +269,10 @@ export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false 
             accents={accentsA}
             currentBeat={currentBeatA}
             progress={progressA}
-            radius={RADIUS_A}
-            grouping={activeGroupingA}
+            radius={showTrackB ? RADIUS_A : RADIUS_B}
+            grouping={showGrouping ? activeGroupingA : null}
           />
-          <circle cx={CENTER} cy={CENTER} r="19" fill="url(#lite-center-fill)" stroke="#cbc9c3" />
+          <circle cx={CENTER} cy={CENTER} r="19" fill="url(#lite-center-fill)" stroke="#8a97a3" />
           <text
             x={CENTER}
             y={CENTER + 3}
@@ -278,13 +289,13 @@ export function LiteRhythmVisualizer({ showTrackB = false, reduceMotion = false 
       <Legend aria-label="Leyenda del visualizador rítmico">
         <LegendItem>A · ciclo y progreso</LegendItem>
         {showTrackB && <LegendItem $trackB>B · ciclo y progreso</LegendItem>}
-        <span>Vacío: silencio · pequeño: suave · lleno: fuerte</span>
+        <span>○ Silencio · ● suave · ▰ fuerte</span>
       </Legend>
       <Summary>
-        <SummaryItem><strong>A</strong> · {numA}/{denA} · {timing.measureA.toFixed(2)} s · avance {Math.round(progressA * 100)}%</SummaryItem>
+        <SummaryItem><strong>A</strong> · {numA}/{denA} · {timing.measureA.toFixed(2)} s</SummaryItem>
         {showTrackB && (
           <SummaryItem $trackB>
-            <strong>B</strong> · {numB}/{denB} · {timing.measureB.toFixed(2)} s · avance {Math.round(progressB * 100)}%
+            <strong>B</strong> · {numB}/{denB} · {timing.measureB.toFixed(2)} s
           </SummaryItem>
         )}
       </Summary>
