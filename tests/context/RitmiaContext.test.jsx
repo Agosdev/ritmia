@@ -166,6 +166,26 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
     expect(audioEngine.scheduledNotes).toHaveLength(1)
   })
 
+  it('expone el tiempo de AudioContext y los eventos reales del scheduler', async () => {
+    const { result } = renderHook(
+      () => ({ config: useRitmia(), realtime: useRitmiaRealtime() }),
+      { wrapper },
+    )
+    await act(async () => { await result.current.config.startPlayback() })
+    const ctx = audioEngine.ctx
+    const firstScheduledNote = audioEngine.scheduledNotes[0]
+    expect(firstScheduledNote).toMatchObject({ type: 'A', pos: 0, accent: 2 })
+
+    ctx.advanceTo(firstScheduledNote.time)
+    runNextFrame()
+    expect(result.current.realtime.audioTime).toBe(firstScheduledNote.time)
+    expect(result.current.realtime.scheduledNotes).toBe(audioEngine.scheduledNotes)
+    expect(result.current.realtime.scheduledNotes).toContain(firstScheduledNote)
+
+    act(() => result.current.config.stopPlayback())
+    expect(result.current.realtime.scheduledNotes).toEqual([])
+  })
+
   it('el progreso y el pulso visual siguen el reloj y solo reaccionan después del evento', async () => {
     let mainRenders = 0
     let realtime

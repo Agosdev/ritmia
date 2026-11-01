@@ -230,3 +230,38 @@ unitarias, build, lista y ejecución E2E cuando haya navegador compatible,
 responsive, keyboard reachability, scroll interno de grillas, modales y
 recorrido de nivel. Nuevas pruebas deben cubrir correspondencia de estado,
 preferencias de movimiento y estructura responsiva que introduzca el rediseño.
+
+## 8. Implementación Art 08D.2
+
+La capa dinámica consume `AudioContext.currentTime` y la cola ya existente de
+`AudioEngine.scheduledNotes`, expuestas por el contexto realtime. No añade
+eventos ni modifica el motor. Un impacto solo se representa cuando la nota ya
+alcanzó su timestamp, su acento es suave/fuerte y la ganancia de pista (incluido
+Morph) es mayor que cero. Las posiciones silenciosas conservan el marcador de
+fase, pero no producen onda ni rebote.
+
+La implementación contiene:
+
+- Fluidez ambiental de tres filamentos, con desplazamientos máximos de 1.7 y
+  1.25 unidades SVG y giro de hasta 0.16°. Se deriva del reloj de audio; pausa
+  lo congela, reset lo devuelve al origen y movimiento reducido lo desactiva.
+- Rebote local y una onda de contorno sin blur: duración máxima de 160 ms en
+  acento fuerte y 110 ms en suave, siempre limitada al 72% del paso real de esa
+  pista. La intensidad suave es menor; Morph y el volumen reducen o eliminan
+  la respuesta visual junto con la ganancia configurada.
+- Un máximo de cuatro impactos recientes. Se omiten tanto el ambiente animado
+  como los impactos desde 160 BPM, con pasos menores a 180 ms o cuando el
+  patrón visible suma 48 posiciones o más. El marcador de fase permanece, por
+  lo que la estructura no se pierde cuando se reduce el ornamento. La capa
+  decorativa muestrea el reloj a 30 Hz (hasta 33 ms de cuantización visual);
+  fase y transporte conservan la actualización realtime existente.
+
+No se incorporó explosión de partículas: no es necesaria para expresar el
+evento y añadiría mutaciones/densidad sin una ventaja medida. La geometría
+musical estática se conserva memoizada. En pantallas de hasta 520 px el marco
+del arte se vuelve más alto y usa recorte centrado; el trazado funcional queda
+dentro del área visible.
+
+La duración y los umbrales son límites conservadores de presentación, no
+garantías de sincronización perceptual ni medidas de volumen. Los perfiles
+automáticos no sustituyen la evaluación auditiva y artística humana.

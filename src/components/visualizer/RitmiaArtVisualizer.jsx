@@ -1,6 +1,11 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import styled from 'styled-components'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
+import {
+  getAmbientTransform,
+  getVisibleMusicalImpacts,
+  isDenseVisualPlayback,
+} from './musicalEffects'
 
 const Visualizer = styled.section`
   min-width: 0;
@@ -57,10 +62,16 @@ const Visual = styled.div`
   }
 
   .phase-plane {
+    z-index: 3;
+  }
+
+  .effects-plane {
     z-index: 2;
   }
 
   @media (max-width: 520px) {
+    aspect-ratio: 1.24;
+
     .fine-grain,
     .secondary-filaments {
       display: none;
@@ -546,6 +557,7 @@ const StaticMusicStructure = memo(({
   <svg
     className="structure-plane"
     viewBox="0 0 760 500"
+    preserveAspectRatio="xMidYMid slice"
     role="img"
     aria-labelledby="art-cycle-title art-cycle-description"
   >
@@ -590,6 +602,7 @@ const PhaseOverlay = memo(function PhaseOverlay({
     <svg
       className="phase-plane"
       viewBox="0 0 760 500"
+      preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
       focusable="false"
       pointerEvents="none"
@@ -627,6 +640,68 @@ const PhaseOverlay = memo(function PhaseOverlay({
   )
 })
 
+const MusicalEffects = memo(function MusicalEffects({
+  impacts,
+  numA,
+  numB,
+}) {
+  return (
+    <svg
+      className="effects-plane"
+      viewBox="0 0 760 500"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      focusable="false"
+      pointerEvents="none"
+    >
+      <g data-testid="art-musical-effects">
+        {impacts.map(impact => {
+          const track = impact.type
+          const num = track === 'A' ? numA : numB
+          const point = trackPoint(track, impact.pos / num)
+          const style = TRACK_STYLES[track]
+          const fade = (1 - impact.progress) * impact.intensity
+          const elasticScale = 1 +
+            0.16 * Math.exp(-impact.progress * 5) * Math.sin(impact.progress * TAU * 1.25)
+          const radius = 9.5 * elasticScale
+
+          return (
+            <g
+              key={`${track}-${impact.time}-${impact.pos}`}
+              data-testid="art-musical-impact"
+              data-impact-track={track}
+              data-impact-accent={impact.accent === 2 ? 'fuerte' : 'suave'}
+            >
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={radius}
+                fill="none"
+                stroke={impact.accent === 2 ? style.strong : style.color}
+                strokeWidth={impact.accent === 2 ? 2 : 1.2}
+                strokeDasharray={track === 'B' ? '3 2' : undefined}
+                strokeOpacity={0.58 * fade}
+                data-effect-family="elastic"
+              />
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={10 + impact.progress * 20}
+                fill="none"
+                stroke={style.color}
+                strokeWidth="1.1"
+                strokeDasharray={track === 'B' ? '3 2' : undefined}
+                strokeOpacity={0.34 * fade}
+                data-effect-family="wave"
+              />
+            </g>
+          )
+        })}
+      </g>
+    </svg>
+  )
+})
+
 export function RitmiaArtVisualizer({ showTrackB = false, reduceMotion = false }) {
   const {
     accentsA,
@@ -636,13 +711,67 @@ export function RitmiaArtVisualizer({ showTrackB = false, reduceMotion = false }
     denA,
     denB,
     mode,
+    bpm,
+    morphAmount,
     numA,
     numB,
     timing,
     transportState,
+    volumeA,
+    volumeB,
   } = useRitmia()
-  const { currentBeatA, currentBeatB, progressA, progressB } = useRitmiaRealtime()
+  const {
+    currentBeatA,
+    currentBeatB,
+    progressA,
+    progressB,
+    audioTime,
+    scheduledNotes,
+  } = useRitmiaRealtime()
   const showB = showTrackB
+  const denseVisualPlayback = isDenseVisualPlayback({
+    bpm,
+    numA,
+    numB,
+    stepA: timing.stepA,
+    stepB: timing.stepB,
+    showTrackB: showB,
+  })
+  const ambientTransform = getAmbientTransform(
+    audioTime, transportState, reduceMotion, denseVisualPlayback,
+  )
+  const effectTime = Math.floor(audioTime * 30) / 30
+  const impacts = useMemo(() => getVisibleMusicalImpacts({
+    scheduledNotes,
+    audioTime: effectTime,
+    transportState,
+    showTrackB: showB,
+    reduceMotion,
+    bpm,
+    numA,
+    numB,
+    stepA: timing.stepA,
+    stepB: timing.stepB,
+    volumeA,
+    volumeB,
+    mode,
+    morphAmount,
+  }), [
+    scheduledNotes,
+    effectTime,
+    transportState,
+    showB,
+    reduceMotion,
+    bpm,
+    numA,
+    numB,
+    timing.stepA,
+    timing.stepB,
+    volumeA,
+    volumeB,
+    mode,
+    morphAmount,
+  ])
   const status = transportState === 'playing'
     ? 'Reproduciendo'
     : transportState === 'paused'
@@ -668,12 +797,37 @@ export function RitmiaArtVisualizer({ showTrackB = false, reduceMotion = false }
         <svg
           className="artwork-plane"
           viewBox="0 0 760 500"
+          preserveAspectRatio="xMidYMid slice"
           aria-hidden="true"
           focusable="false"
           pointerEvents="none"
         >
           <OrganicArtwork />
+          <g className="ambient-filaments" transform={ambientTransform}>
+            <path
+              d="M 122 285 C 178 252 217 266 245 300 C 273 335 313 342 345 319 C 378 295 402 287 437 302"
+              fill="none"
+              stroke="#ff9d9b"
+              strokeOpacity="0.35"
+              strokeWidth="1.05"
+            />
+            <path
+              d="M 432 178 C 474 146 508 153 526 183 C 545 214 577 226 617 207 C 646 194 665 173 696 176"
+              fill="none"
+              stroke="#8be2d5"
+              strokeOpacity="0.32"
+              strokeWidth="0.9"
+            />
+            <path
+              d="M 277 390 C 320 365 353 371 378 396 C 405 424 438 425 471 400"
+              fill="none"
+              stroke="#c6a0fa"
+              strokeOpacity="0.3"
+              strokeWidth="0.95"
+            />
+          </g>
         </svg>
+        <MusicalEffects impacts={impacts} numA={numA} numB={numB} />
         <StaticMusicStructure
           showB={showB}
           num={numA}

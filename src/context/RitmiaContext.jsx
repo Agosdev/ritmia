@@ -107,10 +107,12 @@ export function RitmiaProvider({ children }) {
   const [currentBeatB, setCurrentBeatB] = useState(-1)
   const [progressA, setProgressA] = useState(0)
   const [progressB, setProgressB] = useState(0)
+  const [audioTime, setAudioTime] = useState(0)
 
   const rafRef = useRef(null)
   const playbackRequestRef = useRef(0)
   const playbackRequestedRef = useRef(false)
+  const scheduledNotesRef = useRef(audioEngine.scheduledNotes)
   const visualConfigRef = useRef(null)
 
   // El motor recibe siempre un paso por unidad del numerador, incluso en el
@@ -213,6 +215,8 @@ export function RitmiaProvider({ children }) {
   const updateRealtimeState = useCallback(() => {
     if (!audioEngine.ctx) return
     const audioTime = audioEngine.getCurrentAudioTime()
+    setAudioTime(audioTime)
+    scheduledNotesRef.current = audioEngine.scheduledNotes
     const { safeMode: currentSafeMode, bpm: currentBpm } = visualConfigRef.current
     const { accentsA: currentA, accentsB: currentB, stepA, stepB } = audioEngine.params
     const notes = audioEngine.scheduledNotes
@@ -305,6 +309,8 @@ export function RitmiaProvider({ children }) {
     setCurrentBeatB(-1)
     setProgressA(0)
     setProgressB(0)
+    setAudioTime(audioEngine.getCurrentAudioTime())
+    scheduledNotesRef.current = audioEngine.scheduledNotes
   }, [])
 
   const pausePlayback = useCallback(async () => {
@@ -538,8 +544,13 @@ export function RitmiaProvider({ children }) {
   ])
 
   const realtimeValue = useMemo(() => ({
-    currentBeatA, currentBeatB, progressA, progressB,
-  }), [currentBeatA, currentBeatB, progressA, progressB])
+    currentBeatA,
+    currentBeatB,
+    progressA,
+    progressB,
+    audioTime,
+    scheduledNotes: scheduledNotesRef.current,
+  }), [currentBeatA, currentBeatB, progressA, progressB, audioTime])
 
   return (
     <RitmiaContext.Provider value={value}>

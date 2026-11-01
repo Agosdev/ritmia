@@ -48,13 +48,29 @@ test('Art transport freezes phase on pause and reset returns to the start', asyn
     cy: element.getAttribute('cy'),
   }))
 
+  // Impacts last 110–160 ms. Observe them before playback so assertion polling
+  // cannot miss a correct transient frame on a busy local browser.
+  await page.evaluate(() => {
+    window.__artImpactSeen = false
+    const observer = new MutationObserver(() => {
+      if (document.querySelector('[data-testid="art-musical-impact"][data-impact-track="A"]')) {
+        window.__artImpactSeen = true
+        observer.disconnect()
+      }
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+  })
   await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
+  await expect.poll(() => page.evaluate(() => window.__artImpactSeen)).toBe(true)
+  const ambient = page.locator('.ambient-filaments')
+  await expect.poll(() => ambient.getAttribute('transform')).not.toBe('translate(0 0)')
   await expect.poll(() => phase.getAttribute('cy')).not.toBe(startPosition.cy)
   await expect(page.getByText('Reproduciendo')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
   await page.waitForTimeout(300)
   await page.getByRole('button', { name: 'Pausar reproducción' }).click()
   await expect(page.getByText('En pausa')).toBeVisible()
+  const ambientWhenPaused = await ambient.getAttribute('transform')
   const positionWhenPaused = await phase.evaluate(element => ({
     cx: element.getAttribute('cx'),
     cy: element.getAttribute('cy'),
@@ -63,13 +79,37 @@ test('Art transport freezes phase on pause and reset returns to the start', asyn
   await page.waitForTimeout(120)
   await expect(phase).toHaveAttribute('cx', positionWhenPaused.cx)
   await expect(phase).toHaveAttribute('cy', positionWhenPaused.cy)
+  await expect(ambient).toHaveAttribute('transform', ambientWhenPaused)
 
   await page.getByRole('button', { name: 'Reanudar reproducción' }).click()
   await expect(page.getByRole('button', { name: 'Pausar reproducción' })).toBeEnabled()
   await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
   await expect(page.getByText('Patrón en reposo')).toBeVisible()
+  await expect(ambient).toHaveAttribute('transform', 'translate(0 0)')
+  await expect(page.getByTestId('art-musical-impact')).toHaveCount(0)
   await expect(phase).toHaveAttribute('cx', startPosition.cx)
   await expect(phase).toHaveAttribute('cy', startPosition.cy)
+})
+
+test('Art does not animate a silent position or add impacts under reduced motion', async ({ page }) => {
+  await page.goto('/?prototype=rhythm-art')
+  const gridA = page.getByRole('group', { name: 'Secuenciador pista A' })
+  await gridA.getByRole('button', { name: 'Pulso 1, acento: fuerte' }).click()
+  await expect(gridA.getByRole('button', { name: 'Pulso 1, acento: silencio' })).toBeVisible()
+  await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
+  await page.waitForTimeout(250)
+  await expect(page.getByTestId('art-musical-impact')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
+
+  await gridA.getByRole('button', { name: 'Pulso 1, acento: silencio' }).click()
+  await gridA.getByRole('button', { name: 'Pulso 1, acento: suave' }).click()
+  await expect(gridA.getByRole('button', { name: 'Pulso 1, acento: fuerte' })).toBeVisible()
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.getByLabel('Reducir movimiento')).toBeChecked()
+  await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
+  await page.waitForTimeout(250)
+  await expect(page.getByTestId('art-musical-impact')).toHaveCount(0)
+  await expect(page.locator('.ambient-filaments')).toHaveAttribute('transform', 'translate(0 0)')
 })
 
 test('Art stays within supported viewport widths and respects reduced-motion preference', async ({ page }) => {
