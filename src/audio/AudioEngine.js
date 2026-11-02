@@ -279,7 +279,7 @@ export class AudioEngine {
       let volA = volumeA
       const voices = []
 
-      if (mode === 'morph' && level === 3) {
+      if (mode === 'morph' && level === 2) {
         volA = volumeA * (1 - morph)
       }
 
@@ -309,8 +309,8 @@ export class AudioEngine {
       this.stepCountA++
     }
 
-    // --- Pista B (solo si estamos en Nivel 3) ---
-    if (level === 3) {
+    // --- Pista B (solo si estamos en Nivel 2) ---
+    if (level === 2) {
       while (validB && this.nextNoteTimeB < now + lookahead && eventsB++ < maxEvents) {
         const lenB = accentsB.length || 1
         const posB = this.stepCountB % lenB
@@ -318,7 +318,7 @@ export class AudioEngine {
         let volB = volumeB
         const voices = []
 
-        if (mode === 'morph' && level === 3) {
+        if (mode === 'morph' && level === 2) {
           volB = volumeB * morph
         }
 

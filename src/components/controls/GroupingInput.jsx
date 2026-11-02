@@ -100,6 +100,8 @@ export function GroupingInput() {
   const theme = useTheme()
   const {
     numA,
+    accentsA,
+    setAccentsA,
     beatLabelsA,
     groupingA,
     setGroupingA,
@@ -111,6 +113,7 @@ export function GroupingInput() {
 
   return (
     <GroupingContainer>
+      <p>Los grupos son marcas visuales. Para cambiar el sonido, reforzá sus comienzos con la acción de abajo.</p>
       <TitleRow>
         <Title>Agrupación A — &ldquo;3+2+2&rdquo; hasta 32</Title>
         <Badge $variant={isValidGroupingA ? 'emerald' : 'red'}>
@@ -154,9 +157,15 @@ export function GroupingInput() {
         </ColorSegmentsBar>
       )}
 
+      <button type="button" disabled={!isValidGroupingA} onClick={() => {
+        const starts = new Set(); let position = 0
+        activeGroupingA.forEach(size => { starts.add(position); position += size })
+        setAccentsA(accentsA.map((accent, index) => starts.has(index) && accent > 0 ? 2 : accent))
+      }}>Aplicar acentos a los grupos</button>
+      <p>Convierte en fuertes los comienzos que ya suenan. Conserva silencios y otros acentos; podés seguir editándolos en el secuenciador.</p>
       <InfoLegend>
         {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: numA }).map((_, i) => beatLabelsA?.[i] ?? i + 1).join(' ')} —
-        {theme.variant === 'lite' ? 'cada grupo comienza con una marca lateral.' : 'acentos: 0 silencio, 1 suave (bajo triangle 110Hz), 2 fuerte (kick 160→45Hz)'}
+        {theme.variant === 'lite' ? 'cada grupo comienza con una marca lateral.' : 'acentos: 0 silencio, 1 suave, 2 fuerte; percusión acústica'}
       </InfoLegend>
     </GroupingContainer>
   )

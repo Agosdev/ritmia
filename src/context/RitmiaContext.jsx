@@ -86,7 +86,7 @@ export function RitmiaProvider({ children }) {
   const [groupingB, setGroupingB] = useValidatedState('3+2', isText)
   const [volumeB, setVolumeB] = useValidatedState(1, isUnitValue)
 
-  // Modos de Nivel 3
+  // Modos de Nivel 2
   const [mode, setMode] = useValidatedState('polirritmia', isMode)
   const [morphAmount, setMorphAmount] = useValidatedState(0.5, isUnitValue)
   const [claveIndex, setClaveIndex] = useState(0)
@@ -145,13 +145,18 @@ export function RitmiaProvider({ children }) {
     })
   }, [numB])
 
-  // Sincronizar clave cuando el modo es 'clave'
+  const beforeClaveRef = useRef(null)
   useEffect(() => {
     if (mode === 'clave') {
+      if (!beforeClaveRef.current) beforeClaveRef.current = { numB, denB, accentsB: [...accentsB] }
       const pattern = CLAVE_PATTERNS[claveIndex]?.pat || CLAVE_PATTERNS[0].pat
       setNumB(pattern.length)
-      setAccentsB(pattern)
+      setAccentsB([...pattern])
       setDenB(8)
+    } else if (mode !== 'clave' && beforeClaveRef.current) {
+      const saved = beforeClaveRef.current
+      beforeClaveRef.current = null
+      setNumB(saved.numB); setDenB(saved.denB); setAccentsB(saved.accentsB)
     }
   }, [mode, claveIndex])
 
@@ -386,7 +391,7 @@ export function RitmiaProvider({ children }) {
       strongA.length ? ` en ${strongA.join(', ')}` : ''
     }. Duración de compás: ${durCompasA}s (negra: ${durNegra}s).`
 
-    if (level === 3) {
+    if (level === 2) {
       const accentsCountB = accentsB.filter(b => b > 0).length
       const canonicalClaveCycle = mode === 'clave' && CLAVE_PATTERNS[claveIndex]?.cycleMeasures === 2
       desc += canonicalClaveCycle

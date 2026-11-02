@@ -85,7 +85,7 @@ describe('Contexto: validación musical antes del motor', () => {
   it('descripción usan el ratio de pasos correcto en 3/4 vs 2/8', () => {
     const { result } = renderHook(useRitmia, { wrapper })
     act(() => {
-      result.current.setLevel(3)
+      result.current.setLevel(2)
       result.current.setNumA(3); result.current.setDenA(4)
       result.current.setNumB(2); result.current.setDenB(8)
     })

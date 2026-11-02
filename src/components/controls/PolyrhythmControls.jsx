@@ -11,6 +11,8 @@ const PolyrhythmContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  > p, details > p { font-size: 12px; line-height: 1.5; color: ${({ theme }) => theme.colors.textDim}; }
+  input:disabled, select:disabled { opacity: .6; cursor: not-allowed; }
   padding-top: 0.75rem;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `
@@ -204,20 +206,42 @@ export function PolyrhythmControls() {
   }
 
   const modes = [
-    { id: 'polirritmia', label: 'Polirritmia — B se estira/comprime' },
-    { id: 'polimetria', label: 'Polimetría — corchea=corchea' },
-    { id: 'morph', label: 'Morph — crossfade de ganancia' },
-    { id: 'clave', label: 'Clave — 6 patrones tradicionales' },
+    { id: 'polirritmia', label: 'Polirritmia — distintos pasos en un ciclo común' },
+    { id: 'polimetria', label: 'Polimetría — compases independientes, mismo BPM' },
+    { id: 'morph', label: 'Morph — mezcla A y B en un ciclo común' },
+    { id: 'clave', label: 'Clave — carga un patrón tradicional en B' },
   ]
 
   return (
     <PolyrhythmContainer>
-      <SectionTitle>Compás B — polirritmia / polimetría hasta {MAX_NUM}</SectionTitle>
+      <ModesGrid>
+        <div style={{ gridColumn: 'span 2', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: theme.colors.textDim, fontFamily: theme.fonts.mono }}>
+          Modo · relación entre A y B
+        </div>
+        {modes.map(m => (
+          <ModeButton
+            key={m.id}
+            type="button"
+            $isActive={mode === m.id}
+            aria-pressed={mode === m.id}
+            onClick={() => setMode(m.id)}
+          >
+            {m.label}
+          </ModeButton>
+        ))}
+      </ModesGrid>
 
+      <SectionTitle>Configuración de la pista B</SectionTitle>
+
+      {mode === 'clave' && <p>Al entrar se carga la clave elegida en B. Al salir recuperás tu patrón B anterior. Podés editar sus golpes. {CLAVE_PATTERNS[claveIndex]?.cycleMeasures === 2 ? 'Esta clave dura ocho negras (dos compases de 4/4).' : 'Esta clave se adapta al ciclo de A.'}</p>}
+      {mode === 'polirritmia' && <p>B reparte sus pasos dentro del ciclo de A. Su denominador escrito no cambia la duración audible.</p>}
+      {mode === 'polimetria' && <p>Cada compás dura según su numerador y denominador; los ciclos vuelven a encontrarse después.</p>}
+      {mode === 'morph' && <p>Desplazá la mezcla entre A y B. Ambos completan el mismo ciclo; los extremos silencian una pista.</p>}
       <InputsGrid>
         <FieldBox>
           <FieldLabel>NUM B</FieldLabel>
           <NumberBox
+            disabled={mode === 'clave'}
             type="number"
             min="1"
             max={MAX_NUM}
@@ -236,6 +260,7 @@ export function PolyrhythmControls() {
         <FieldBox>
           <FieldLabel>DEN B</FieldLabel>
           <SelectBox
+            disabled={mode !== 'polimetria'}
             value={denB}
             onChange={e => setDenB(parseInt(e.target.value, 10))}
             aria-label="Denominador compás B"
@@ -249,7 +274,8 @@ export function PolyrhythmControls() {
         </FieldBox>
       </InputsGrid>
 
-      <FreeTextRow>
+      {mode !== 'polimetria' && <p>El denominador B solo se edita en Polimetría; los otros modos fijan su duración.</p>}
+      {mode !== 'clave' && <details><summary>Entrada avanzada de pulsos B</summary>      <FreeTextRow>
         <FreeTextInput
           type="text"
           inputMode="numeric"
@@ -277,6 +303,7 @@ export function PolyrhythmControls() {
         </div>
       )}
 
+</details>}
       <VolumeRow>
         <span>Vol B</span>
         <input
@@ -291,7 +318,7 @@ export function PolyrhythmControls() {
         />
       </VolumeRow>
 
-      <FreeTextInput
+      <details><summary>Marcas visuales de grupos B (opcional)</summary><p>No modifican los golpes audibles.</p>      <FreeTextInput
         value={groupingB}
         onChange={e => setGroupingB(e.target.value)}
         placeholder="agrupación B ej: 3+2 o 3+3+3+3"
@@ -318,23 +345,7 @@ export function PolyrhythmControls() {
         </div>
       )}
 
-      <ModesGrid>
-        <div style={{ gridColumn: 'span 2', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: theme.colors.textDim, fontFamily: theme.fonts.mono }}>
-          Modos con cálculo preciso
-        </div>
-        {modes.map(m => (
-          <ModeButton
-            key={m.id}
-            type="button"
-            $isActive={mode === m.id}
-            aria-pressed={mode === m.id}
-            onClick={() => setMode(m.id)}
-          >
-            {m.label}
-          </ModeButton>
-        ))}
-      </ModesGrid>
-
+</details>
       {mode === 'morph' && (
         <MorphContainer>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
@@ -351,7 +362,7 @@ export function PolyrhythmControls() {
             aria-label="Porcentaje de morphing"
           />
           <div style={{ fontSize: '10px', color: theme.colors.textDim }}>
-            volA * (1 - morph) + volB * morph, sin cambio de tempo ni desfase métrico.
+            0%: solo A. 100%: solo B. El punto medio mezcla ambas pistas.
           </div>
         </MorphContainer>
       )}

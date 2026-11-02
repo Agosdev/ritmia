@@ -72,7 +72,7 @@ const BeatBox = styled.button`
 
 const BeatNumber = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: ${({ $isCompact }) => ($isCompact ? '9px' : '11px')};
+  font-size: 11px;
   color: ${({ theme }) => theme.colors.text};
 `
 

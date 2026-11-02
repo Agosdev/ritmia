@@ -112,12 +112,12 @@ export function WelcomeModal() {
       desc: `Construye compases de 1 a ${MAX_NUM} posiciones y elige denominadores de 1, 2, 4, 8 o 16. Toca los pulsos para alternar entre silencio, acento suave y fuerte. Las grillas largas se desplazan horizontalmente.`,
     },
     {
-      title: 'Nivel 2 — Agrupación rítmica',
+      title: 'Agrupaciones (opcional)',
       desc: 'Escribe agrupaciones aditivas como "3+2+2". Ritmia valida que la suma de los grupos coincida con el numerador y distingue las agrupaciones en la visualización.',
     },
     {
-      title: 'Nivel 3 — Polirritmia, Polimetría, Morph y Clave',
-      desc: 'Activa la pista B para explorar polirritmia, polimetría, Morph y patrones de clave. Podés elegir entre los visualizadores Clásico, Rebote 2D y Órbita 3D.',
+      title: 'Nivel 2 — Dos ritmos',
+      desc: 'Activa la pista B para explorar polirritmia, polimetría, Morph y patrones de clave. El visualizador clásico sigue los ciclos de ambas pistas.',
     },
   ]
 

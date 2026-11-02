@@ -21,7 +21,7 @@ const LevelGroup = styled.div`
   width: min(100%, 1032px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 `
 
@@ -39,7 +39,7 @@ const LevelButton = styled.button`
   &[aria-pressed='true']::after {
     content: ''; position: absolute; right: .8rem; top: .75rem;
     width: 6px; height: 6px; border-radius: 50%;
-    background: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.successNeon};
   }
 
   strong, span {
@@ -80,8 +80,7 @@ const LevelHelp = styled.p`
 
 const LEVELS = [
   { value: 1, title: 'Nivel 1', label: 'Ritmo', help: 'Un compás: edita acentos y silencios.' },
-  { value: 2, title: 'Nivel 2', label: 'Agrupaciones', help: 'Añade agrupaciones aditivas al compás A.' },
-  { value: 3, title: 'Nivel 3', label: 'Dos pistas', help: 'Explora A/B, polirritmia, polimetría, Morph y clave.' },
+  { value: 2, title: 'Nivel 2', label: 'Dos ritmos', help: 'Explorá relaciones entre patrones rítmicos de A y B.' },
 ]
 
 export function LiteLevelNavigation() {

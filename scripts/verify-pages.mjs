@@ -39,12 +39,12 @@ try {
       await first.click()
       await expect(first).toHaveAccessibleName(`Pulso 1, acento: ${accent}`)
     }
-    for (const level of [1, 2, 3]) {
+    for (const level of [1, 2]) {
       const button = page.getByRole('button', { name: new RegExp(`^Nivel ${level} —`) })
       await button.click()
       await expect(button).toHaveAttribute('aria-pressed', 'true')
-      if (level >= 2) await expect(page.getByLabel('Agrupación métrica pista A')).toBeVisible()
-      if (level === 3) await expect(page.getByRole('group', { name: 'Secuenciador pista B' })).toBeVisible()
+      if (level === 1) { await page.getByText('Agrupaciones (opcional)', { exact: true }).click(); await expect(page.getByLabel('Agrupación métrica pista A')).toBeVisible() }
+      if (level === 2) await expect(page.getByRole('group', { name: 'Secuenciador pista B' })).toBeVisible()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       await page.evaluate(() => scrollTo(0, 0))
       await page.screenshot({ path: path.join(output, `pages-${width}-level-${level}.png`), fullPage: true })
@@ -67,7 +67,7 @@ try {
     await page.getByRole('button', { name: 'Detener reproducción' }).click()
     await page.getByRole('button', { name: 'Reiniciar ciclo' }).click()
     for (const phase of phases) await expect(phase).toHaveAttribute('stroke-dasharray', /^0 /)
-    report.widths.push({ width, levels: [1, 2, 3], decodedAcousticSamples: 4, sampleURLs: [...samples], transport: 'play/pause/resume/reset verified' })
+    report.widths.push({ width, levels: [1, 2], decodedAcousticSamples: 4, sampleURLs: [...samples], transport: 'play/pause/resume/reset verified' })
     if (width === 1280) {
       for (const query of ['?interface=art', '?prototype=rhythm-art', '?prototype=lab', '?prototype=rhythm-a', '?dev=1&interface=art']) {
         await page.goto(url + query, { waitUntil: 'networkidle' })

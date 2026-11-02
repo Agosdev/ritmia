@@ -17,9 +17,9 @@ afterEach(async () => { cleanup(); await audioEngine.dispose(); vi.useRealTimers
 
 it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and editable state without changing B or marker', async preset => {
   const { result } = renderHook(useRitmia, { wrapper })
-  act(() => { result.current.setLevel(3); result.current.setNumB(9); result.current.applyPreset(preset.id) })
+  act(() => { result.current.setLevel(2); result.current.setNumB(9); result.current.applyPreset(preset.id) })
   expect(result.current.numB).toBe(9)
-  expect(result.current.level).toBe(3)
+  expect(result.current.level).toBe(2)
   expect(result.current.metronome).toBe(false)
   expect(result.current.presetModified).toBe(false)
   expect(result.current.accentsA).toEqual(preset.accents)
@@ -74,4 +74,31 @@ it('cycle marking is acoustic, brief, off by default and scheduled exactly once 
   engine.stop()
   expect(ctx.audibleAt(ctx.currentTime)).toEqual([])
   await engine.dispose()
+})
+
+it.each(['polirritmia', 'polimetria', 'morph', 'clave'])('dos niveles y presets conservan modo %s y el patrón B', mode => {
+  const { result } = renderHook(useRitmia, { wrapper })
+  act(() => { result.current.setLevel(2); result.current.setMode(mode) })
+  const before = [...result.current.accentsB]
+  act(() => result.current.applyPreset('tangos'))
+  expect(result.current.mode).toBe(mode)
+  expect(result.current.level).toBe(2)
+  expect(result.current.accentsB).toEqual(before)
+  act(() => result.current.setLevel(3))
+  expect(result.current.level).toBe(2)
+  act(() => result.current.setLevel(1))
+  expect(audioEngine.params.level).toBe(1)
+  act(() => result.current.setLevel(2))
+  expect(audioEngine.params.level).toBe(2)
+  expect(result.current.accentsB).toEqual(before)
+})
+
+it('clave restaura el patrón B anterior al cambiar a otro modo', () => {
+  const { result } = renderHook(useRitmia, { wrapper })
+  act(() => { result.current.setLevel(2); result.current.setNumB(3); result.current.setAccentsB([1,0,2]) })
+  act(() => result.current.setMode('clave'))
+  expect(result.current.numB).not.toBe(3)
+  act(() => result.current.setMode('polimetria'))
+  expect(result.current.numB).toBe(3)
+  expect(result.current.accentsB).toEqual([1,0,2])
 })

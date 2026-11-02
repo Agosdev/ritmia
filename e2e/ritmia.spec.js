@@ -4,7 +4,7 @@ for (const [id, count, strong] of presets) {
   test(`${id}: editable counts preserve levels, B and marker`, async ({ page }) => {
     const errors = []; page.on('pageerror', error => errors.push(error.message))
     await page.goto('/')
-    await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+    await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
     await page.getByLabel('Numerador compás B', { exact: true }).fill('9')
     const previous = await page.getByLabel('Numerador compás A', { exact: true }).inputValue()
     await page.getByLabel('Preset', { exact: true }).selectOption(id)
@@ -16,7 +16,7 @@ for (const [id, count, strong] of presets) {
     expect(accents.flatMap((a, i) => a === 2 ? [i] : [])).toEqual(strong)
     if (id.startsWith('bulerias')) {
       await expect(keys.first()).toHaveAccessibleName('Pulso 12, acento: fuerte')
-      await expect(page.getByText(/Conteo: 12 1 2 3 4 5 6 7 8 9 10 11/)).toBeVisible()
+      await expect(keys.nth(11)).toHaveAccessibleName(/Pulso 11/)
     }
     await expect(page.getByLabel('Numerador compás B', { exact: true })).toHaveValue('9')
     await expect(page.getByLabel('Marcar inicio de compás').filter({ visible: true })).not.toBeChecked()
@@ -24,7 +24,7 @@ for (const [id, count, strong] of presets) {
     await expect(page.getByText(/· editado/)).toBeVisible()
     await page.getByRole('button', { name: 'Nivel 1 — Ritmo' }).click()
     await expect(keys).toHaveCount(count)
-    await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+    await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
     expect(errors).toEqual([])
   })
 }
@@ -51,4 +51,25 @@ test('transport rapid toggles, running reset and meter changes retain a single a
   await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Reproducir', exact: true }).dblclick()
   await expect(page.getByRole('button', { name: 'Reproducir', exact: true })).toBeVisible()
+})
+
+test('two levels, explicit grouping accents and presets independent from every mode', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByRole('navigation', { name: 'Niveles musicales' }).getByRole('button')).toHaveCount(2)
+  await page.getByText('Agrupaciones (opcional)', { exact: true }).click()
+  const cells = page.getByRole('group', { name: 'Secuenciador pista A' }).getByRole('button')
+  await cells.nth(3).click()
+  await page.getByRole('button', { name: 'Aplicar acentos a los grupos' }).click()
+  expect(await cells.evaluateAll(items => items.map(item => Number(item.dataset.accent)))).toEqual([2,0,1,2,1,0,0])
+  await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
+  for (const name of ['Polirritmia —', 'Polimetría —', 'Morph —', 'Clave —']) {
+    const mode = page.getByRole('button', { name: new RegExp('^' + name) })
+    await mode.click()
+    const b = page.getByRole('group', { name: 'Secuenciador pista B' }).getByRole('button')
+    const before = await b.evaluateAll(items => items.map(item => item.dataset.accent))
+    await page.getByLabel('Preset', { exact: true }).selectOption('marcato')
+    await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
+    await expect(mode).toHaveAttribute('aria-pressed', 'true')
+    expect(await b.evaluateAll(items => items.map(item => item.dataset.accent))).toEqual(before)
+  }
 })

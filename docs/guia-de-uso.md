@@ -1,13 +1,24 @@
 # Guía de Ritmia
 
-Elegí libremente Ritmo, Agrupaciones o Dos pistas. Cambiar de nivel conserva la configuración; B se escucha en el nivel 3.
+## Nivel 1 — Ritmo
 
-Ajustá BPM (negras por minuto), numerador y denominador. Cada posición dura `60/BPM × 4/denominador` segundos en A. En polirritmia B se adapta al ciclo de A; en polimetría mantiene su duración escrita. Morph cruza las ganancias sin cambiar el tempo. Las claves conservan sus ciclos existentes.
+Editá una pista A: BPM (negras por minuto), compás, volumen y golpes. Cada celda alterna silencio → suave → fuerte. Un preset es un punto de partida editable: cambia compás, acentos y agrupación de A, y el BPM compartido. Conserva B, sus volúmenes y el modo.
 
-Tocá una tecla del secuenciador para alternar silencio, suave y fuerte. En las grillas largas podés desplazarte con gesto táctil o teclado. Las agrupaciones son aditivas y deben sumar el numerador; mientras el borrador sea inválido se conserva la última agrupación compatible.
+Al final, «Agrupaciones (opcional)» divide visualmente el compás. Por ejemplo, 7/8 en 3+2+2. Escribir grupos no cambia el sonido. «Aplicar acentos a los grupos» convierte en fuertes los comienzos que ya sonaban; conserva silencios y otros acentos. Un comienzo silencioso sigue vacío. Podés editar después cualquier celda. La acción requiere una agrupación válida y no cambia el compás.
 
-Elegir un preset no cambia el patrón hasta pulsar **Aplicar**. Los presets modifican A, su agrupación y el BPM sugerido. Conservan B, el modo, el nivel y la opción de marcación. Después podés editar libremente; el preset aparece como editado. Bulerías comienza en la cuenta 12. Las reducciones pedagógicas y sus fuentes se explican en `10-cierre-ritmia.md`.
+## Nivel 2 — Dos ritmos
 
-**Reproducir** inicia o reanuda. **Detener** silencia y conserva la fase. **Reiniciar** cancela los sonidos pendientes y vuelve al origen; continúa si estaba reproduciendo, o queda detenido en caso contrario. **Marcar inicio de compás** agrega un golpe acústico breve al comienzo de cada ciclo de A solamente si lo activás.
+Agrega B para explorar relaciones entre patrones. Cambiar de nivel conserva la edición; solo este nivel reproduce B. El modo define la relación, independientemente del preset de A:
 
-El clásico está activo al abrir. Rebote 2D y Órbita 3D son opcionales. El botón de desactivación vuelve al clásico. El movimiento reducido se toma automáticamente del sistema. Si el audio no puede cargar, aparece un mensaje y un botón para reintentar; no se sustituye por síntesis.
+- Polirritmia: B distribuye sus posiciones dentro del ciclo de A. Su denominador escrito no determina la duración audible.
+- Polimetría: cada compás dura según sus propios valores al mismo BPM. Se reencuentran según sus duraciones.
+- Morph: mezcla las ganancias de A y B sobre un ciclo común. 0% solo A, 100% solo B.
+- Clave: carga en B la clave seleccionada; al salir restaura el patrón B anterior. Los patrones canónicos de dos compases duran ocho negras; los adaptados siguen la duración de A. Los golpes siguen siendo editables. Cambiar de clave vuelve a cargar sus golpes.
+
+El denominador B se edita en Polimetría. En Clave, el tamaño y denominador pertenecen al patrón. Entrada libre avanzada y marcas visuales de grupos B están en desplegables. Los grupos B no cambian los golpes.
+
+## Reproducción y lectura
+
+Reproducir/Detener pausa y reanuda conservando fase. Reiniciar vuelve al principio y continúa si estaba sonando. Los volúmenes A/B son independientes. La marcación de inicio de compás es opcional. Se usa exclusivamente percusión acústica; un fallo de carga permite reintentar.
+
+El visualizador clásico sigue AudioContext. A usa cian y B magenta, además de etiquetas y formas distintas. Vacío = silencio, punto = suave, barra = fuerte. Las grillas largas desplazan internamente. El transporte permanece accesible y el movimiento reducido respeta la preferencia del sistema.

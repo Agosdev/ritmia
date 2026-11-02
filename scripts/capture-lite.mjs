@@ -19,7 +19,7 @@ try {
     await page.goto(baseURL)
     await page.getByRole('heading', { name: 'Ritmia Lite' }).waitFor()
     const nav = page.getByRole('navigation', { name: 'Niveles musicales' })
-    for (const level of [1, 2, 3]) {
+    for (const level of [1, 2]) {
       await page.getByRole('button', { name: new RegExp(`^Nivel ${level} —`) }).click()
       await page.evaluate(() => scrollTo(0, 0))
       await capture(page, `lite-${width}-level-${level}.png`, { fullPage: true })
@@ -65,7 +65,7 @@ try {
     await capture(page, `lite-${width}-pulse-03-release.png`, { clip: keyClip })
     await page.waitForTimeout(220)
     await capture(page, `lite-${width}-pulse-04-settled.png`, { clip: keyClip })
-    await page.getByRole('button', { name: /^Nivel 3 —/ }).click()
+    await page.getByRole('button', { name: /^Nivel 2 —/ }).click()
     await page.getByRole('button', { name: 'Iniciar reproducción' }).click()
     await page.waitForTimeout(300)
     await page.evaluate(() => scrollTo(0, 0))

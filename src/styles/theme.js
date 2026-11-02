@@ -1,3 +1,5 @@
+export const neon = { A: '#00dcea', B: '#f45cda', success: '#42e58b' }
+
 export const theme = {
   colors: {
     bg: '#0a0a0f',
@@ -68,8 +70,9 @@ export const liteTheme = {
     // Dark ink for text contrast; bright cores are used only in LEDs and markers.
     amber: '#963c47', amberSoft: '#963c47', amberControl: '#e9edf0',
     cyan: '#17636d', cyanSoft: '#17636d', cyanControl: '#e9edf0',
-    amberNeon: '#ff7b88', amberGlow: 'rgba(255,101,123,.5)',
-    cyanNeon: '#45dbe4', cyanGlow: 'rgba(35,207,224,.45)',
+    trackANeon: neon.A, trackBNeon: neon.B, successNeon: neon.success,
+    amberNeon: neon.A, amberGlow: 'rgba(255,101,123,.5)',
+    cyanNeon: neon.B, cyanGlow: 'rgba(35,207,224,.45)',
     violetNeon: '#b4a0ff', violetGlow: 'rgba(155,128,255,.4)',
     emerald: '#4c5b69', emeraldSoft: '#4c5b69', red: '#963c47', redSoft: '#963c47',
     inactiveBeat: '#e9edf0', inactiveBeatB: '#e9edf0',

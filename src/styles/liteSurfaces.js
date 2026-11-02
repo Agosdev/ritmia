@@ -18,7 +18,7 @@ export const litePressable = css`
   }
   &[aria-pressed='true'] {
     box-shadow: ${({ theme }) => theme.physical.selected};
-    border-color: ${({ theme }) => theme.colors.borderLight};
+    border-color: ${({ theme }) => theme.colors.successNeon};
     font-weight: 750;
   }
   &:active:not(:disabled) {

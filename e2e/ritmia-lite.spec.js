@@ -28,7 +28,7 @@ test('Ritmia long A/B grids scroll internally without expanding the mobile page'
   const gridA = page.getByRole('group', { name: 'Secuenciador pista A' })
   expect(await gridA.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true)
 
-  await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+  await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
   await page.getByRole('spinbutton', { name: 'Numerador compás B' }).fill('32')
   const dimensions = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
@@ -54,7 +54,7 @@ test('Ritmia respects reduced motion and retains a visible keyboard focus indica
   await expect(liteButton).toBeFocused()
   await expect.poll(() => liteButton.evaluate(element => getComputedStyle(element).outlineWidth)).toBe('3px')
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const level = page.getByRole('button', { name: 'Nivel 2 — Agrupaciones' })
+  const level = page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' })
   await level.hover()
   await expect(level).toHaveCSS('transform', 'none')
   await level.click()
@@ -67,7 +67,7 @@ test('Ritmia respects reduced motion and retains a visible keyboard focus indica
 
 test('Ritmia press overrides hover and selection remains visibly distinct after release', async ({ page }) => {
   await page.goto('/')
-  const button = page.getByRole('button', { name: 'Nivel 2 — Agrupaciones' })
+  const button = page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' })
   const raised = await button.evaluate(el => getComputedStyle(el).boxShadow)
   await button.hover()
   await page.mouse.down()
@@ -91,7 +91,7 @@ test('Ritmia supports real touch input without retaining hover elevation', async
   try {
     const page = await context.newPage()
     await page.goto('/')
-    await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).tap()
+    await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).tap()
     const grid = page.getByRole('group', { name: 'Secuenciador pista B' })
     const pulse = grid.getByRole('button').first()
     await pulse.tap()

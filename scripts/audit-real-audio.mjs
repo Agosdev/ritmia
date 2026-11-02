@@ -33,7 +33,7 @@ await page.addInitScript(() => {
 })
 try {
   await page.goto(report.url, { waitUntil: 'networkidle' })
-  await page.getByRole('button', { name: 'Nivel 3 — Dos pistas' }).click()
+  await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
   for (const track of ['A', 'B']) {
     await page.getByLabel(`Numerador compás ${track}`, { exact: true }).fill('4')
     await page.getByLabel(`Denominador compás ${track}`, { exact: true }).selectOption('4')
@@ -82,7 +82,7 @@ try {
   await page.getByRole('button', { name: 'Nivel 1 — Ritmo' }).click()
   const restored = await observeGain()
   expect(restored.length).toBeGreaterThan(0); expect(restored.every(gain => gain === 1)).toBe(true)
-  report.morphLevels = { level3Gains: muted, level1Gains: restored }
+  report.morphLevels = { level2Gains: muted, level1Gains: restored }
   await page.getByRole('button', { name: 'Detener reproducción' }).click()
   const stopped = await page.evaluate(() => {
     const now = __auditContext.currentTime

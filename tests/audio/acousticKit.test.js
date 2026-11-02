@@ -26,7 +26,7 @@ describe('kit acústico CC0', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     await engine.start({
-      level: 3,
+      level: 2,
       soundKit: 'acoustic',
       stepA: 0.04,
       stepB: 0.04,
@@ -132,7 +132,7 @@ describe('kit acústico CC0', () => {
     expect(loading).toHaveBeenCalledTimes(4)
   })
 
-  it.each([1, 2])('nivel %i mantiene A audible aunque Morph guardado esté al 100%%', async level => {
+  it.each([1])('nivel %i mantiene A audible aunque Morph guardado esté al 100%%', async level => {
     await engine.start({ level, mode: 'morph', morph: 1, volumeA: .75, accentsA: [2], metronome: false })
     const gain = engine.ctx.nodes.find(node => node.gain && node !== engine.masterGain)
     expect(gain.gain.setValueAtTime).toHaveBeenCalledWith(.75, engine.startTime)

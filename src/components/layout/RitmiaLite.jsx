@@ -10,7 +10,7 @@ import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
 import { GroupingInput } from '../controls/GroupingInput'
 import { PolyrhythmControls } from '../controls/PolyrhythmControls'
 import { BeatGrid } from '../visualizer/BeatGrid'
-import { OptionalMusicVisualizer } from '../visualizer/OptionalMusicVisualizer'
+import { LiteRhythmVisualizer } from '../visualizer/LiteRhythmVisualizer'
 import { WelcomeModal } from '../modals/WelcomeModal'
 
 const Page = styled.div`
@@ -21,13 +21,13 @@ const Page = styled.div`
   header > div { height: 100%; }
   header h1 { font-family: ${({ theme }) => theme.fonts.sans}; font-size: 19px; letter-spacing: -.06em; }
   header button { min-height: 44px; }
-  button[aria-label='Iniciar reproducción']::before,
-  button[aria-label='Reanudar reproducción']::before {
+  button[aria-label='Reproducir']::before,
+  button[aria-label='Detener reproducción']::before {
     content: ''; width: 6px; height: 6px; border-radius: 50%;
     background: ${({ theme }) => theme.colors.textMuted};
   }
-  button[aria-pressed='true'][aria-label='Iniciar reproducción']::before {
-    background: ${({ theme }) => theme.colors.amberNeon};
+  button[aria-pressed='true'][aria-label='Detener reproducción']::before {
+    background: ${({ theme }) => theme.colors.successNeon};
     box-shadow: 0 0 3px #fff, 0 0 7px ${({ theme }) => theme.colors.amberGlow};
   }
   main button { border-radius: 12px; }
@@ -105,6 +105,9 @@ const GridSection = styled.div`
   min-width: 0;
   margin-top: 0.5rem;
   margin-bottom: 1.2rem;
+  border-left: 3px solid ${({ theme }) => theme.colors.trackANeon};
+  &[data-track='B'] { border-left-color: ${({ theme }) => theme.colors.trackBNeon}; }
+  padding-left: .6rem;
   scroll-margin-top: calc(var(--safe-top) + 7rem);
   scroll-margin-bottom: 10rem;
 `
@@ -147,30 +150,6 @@ const Options = styled.details`
   }
 `
 
-const ModeStatus = styled.p`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: ${({ theme }) => theme.colors.textDim};
-  font-size: 11px;
-
-  &::before {
-    content: '';
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.violetNeon};
-    box-shadow: 0 0 5px ${({ theme }) => theme.colors.violetGlow};
-  }
-`
-
-const MODE_NAMES = {
-  polirritmia: 'Polirritmia',
-  polimetria: 'Polimetría',
-  morph: 'Morph',
-  clave: 'Clave',
-}
-
 export function RitmiaLite() {
   const {
     level,
@@ -186,10 +165,9 @@ export function RitmiaLite() {
     activeGroupingB,
     reduceMotion,
     beatLabelsA,
-    mode,
   } = useRitmia()
-  const showGrouping = level >= 2
-  const showTrackB = level === 3
+  const showGrouping = true
+  const showTrackB = level === 2
 
   return (
     <Page className="lite-interface" data-reduced-motion={reduceMotion}>
@@ -198,65 +176,48 @@ export function RitmiaLite() {
       <LiteTransportDock />
       <Main>
         <Intro>
-          <h2>{level === 1 ? 'Crea un ritmo' : level === 2 ? 'Agrupa el compás' : 'Combina dos pistas'}</h2>
+          <h2>{level === 1 ? 'Creá un ritmo' : 'Explorá dos ritmos'}</h2>
           <MusicalPresets />
         </Intro>
 
-        <OptionalMusicVisualizer
+        <LiteRhythmVisualizer
           showTrackB={showTrackB}
           showGrouping={showGrouping}
           reduceMotion={reduceMotion}
         />
 
         <Card aria-label="Edición del patrón">
-          <CardHeader>
-            <h2>Secuenciador A</h2>
-            <p>Silencio → suave → fuerte</p>
-          </CardHeader>
-          <GridSection>
-            <GridHeading>
-              <span>A · {numA}/{denA}</span>
-              <span>{showGrouping && activeGroupingA ? activeGroupingA.join('+') : '○ silencio · ● suave · ▰ fuerte'}</span>
-            </GridHeading>
-            <BeatGrid
-              beatLabels={beatLabelsA}
-              trackType="A"
-              label="Secuenciador pista A"
-              numBeats={numA}
-              accents={accentsA}
-              onAccentsChange={setAccentsA}
-              parsedGrouping={showGrouping ? activeGroupingA : null}
-              isValidGrouping={showGrouping && !!activeGroupingA}
-              reduceMotionOverride={reduceMotion}
-            />
-          </GridSection>
-
-          {showTrackB && (
-            <GridSection>
+          {['A', ...(showTrackB ? ['B'] : [])].map(track => {
+            const isB = track === 'B'
+            const grouping = isB ? activeGroupingB : activeGroupingA
+            return <GridSection key={track} data-track={track}>
+              <CardHeader>
+                <h2>Secuenciador {track}</h2>
+                <p>Silencio → suave → fuerte</p>
+              </CardHeader>
               <GridHeading>
-                <span>Secuenciador B · {numB}/{denB}</span>
-                <ModeStatus>{MODE_NAMES[mode]}</ModeStatus>
+                <span>{track} · {isB ? numB : numA}/{isB ? denB : denA}</span>
+                <span>{grouping ? grouping.join('+') : '○ silencio · ● suave · ▰ fuerte'}</span>
               </GridHeading>
-              <BeatGrid
-                trackType="B"
-                label="Secuenciador pista B"
-                numBeats={numB}
-                accents={accentsB}
-                onAccentsChange={setAccentsB}
-                parsedGrouping={activeGroupingB}
-                isValidGrouping={!!activeGroupingB}
-                reduceMotionOverride={reduceMotion}
-              />
+              <BeatGrid trackType={track} label={`Secuenciador pista ${track}`}
+                beatLabels={isB ? null : beatLabelsA}
+                numBeats={isB ? numB : numA} accents={isB ? accentsB : accentsA}
+                onAccentsChange={isB ? setAccentsB : setAccentsA}
+                parsedGrouping={grouping} isValidGrouping={!!grouping}
+                reduceMotionOverride={reduceMotion} />
             </GridSection>
-          )}
+          })}
 
           <TimeSignatureBuilder compact />
 
-          {showGrouping && <div aria-label="Agrupación de A"><GroupingInput /></div>}
+          {level === 1 && <Options>
+            <summary>Agrupaciones (opcional)</summary>
+            <div><p>Dividí los pulsos de un compás en grupos. Por ejemplo, 7/8 puede organizarse como 3+2+2.</p><GroupingInput /></div>
+          </Options>}
 
           {showTrackB && (
             <Options open>
-              <summary>Opciones de B y modos musicales</summary>
+              <summary>Relación entre A y B</summary>
               <div>
                 <PolyrhythmControls />
               </div>

@@ -8,5 +8,5 @@ export const isUnitValue = value => Number.isFinite(value) && value >= 0 && valu
 export const isAccentArray = value => Array.isArray(value) && value.length >= 1 &&
   value.length <= MAX_NUM && Array.from(value).every(accent => [0, 1, 2].includes(accent))
 
-export const isLevel = value => [1, 2, 3].includes(value)
+export const isLevel = value => [1, 2].includes(value)
 export const isText = value => typeof value === 'string'

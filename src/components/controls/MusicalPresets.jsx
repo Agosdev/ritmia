@@ -19,6 +19,7 @@ export function MusicalPresets() {
       {MUSICAL_PRESETS.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
     </select>
     <button type="button" disabled={!choice} onClick={() => applyPreset(choice)}>Aplicar</button>
+    <p>Inicio editable: configura A (compás, acentos y grupos) y el BPM compartido. Conserva el patrón B y el modo.</p>
     {preset && <p role="status">{preset.name}{presetModified ? ' · editado' : ' · activo'}. {preset.description}</p>}
   </Box>
 }

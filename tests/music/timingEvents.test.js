@@ -20,7 +20,7 @@ it.each([
   ['polimetria', [0.08, 0.33, 0.58, 0.83, 1.08, 1.33], { a: 1, b: 2 }],
 ])('3/4 vs 2/8 en %s: ratios contrastados con eventos reales del scheduler', async (mode, expectedB, ratio) => {
   const timing = calculateTiming({ bpm: 120, numA: 3, denA: 4, numB: 2, denB: 8, mode })
-  await engine.start({ ...timing, mode, level: 3, accentsA: [2, 0, 1], accentsB: [0, 1], metronome: false })
+  await engine.start({ ...timing, mode, level: 2, accentsA: [2, 0, 1], accentsB: [0, 1], metronome: false })
   const events = new Map()
   for (let i = 0; i <= 60; i++) {
     engine.ctx.advanceTo(i / 40)

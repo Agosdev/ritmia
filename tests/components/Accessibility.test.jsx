@@ -17,12 +17,12 @@ describe('accesibilidad de controles y diálogos', () => {
     const user = userEvent.setup()
     render(<App />)
     const levels = screen.getByRole('navigation', { name: 'Niveles musicales' })
-    const levelTwo = within(levels).getByRole('button', { name: 'Nivel 2 — Agrupaciones' })
+    const levelTwo = within(levels).getByRole('button', { name: 'Nivel 2 — Dos ritmos' })
     expect(levelTwo).toHaveAttribute('aria-pressed', 'false')
     levelTwo.focus()
     await user.keyboard('{Enter}')
     expect(levelTwo).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByLabelText('Agrupación métrica pista A')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Secuenciador pista B' })).toBeInTheDocument()
   })
 
   it('mantiene nombres accesibles para BPM, compases, volúmenes y toggles', () => {

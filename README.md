@@ -2,17 +2,18 @@
 
 Laboratorio rítmico interactivo con interfaz neumórfica y percusión acústica.
 
-Construí patrones de hasta 32 posiciones, editá acentos fuertes, suaves y silencios, ajustá BPM y volumen, y explorá tres niveles de navegación libre:
+Construí patrones de hasta 32 posiciones, editá acentos fuertes, suaves y silencios, ajustá BPM y volumen, y explorá dos niveles de navegación libre:
 
-- **Ritmo:** una pista, compás y secuenciador.
-- **Agrupaciones:** grupos aditivos configurables.
-- **Dos pistas:** A/B, polirritmia, polimetría, Morph y clave.
+- **Ritmo:** una pista, compás y secuenciador; agrupaciones opcionales al final.
+- **Dos ritmos:** A/B, polirritmia, polimetría, Morph y clave.
 
 Incluye presets pedagógicos editables de bulerías, tangos flamencos y tango argentino marcato en cuatro. Sus alcances y fuentes se describen en [el informe de cierre](docs/10-cierre-ritmia.md).
 
-El visualizador clásico es predeterminado. Rebote 2D (Canvas) y Órbita 3D (Three.js) son opcionales; Three.js se descarga al activar 3D. Se respeta automáticamente el movimiento reducido del sistema y se ofrece fallback 2D si WebGL no está disponible.
+El visualizador clásico es el único disponible. Sigue el reloj de AudioContext y respeta el movimiento reducido del sistema.
 
 Reproducir/Detener conserva la fase; Reiniciar vuelve al principio y continúa solamente si se estaba reproduciendo. La marcación acústica del inicio de compás es opcional y comienza apagada.
+
+Guía actual: [dos niveles, presets y modos](docs/guia-de-uso.md). Informe de esta tarea: [Tarea 11](docs/11-simplificacion.md).
 
 ## Desarrollo
 
@@ -50,4 +51,4 @@ El build Pages usa `/ritmia/`; el desarrollo local usa `/`. El workflow existent
 
 Los cuatro WAV proceden de [Virtuosity Drums](https://versilian-studios.com/virtuosity-drums/), interpretados por Austin McMahon y publicados por Versilian Studios/Karoryfer bajo CC0. [Manifiesto de procedencia y transformaciones](public/audio/acoustic/manifest.json) y [licencia CC0](public/audio/acoustic/LICENSE.txt).
 
-Three.js utiliza [licencia MIT](public/licenses/three-MIT.txt). No se declara una licencia general del código de Ritmia; las licencias de audio y dependencias no deben interpretarse como tal.
+No se declara una licencia general del código de Ritmia; las licencias de audio y dependencias no deben interpretarse como tal.

@@ -62,7 +62,7 @@ describe('AudioEngine transporte y scheduler', () => {
   })
 
   it('pausa entre pulsos cancela voces anticipadas y reanuda A y B desde su fase exacta', async () => {
-    await engine.start({ ...params, level: 3 })
+    await engine.start({ ...params, level: 2 })
     const ctx = engine.ctx
     const startTime = engine.startTime
     ctx.advanceTo(0.19)
@@ -163,7 +163,7 @@ describe('AudioEngine transporte y scheduler', () => {
       await engine.start({
         ...params,
         ...timing,
-        level: 3,
+        level: 2,
         mode,
         accentsA: [2, 1, 0, 1],
         accentsB: Array(mode === 'clave' ? 16 : 3).fill(1),
@@ -234,7 +234,7 @@ describe('AudioEngine transporte y scheduler', () => {
     ctx.advanceTo(1.1)
     engine.schedule() // B avanza en silencio.
     expect(engine.scheduledNotes.some(n => n.type === 'B')).toBe(false)
-    engine.setParams({ level: 3 })
+    engine.setParams({ level: 2 })
     engine.schedule()
     expect(engine.scheduledNotes.some(n => n.type === 'B')).toBe(false)
     ctx.advanceTo(1.12)
@@ -250,7 +250,7 @@ describe('AudioEngine transporte y scheduler', () => {
   })
 
   it('salta diez segundos de atraso en ambas pistas conservando fase y horizonte', async () => {
-    await engine.start({ ...params, level: 3 })
+    await engine.start({ ...params, level: 2 })
     const ctx = engine.ctx
     const previousSources = ctx.sources.length
     ctx.advanceTo(10)
@@ -272,7 +272,7 @@ describe('AudioEngine transporte y scheduler', () => {
   })
 
   it('Stop cancela todos los sonidos futuros, incluyendo snare y metrónomo', async () => {
-    await engine.start({ ...params, level: 3, metronome: true })
+    await engine.start({ ...params, level: 2, metronome: true })
     const ctx = engine.ctx
     expect(ctx.sources).toHaveLength(3)
     expect(ctx.sources.every(s => s.startTime > ctx.currentTime)).toBe(true)
@@ -317,7 +317,7 @@ describe('AudioEngine transporte y scheduler', () => {
   })
 
   it('libera voces y nodos al terminar naturalmente, sin esperar Stop', async () => {
-    await engine.start({ ...params, level: 3, metronome: true })
+    await engine.start({ ...params, level: 2, metronome: true })
     const ctx = engine.ctx
     ctx.advanceTo(0.22) // El marcador acústico breve ya terminó.
     expect(engine.activeVoices.size).toBe(2) // kick y snare continúan.
@@ -358,7 +358,7 @@ describe('AudioEngine transporte y scheduler', () => {
   })
 
   it.each([0, -1, NaN, Infinity])('un step inválido (%s) no bloquea el scheduler', async step => {
-    await engine.start({ ...params, level: 3, stepA: step, stepB: step })
+    await engine.start({ ...params, level: 2, stepA: step, stepB: step })
     expect(engine.scheduledNotes).toEqual([])
     expect(engine.ctx.sources).toHaveLength(0)
   })
@@ -379,7 +379,7 @@ describe('AudioEngine transporte y scheduler', () => {
     const expectedStep = Math.ceil((1.1 - 0.08) / timing.stepB)
     const expectedTime = 0.08 + expectedStep * timing.stepB
     engine.ctx.advanceTo(expectedTime - 0.01)
-    engine.setParams({ level: 3 })
+    engine.setParams({ level: 2 })
     engine.schedule()
     const notes = engine.scheduledNotes.filter(n => n.type === 'B')
     expect(notes).toHaveLength(1)
@@ -435,7 +435,7 @@ describe('AudioEngine transporte y scheduler', () => {
     await engine.start({
       ...params,
       ...timing,
-      level: 3,
+      level: 2,
       mode: 'clave',
       accentsA: [0, 0, 0, 0],
       accentsB: CLAVE_PATTERNS[0].pat,

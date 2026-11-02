@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { neon } from '../../styles/theme'
 import styled from 'styled-components'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 
@@ -56,8 +57,8 @@ const CircleFrame = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    .active-beat-a { filter: drop-shadow(0 0 2px #ff7b88); }
-    .active-beat-b { filter: drop-shadow(0 0 2px #45dbe4); }
+    .active-beat-a { filter: drop-shadow(0 0 2px ${neon.A}); }
+    .active-beat-b { filter: drop-shadow(0 0 2px ${neon.B}); }
   }
 `
 
@@ -106,8 +107,8 @@ const CENTER = 120
 const RADIUS_A = 60
 const RADIUS_B = 88
 const COLORS = {
-  A: { main: '#4c5b69', soft: '#75818c', neon: '#ff7b88' },
-  B: { main: '#4c5b69', soft: '#75818c', neon: '#45dbe4' },
+  A: { main: '#4c5b69', soft: '#75818c', neon: neon.A },
+  B: { main: '#4c5b69', soft: '#75818c', neon: neon.B },
 }
 
 function pointAt(radius, progress) {
@@ -157,7 +158,7 @@ const GroupMarkers = memo(function GroupMarkers({ grouping, radius, color }) {
 })
 
 const Track = memo(function Track({ track, count, accents, currentBeat, progress, radius, grouping }) {
-  const color = COLORS[track].main
+  const color = COLORS[track].neon
   const circumference = TAU * radius
   const marker = pointAt(radius, progress)
 

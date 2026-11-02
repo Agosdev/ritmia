@@ -114,7 +114,7 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
       { wrapper },
     )
     act(() => {
-      result.current.config.setLevel(3)
+      result.current.config.setLevel(2)
       result.current.config.setMode('polimetria')
     })
     await act(async () => { await result.current.config.startPlayback() })
@@ -308,7 +308,7 @@ describe('RitmiaProvider ciclo de vida del transporte', () => {
       result.current.setBpm(120)
       result.current.setNumA(4)
       result.current.setDenA(4)
-      result.current.setLevel(3)
+      result.current.setLevel(2)
       result.current.setMode('clave')
     })
 

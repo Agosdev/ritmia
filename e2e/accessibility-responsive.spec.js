@@ -8,10 +8,10 @@ for (const width of [320, 375, 768, 1280]) {
     await help.focus(); await help.press('Enter')
     await expect(page.getByRole('dialog')).toBeVisible()
     await page.keyboard.press('Escape'); await expect(help).toBeFocused()
-    for (const level of [1, 2, 3]) {
+    for (const level of [1, 2]) {
       await page.getByRole('button', { name: new RegExp(`^Nivel ${level} —`) }).click()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-      const lastKey = page.getByRole('group', { name: `Secuenciador pista ${level === 3 ? 'B' : 'A'}` }).getByRole('button').last()
+      const lastKey = page.getByRole('group', { name: `Secuenciador pista ${level === 2 ? 'B' : 'A'}` }).getByRole('button').last()
       await lastKey.focus()
       await expect(lastKey).toHaveCSS('outline-width', '3px')
       if (width <= 900) {
