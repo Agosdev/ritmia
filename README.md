@@ -1,13 +1,13 @@
 # Ritmia
 
-Laboratorio rítmico interactivo con interfaz neumórfica y percusión acústica.
+Laboratorio rítmico interactivo con interfaz de vidrio brillante y percusión acústica.
 
 Construí patrones de hasta 32 posiciones, editá acentos fuertes, suaves y silencios, ajustá BPM y volumen, y explorá dos niveles de navegación libre:
 
 - **Ritmo:** una pista, compás y secuenciador; agrupaciones opcionales al final.
 - **Dos ritmos:** A/B, polirritmia, polimetría, Morph y clave.
 
-Incluye presets pedagógicos editables de bulerías, tangos flamencos y tango argentino marcato en cuatro. Sus alcances y fuentes se describen en [el informe de cierre](docs/10-cierre-ritmia.md).
+Incluye presets pedagógicos de palos flamencos y tango argentino marcato en cuatro. Se aplican al elegirlos y fijan el patrón A; «Compás libre» en el selector de la barra inferior desbloquea su edición conservando el ritmo. Sus alcances y fuentes se describen en [el informe de cierre](docs/10-cierre-ritmia.md).
 
 El visualizador clásico es el único disponible. Sigue el reloj de AudioContext y respeta el movimiento reducido del sistema.
 

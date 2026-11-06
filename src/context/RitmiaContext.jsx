@@ -21,6 +21,13 @@ function useValidatedState(initial, validate) {
   return [value, setValidated]
 }
 
+// Manual pattern edits require Compás libre; preset application uses the validated setters.
+function useManualPatternSetter(setter, locked) {
+  return useCallback(update => {
+    if (!locked) setter(update)
+  }, [setter, locked])
+}
+
 function getTrackVisualState(
   notes, track, audioTime, step, length, startTime, nextTime, nextIndex, preservePendingInterval = false,
 ) {
@@ -96,9 +103,6 @@ export function RitmiaProvider({ children }) {
   const [metronome, setMetronome] = useState(false)
   const [audioError, setAudioError] = useState(null)
   const [presetId, setPresetId] = useState('')
-
-  // Modales
-  const [isWelcomeOpen, setIsWelcomeOpen] = useState(false)
 
   // Estado Visual en Tiempo Real (vía rAF)
   const [currentBeatA, setCurrentBeatA] = useState(-1)
@@ -372,6 +376,12 @@ export function RitmiaProvider({ children }) {
     setBpm(preset.bpm)
   }, [setNumA, setDenA, setAccentsA, setGroupingA, setBpm])
   const preset = MUSICAL_PRESETS.find(item => item.id === presetId)
+  const presetLocked = !!preset
+  const clearPreset = useCallback(() => setPresetId(''), [])
+  const editNumA = useManualPatternSetter(setNumA, presetLocked)
+  const editDenA = useManualPatternSetter(setDenA, presetLocked)
+  const editAccentsA = useManualPatternSetter(setAccentsA, presetLocked)
+  const editGroupingA = useManualPatternSetter(setGroupingA, presetLocked)
   const beatLabelsA = preset?.labels?.length === numA && denA === preset.den ? preset.labels : null
   const presetModified = !!preset && (numA !== preset.num || denA !== preset.den || bpm !== preset.bpm ||
     groupingA !== preset.grouping || accentsA.some((value, index) => value !== preset.accents[index]))
@@ -435,19 +445,19 @@ export function RitmiaProvider({ children }) {
     startPlayback,
     pausePlayback,
     stopPlayback,
-    resetPlayback, audioError, applyPreset, presetId, presetModified, beatLabelsA,
+    resetPlayback, audioError, applyPreset, clearPreset, presetId, presetLocked, presetModified, beatLabelsA,
     level,
     setLevel,
 
     // Track A
     numA,
-    setNumA,
+    setNumA: editNumA,
     denA,
-    setDenA,
+    setDenA: editDenA,
     accentsA,
-    setAccentsA,
+    setAccentsA: editAccentsA,
     groupingA,
-    setGroupingA,
+    setGroupingA: editGroupingA,
     volumeA,
     setVolumeA,
     parsedGroupingA,
@@ -491,19 +501,16 @@ export function RitmiaProvider({ children }) {
     timing,
     audioDescription,
 
-    // Modals
-    isWelcomeOpen,
-    setIsWelcomeOpen,
   }), [
     bpm, setBpm, isPlaying, transportState, togglePlayback, startPlayback, pausePlayback, stopPlayback, level, setLevel,
-    numA, setNumA, denA, setDenA, accentsA, setAccentsA, groupingA, setGroupingA,
+    numA, editNumA, denA, editDenA, accentsA, editAccentsA, groupingA, editGroupingA,
     volumeA, setVolumeA, parsedGroupingA, isValidGroupingA, activeGroupingA,
     groupingStatusA, groupingFeedbackA, suggestionsA, numB, setNumB, denB, setDenB,
     accentsB, setAccentsB, groupingB, setGroupingB, volumeB, setVolumeB, parsedGroupingB,
     isValidGroupingB, activeGroupingB, groupingStatusB, groupingFeedbackB, suggestionsB,
     mode, setMode, morphAmount, setMorphAmount, claveIndex, setClaveIndex,
     reduceMotion, metronome, setMetronome, timing,
-    audioDescription, isWelcomeOpen, setIsWelcomeOpen, resetPlayback, audioError, applyPreset, presetId, presetModified, beatLabelsA,
+    audioDescription, resetPlayback, audioError, applyPreset, clearPreset, presetId, presetLocked, presetModified, beatLabelsA,
   ])
 
   const realtimeValue = useMemo(() => ({

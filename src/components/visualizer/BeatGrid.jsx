@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
+import { AccentSymbol } from '../ui/AccentSymbol'
 import { litePressable } from '../../styles/liteSurfaces'
 import { groupIndexForBeat } from '../../music/groupingSuggestions'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
@@ -55,8 +56,8 @@ const BeatBox = styled.button`
   &:hover {
     border-color: ${({ $accentColor }) => $accentColor}88;
   }
-  ${({ theme, $isActive }) => theme.variant === 'lite' && `
-    background: ${theme.colors.panel};
+  ${({ theme, $isActive, $accent }) => theme.variant === 'lite' && `
+    --control-surface: ${$accent === 2 ? theme.gradients.strongWash : $accent === 1 ? theme.gradients.softWash : theme.gradients.secondary};
     border-color: ${$isActive ? theme.colors.borderStrong : theme.colors.borderLight};
     box-shadow: ${$isActive ? theme.physical.selected : theme.physical.elevated};
     transform: none;
@@ -76,29 +77,6 @@ const BeatNumber = styled.span`
   color: ${({ theme }) => theme.colors.text};
 `
 
-const AccentDot = styled.span`
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: ${({ $color }) => $color};
-  opacity: ${({ $accent }) => ($accent === 2 ? 1 : $accent === 1 ? 0.6 : 0.2)};
-  transition: ${({ $reduceMotion }) => ($reduceMotion ? 'none' : 'opacity 120ms ease')};
-  ${({ theme, $accent, $active, $trackB }) => theme.variant === 'lite' && `
-    opacity: 1;
-    width: ${$accent === 2 ? '13px' : '7px'};
-    height: ${$accent === 2 ? '5px' : '7px'};
-    border-radius: ${$accent === 2 ? '2px' : '50%'};
-    border: 1px solid ${theme.colors.textDim};
-    background: ${$accent === 0 ? 'transparent' : theme.colors.textDim};
-    ${$active && $accent > 0 ? `
-      background: ${$trackB ? theme.colors.cyanNeon : theme.colors.amberNeon};
-      border-color: ${theme.colors.textDim};
-      box-shadow: 0 0 3px #fff, 0 0 7px ${$trackB ? theme.colors.cyanGlow : theme.colors.amberGlow};
-    ` : ''}
-  `}
-
-`
-
 export function BeatGrid({
   beatLabels,
   numBeats,
@@ -110,16 +88,18 @@ export function BeatGrid({
   label,
   reduceMotionOverride,
 }) {
-  const { reduceMotion: contextReduceMotion } = useRitmia()
+  const { reduceMotion: contextReduceMotion, presetLocked } = useRitmia()
   const theme = useTheme()
   const reduceMotion = reduceMotionOverride ?? contextReduceMotion
   const { currentBeatA, currentBeatB } = useRitmiaRealtime()
   const isScrollable = numBeats >= (theme.variant === 'lite' ? 6 : 16)
   const isTrackB = trackType === 'B'
+  const locked = !isTrackB && presetLocked
   const currentBeat = isTrackB ? currentBeatB : currentBeatA
   const defaultColor = isTrackB ? theme.colors.cyan : theme.colors.amber
 
   const handleBeatClick = index => {
+    if (locked) return
     const nextAccents = [...accents]
     // Ciclo: 0 (silencio) -> 1 (suave) -> 2 (fuerte) -> 0
     nextAccents[index] = ((nextAccents[index] ?? 0) + 1) % 3
@@ -133,7 +113,7 @@ export function BeatGrid({
         role="group"
         aria-label={label}
         tabIndex={isScrollable ? 0 : undefined}
-        aria-describedby={isScrollable ? `${label.replace(/\s+/g, '-')}-scroll-help` : undefined}
+        aria-describedby={[locked ? 'preset-editing-help' : null, isScrollable ? `${label.replace(/\s+/g, '-')}-scroll-help` : null].filter(Boolean).join(' ') || undefined}
       >
         {Array.from({ length: numBeats }).map((_, index) => {
           const accentVal = accents[index] ?? 0
@@ -152,6 +132,7 @@ export function BeatGrid({
               data-track={trackType}
               key={`beat-${trackType}-${index}`}
               type="button"
+              disabled={locked}
               onClick={() => handleBeatClick(index)}
               $accent={accentVal}
               $accentColor={color}
@@ -165,7 +146,7 @@ export function BeatGrid({
               }`}
             >
               <BeatNumber $isCompact={isScrollable}>{beatLabels?.[index] ?? index + 1}</BeatNumber>
-              <AccentDot $active={isActive} $trackB={isTrackB} $color={color} $accent={accentVal} $reduceMotion={reduceMotion} />
+              <AccentSymbol $active={isActive} $trackB={isTrackB} $color={color} $accent={accentVal} $reduceMotion={reduceMotion} />
             </BeatBox>
           )
         })}

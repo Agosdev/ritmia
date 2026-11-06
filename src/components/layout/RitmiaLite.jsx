@@ -1,45 +1,32 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
+import { levelThemes } from '../../styles/theme'
+import { glassPanel } from '../../styles/glassSurfaces'
 import { liteControls } from '../../styles/liteSurfaces'
 import { useRitmia } from '../../context/RitmiaContext'
-import { MusicalPresets } from '../controls/MusicalPresets'
+import { PresetExplanation, PresetChip } from '../controls/MusicalPresets'
 import { Header } from './Header'
-import { LiteLevelNavigation } from './LiteLevelNavigation'
 import { LiteTransportDock } from './LiteTransportDock'
 import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
 import { GroupingInput } from '../controls/GroupingInput'
 import { PolyrhythmControls } from '../controls/PolyrhythmControls'
 import { BeatGrid } from '../visualizer/BeatGrid'
 import { LiteRhythmVisualizer } from '../visualizer/LiteRhythmVisualizer'
-import { WelcomeModal } from '../modals/WelcomeModal'
+import { Toggle } from '../ui/Toggle'
 
 const Page = styled.div`
-  --lite-header-height: 64px;
   min-height: 100vh;
+  padding-top: calc(5.5rem + var(--safe-top));
   ${liteControls}
-  header { height: var(--lite-header-height); box-shadow: none; border: 0; }
-  header > div { height: 100%; }
-  header h1 { font-family: ${({ theme }) => theme.fonts.sans}; font-size: 19px; letter-spacing: -.06em; }
-  header button { min-height: 44px; }
-  button[aria-label='Reproducir']::before,
-  button[aria-label='Detener reproducción']::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%;
-    background: ${({ theme }) => theme.colors.textMuted};
-  }
-  button[aria-pressed='true'][aria-label='Detener reproducción']::before {
-    background: ${({ theme }) => theme.colors.successNeon};
-    box-shadow: 0 0 3px #fff, 0 0 7px ${({ theme }) => theme.colors.amberGlow};
-  }
+  .cycle-marker { margin-bottom: 1.25rem; }
+  .cycle-marker p { margin-top: .5rem; font-size: 11px; color: ${({ theme }) => theme.colors.textDim}; }
   main button { border-radius: 12px; }
   main [role='status'] { font-size: 12px; color: ${({ theme }) => theme.colors.textDim}; }
 
-  padding-bottom: calc(11.5rem + env(safe-area-inset-bottom, 0px));
-  background: ${({ theme }) => theme.colors.bg};
+  padding-bottom: calc(10rem + env(safe-area-inset-bottom, 0px));
+  background: ${({ theme }) => theme.glass.canvas};
   color: ${({ theme }) => theme.colors.text};
 
-  @media (min-width: 901px) {
-    padding-bottom: 0;
-  }
 `
 
 const Main = styled.main`
@@ -63,8 +50,8 @@ const Main = styled.main`
 const Intro = styled.div`
   min-height: 2rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
   gap: 0.5rem;
 
   flex-wrap: wrap;
@@ -77,10 +64,8 @@ const Intro = styled.div`
 const Card = styled.section`
   min-width: 0;
   padding: clamp(0.75rem, 2.5vw, 1rem);
-  border: 1px solid ${({ theme }) => theme.colors.borderLight};
   border-radius: 26px;
-  background: ${({ theme }) => theme.colors.panel};
-  box-shadow: ${({ theme }) => theme.physical.shell};
+  ${glassPanel}
 `
 
 const CardHeader = styled.div`
@@ -153,6 +138,9 @@ const Options = styled.details`
 export function RitmiaLite() {
   const {
     level,
+    metronome,
+    setMetronome,
+    presetLocked,
     numA,
     denA,
     numB,
@@ -170,14 +158,15 @@ export function RitmiaLite() {
   const showTrackB = level === 2
 
   return (
-    <Page className="lite-interface" data-reduced-motion={reduceMotion}>
+    <ThemeProvider theme={levelThemes[level]}>
+    <Page className="lite-interface" data-level={level} data-reduced-motion={reduceMotion}>
       <Header />
-      <LiteLevelNavigation />
       <LiteTransportDock />
       <Main>
         <Intro>
           <h2>{level === 1 ? 'Creá un ritmo' : 'Explorá dos ritmos'}</h2>
-          <MusicalPresets />
+          <PresetChip />
+          <PresetExplanation />
         </Intro>
 
         <LiteRhythmVisualizer
@@ -187,13 +176,17 @@ export function RitmiaLite() {
         />
 
         <Card aria-label="Edición del patrón">
+          <div className="cycle-marker" role="group" aria-label="Marcación del compás">
+            <Toggle id="cycle-marker" label="Marcar inicio de compás" checked={metronome} onChange={setMetronome} />
+            <p>Agrega un golpe breve al comienzo de cada ciclo de A.</p>
+          </div>
           {['A', ...(showTrackB ? ['B'] : [])].map(track => {
             const isB = track === 'B'
             const grouping = isB ? activeGroupingB : activeGroupingA
             return <GridSection key={track} data-track={track}>
               <CardHeader>
                 <h2>Secuenciador {track}</h2>
-                <p>Silencio → suave → fuerte</p>
+                <p>{!isB && presetLocked ? 'Patrón del preset · bloqueado' : 'Silencio → suave → fuerte'}</p>
               </CardHeader>
               <GridHeading>
                 <span>{track} · {isB ? numB : numA}/{isB ? denB : denA}</span>
@@ -228,7 +221,7 @@ export function RitmiaLite() {
 
 
       </Main>
-      <WelcomeModal />
     </Page>
+    </ThemeProvider>
   )
 }

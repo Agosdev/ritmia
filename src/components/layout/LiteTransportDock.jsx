@@ -3,25 +3,22 @@ import styled from 'styled-components'
 import { useRitmia } from '../../context/RitmiaContext'
 import { MAX_BPM, MIN_BPM } from '../../music/constants'
 import { TransportActions } from './TransportActions'
+import { PresetSelect } from '../controls/MusicalPresets'
+import { glassBar } from '../../styles/glassSurfaces'
+import { RangeInput } from '../ui/RangeInput'
 
 const Dock = styled.div`
-  display: none;
-
-  @media (max-width: 900px) {
-    position: fixed;
-    z-index: 45;
-    inset-inline: 0;
-    bottom: var(--lite-keyboard-inset, 0px);
-    display: block;
-    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid ${({ theme }) => theme.colors.border};
-    background: ${({ theme }) => theme.colors.panel};
-    box-shadow: 0 -4px 14px rgba(41, 52, 61, 0.12), 0 1px 0 #fff inset;
-  }
+  position: fixed;
+  z-index: 45;
+  inset-inline: 0;
+  bottom: var(--lite-keyboard-inset, 0px);
+  padding: .55rem .75rem calc(.55rem + env(safe-area-inset-bottom, 0px));
+  ${glassBar}
+  box-shadow: 0 -9px 28px #48336824, inset 0 1px 2px #fff;
 `
 
 const DockInner = styled.div`
-  width: min(100%, 38rem);
+  width: min(100%, 64rem);
   margin: 0 auto;
   display: grid;
   gap: 0.5rem;
@@ -40,7 +37,7 @@ const BpmControl = styled.div`
   text-transform: uppercase;
 `
 
-const BpmRange = styled.input`
+const BpmRange = styled(RangeInput)`
   width: 100%;
   min-width: 0;
 `
@@ -59,14 +56,19 @@ const BpmNumber = styled.input`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, .9fr) minmax(0, .8fr) minmax(0, 1.3fr);
   gap: 0.45rem;
 
-  > label { grid-column: 1 / -1; justify-self: center; }
+  select { background: ${({ theme }) => theme.gradients.preset}; }
+  @media (max-width: 600px) {
+    grid-template-columns: 52px 52px minmax(0, 1fr);
+    .transport-text { display: none; }
+    .transport-symbol { font-size: 21px; line-height: 1; }
+  }
 
   button {
     min-width: 0;
-    min-height: 2.75rem;
+    min-height: 52px;
     padding: 0.4rem 0.5rem;
     white-space: nowrap;
     font-size: 11px;
@@ -121,8 +123,9 @@ export function LiteTransportDock() {
             aria-label="Valor numérico BPM"
           />
         </BpmControl>
-        <Actions>
-          <TransportActions id="mobile" />
+        <Actions data-testid="transport-actions">
+          <TransportActions />
+          <PresetSelect />
         </Actions>
       </DockInner>
     </Dock>

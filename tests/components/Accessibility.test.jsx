@@ -36,22 +36,18 @@ describe('accesibilidad de controles y diálogos', () => {
     }
   })
 
-  it('abre diálogo modal, atrapa foco, cierra con Escape y restaura el foco', async () => {
-    const user = userEvent.setup()
+  it('mantiene un solo selector en el transporte y la marcación antes del secuenciador', () => {
     render(<App />)
-    const trigger = screen.getByRole('button', { name: 'Abrir guía de uso' })
-    await user.click(trigger)
-    const dialog = screen.getByRole('dialog', { name: /Bienvenido a Ritmia/ })
-    expect(dialog).toHaveAttribute('aria-modal', 'true')
-    expect(document.activeElement).toHaveAccessibleName('Cerrar modal')
-    expect(document.querySelector('header')).toHaveAttribute('inert')
-
-    await user.keyboard('{Shift>}{Tab}{/Shift}')
-    expect(document.activeElement).toHaveTextContent('Siguiente')
-    await user.keyboard('{Escape}')
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(trigger).toHaveFocus()
-    expect(document.querySelector('header')).not.toHaveAttribute('inert')
+    const dock = screen.getByRole('group', { name: 'Controles de reproducción' })
+    expect(within(dock).getAllByRole('combobox')).toHaveLength(1)
+    expect(within(dock).getByRole('combobox', { name: 'Preset' })).toHaveValue('')
+    expect(within(dock).getAllByRole('button')).toHaveLength(2)
+    expect(within(dock).queryByRole('checkbox')).not.toBeInTheDocument()
+    const marker = screen.getByRole('group', { name: 'Marcación del compás' })
+    const grid = screen.getByRole('group', { name: 'Secuenciador pista A' })
+    expect(marker.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(screen.queryByLabelText('Opciones')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Abrir guía de uso' })).not.toBeInTheDocument()
   })
 
   it('usa foco visible y elimina transiciones con movimiento reducido', () => {

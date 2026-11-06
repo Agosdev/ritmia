@@ -100,6 +100,7 @@ export function GroupingInput() {
   const theme = useTheme()
   const {
     numA,
+    presetLocked,
     accentsA,
     setAccentsA,
     beatLabelsA,
@@ -112,8 +113,8 @@ export function GroupingInput() {
   } = useRitmia()
 
   return (
-    <GroupingContainer>
-      <p>Los grupos son marcas visuales. Para cambiar el sonido, reforzá sus comienzos con la acción de abajo.</p>
+    <GroupingContainer aria-describedby={presetLocked ? 'preset-editing-help' : undefined}>
+      <p>{presetLocked ? 'Agrupación del preset. Elegí Compás libre para cambiar los grupos o aplicar otros acentos.' : 'Los grupos son marcas visuales. Para cambiar el sonido, reforzá sus comienzos con la acción de abajo.'}</p>
       <TitleRow>
         <Title>Agrupación A — &ldquo;3+2+2&rdquo; hasta 32</Title>
         <Badge $variant={isValidGroupingA ? 'emerald' : 'red'}>
@@ -122,6 +123,7 @@ export function GroupingInput() {
       </TitleRow>
 
       <GroupingTextInput
+        disabled={presetLocked}
         value={groupingA}
         onChange={e => setGroupingA(e.target.value)}
         placeholder="ej: 3+2+2 o 3+3+3+3 para 12"
@@ -138,6 +140,7 @@ export function GroupingInput() {
             <SuggestionPill
               key={sug}
               type="button"
+              disabled={presetLocked}
               onClick={() => setGroupingA(sug)}
             >
               {sug}
@@ -157,7 +160,7 @@ export function GroupingInput() {
         </ColorSegmentsBar>
       )}
 
-      <button type="button" disabled={!isValidGroupingA} onClick={() => {
+      <button type="button" disabled={presetLocked || !isValidGroupingA} onClick={() => {
         const starts = new Set(); let position = 0
         activeGroupingA.forEach(size => { starts.add(position); position += size })
         setAccentsA(accentsA.map((accent, index) => starts.has(index) && accent > 0 ? 2 : accent))

@@ -4,17 +4,8 @@ import { liteSurface, litePressable } from '../../styles/liteSurfaces'
 import { useRitmia } from '../../context/RitmiaContext'
 
 const Navigation = styled.nav`
-  position: sticky;
-  top: calc(var(--safe-top) + var(--lite-header-height, 3.5rem));
-  z-index: 25;
-  padding: 0.45rem max(0.75rem, calc((100% - 1120px) / 2));
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.bgGlass};
-
-
-  @media (max-width: 380px) {
-    padding-inline: 0.5rem;
-  }
+  width: min(72%, 640px);
+  min-width: 0;
 `
 
 const LevelGroup = styled.div`
@@ -36,6 +27,7 @@ const LevelButton = styled.button`
   color: ${({ theme }) => theme.colors.text};
   text-align: left;
   padding-left: 1rem;
+  &[aria-pressed='true'] { --control-surface: ${({ theme }) => theme.gradients.primary}; }
   &[aria-pressed='true']::after {
     content: ''; position: absolute; right: .8rem; top: .75rem;
     width: 6px; height: 6px; border-radius: 50%;
@@ -67,17 +59,6 @@ const LevelButton = styled.button`
   }
 `
 
-const LevelHelp = styled.p`
-  width: min(100%, 1032px);
-  margin: 0.35rem auto 0;
-  color: ${({ theme }) => theme.colors.textDim};
-  font-size: 11px;
-
-  @media (max-width: 520px) {
-    display: none;
-  }
-`
-
 const LEVELS = [
   { value: 1, title: 'Nivel 1', label: 'Ritmo', help: 'Un compás: edita acentos y silencios.' },
   { value: 2, title: 'Nivel 2', label: 'Dos ritmos', help: 'Explorá relaciones entre patrones rítmicos de A y B.' },
@@ -85,7 +66,6 @@ const LEVELS = [
 
 export function LiteLevelNavigation() {
   const { level, setLevel } = useRitmia()
-  const activeLevel = LEVELS.find(item => item.value === level) ?? LEVELS[0]
 
   return (
     <Navigation aria-label="Niveles musicales">
@@ -104,7 +84,6 @@ export function LiteLevelNavigation() {
           </LevelButton>
         ))}
       </LevelGroup>
-      <LevelHelp aria-live="polite">{activeLevel.help}</LevelHelp>
     </Navigation>
   )
 }

@@ -5,7 +5,7 @@ const Label = styled.label`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: ${({ theme }) => theme.colors.panel};
+  background: ${({ theme }) => theme.gradients.softWash};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.full};
   padding: 0 0.75rem;

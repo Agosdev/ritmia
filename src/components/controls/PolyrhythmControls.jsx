@@ -6,6 +6,7 @@ import { CLAVE_PATTERNS } from '../../music/clavePatterns'
 import { Panel2 } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
+import { RangeInput } from '../ui/RangeInput'
 
 const PolyrhythmContainer = styled.div`
   display: flex;
@@ -306,14 +307,14 @@ export function PolyrhythmControls() {
 </details>}
       <VolumeRow>
         <span>Vol B</span>
-        <input
+        <RangeInput
           type="range"
           min="0"
           max="1"
           step="0.05"
           value={volumeB}
           onChange={e => setVolumeB(parseFloat(e.target.value))}
-          style={{ flex: 1 }}
+          style={{ flex: 1, '--range-from': '#d85abf', '--range-to': '#f0b182' }}
           aria-label="Volumen pista B"
         />
       </VolumeRow>
@@ -352,7 +353,7 @@ export function PolyrhythmControls() {
             <span>Morphing Ganancia Cruzada</span>
             <span style={{ fontFamily: 'monospace' }}>{Math.round(morphAmount * 100)}%</span>
           </div>
-          <input
+          <RangeInput
             type="range"
             min="0"
             max="1"

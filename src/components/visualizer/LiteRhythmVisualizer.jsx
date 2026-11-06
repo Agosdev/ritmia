@@ -1,4 +1,6 @@
 import React, { memo } from 'react'
+import { glassPanel } from '../../styles/glassSurfaces'
+import { AccentLegend } from '../ui/AccentSymbol'
 import { neon } from '../../styles/theme'
 import styled from 'styled-components'
 import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
@@ -6,10 +8,8 @@ import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 const Surface = styled.section`
   min-width: 0;
   padding: clamp(0.75rem, 3vw, 1.25rem);
-  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 28px;
-  background: ${({ theme }) => theme.colors.panel};
-  box-shadow: ${({ theme }) => theme.physical.shell};
+  ${glassPanel}
   align-self: start;
   @media (max-width: 999px) {
     display: grid;
@@ -48,8 +48,9 @@ const CircleFrame = styled.div`
   margin: .5rem auto .8rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.panel};
-  box-shadow: ${({ theme }) => theme.physical.inset};
+  background: ${({ theme }) => theme.gradients.dial};
+  box-shadow: 0 14px 22px #48336826, inset 0 3px 4px #fff, inset 0 -3px 6px #8a5cf54d;
+  border: 1px solid #ffffffcc;
   @media (max-width: 999px) { width: min(100%, 220px); }
   @media (max-width: 520px) { width: min(100%, 180px); }
 
@@ -123,10 +124,10 @@ const BeatMark = memo(function BeatMark({ index, total, radius, track, accent, a
   const point = pointAt(radius, index / total)
   const color = active && accent > 0 ? COLORS[track].neon : COLORS[track].main
   const size = accent === 2 ? 4.2 : accent === 1 ? 3.2 : 2.4
-  const fill = active && accent > 0 ? color : accent === 2 ? color : accent === 1 ? COLORS[track].soft : '#e9edf0'
+  const fill = accent === 2 ? 'url(#lite-strong-fill)' : accent === 1 ? 'url(#lite-soft-fill)' : '#f2edfa'
   const common = {
     fill,
-    stroke: COLORS[track].main,
+    stroke: accent === 0 ? '#7b61a4' : accent === 1 ? '#276c99' : '#9b3980',
     strokeWidth: active ? 2.2 : accent === 0 ? 1.3 : 1,
   }
 
@@ -173,8 +174,8 @@ const Track = memo(function Track({ track, count, accents, currentBeat, progress
         cy={CENTER}
         r={radius}
         fill="none"
-        stroke={color}
-        strokeWidth="2"
+        stroke={`url(#lite-gradient-${track})`}
+        strokeWidth="3"
         strokeDasharray={`${circumference * progress} ${circumference}`}
         transform={`rotate(-90 ${CENTER} ${CENTER})`}
       />
@@ -248,6 +249,10 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
             Los puntos vacíos son silencios, los puntos pequeños son acentos suaves y los llenos son fuertes.
           </desc>
           <defs>
+            <linearGradient id="lite-soft-fill"><stop stopColor="#38d9bf" /><stop offset="1" stopColor="#5188ed" /></linearGradient>
+            <linearGradient id="lite-strong-fill"><stop stopColor="#cf44c7" /><stop offset="1" stopColor="#ffbc83" /></linearGradient>
+            <linearGradient id="lite-gradient-A"><stop stopColor="#25bfba" /><stop offset="1" stopColor="#7673df" /></linearGradient>
+            <linearGradient id="lite-gradient-B"><stop stopColor="#d740be" /><stop offset="1" stopColor="#f3a56e" /></linearGradient>
             <radialGradient id="lite-center-fill">
               <stop offset="0%" stopColor="#f6f8fa" />
               <stop offset="100%" stopColor="#d5dde4" />
@@ -290,7 +295,7 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
       <Legend aria-label="Leyenda del visualizador rítmico">
         <LegendItem>A · ciclo y progreso</LegendItem>
         {showTrackB && <LegendItem $trackB>B · ciclo y progreso</LegendItem>}
-        <span>○ Silencio · ● suave · ▰ fuerte</span>
+        <AccentLegend />
       </Legend>
       <Summary>
         <SummaryItem><strong>A</strong> · {numA}/{denA} · {timing.measureA.toFixed(2)} s</SummaryItem>

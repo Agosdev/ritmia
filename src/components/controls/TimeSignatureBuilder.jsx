@@ -5,6 +5,7 @@ import { TIME_SIGNATURES, MAX_NUM, DENOMINATORS } from '../../music/constants'
 import { Panel2 } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
+import { RangeInput } from '../ui/RangeInput'
 
 const BuilderSection = styled.div`
   display: flex;
@@ -161,7 +162,7 @@ const Advanced = styled.div`
 `
 
 export function TimeSignatureBuilder({ compact = false }) {
-  const { numA, setNumA, denA, setDenA, volumeA, setVolumeA } = useRitmia()
+  const { numA, setNumA, denA, setDenA, volumeA, setVolumeA, presetLocked } = useRitmia()
   const [freeText, setFreeText] = useState('')
 
   const handleApplyFreeText = () => {
@@ -174,7 +175,7 @@ export function TimeSignatureBuilder({ compact = false }) {
   }
 
   return (
-    <BuilderSection data-compact={compact || undefined}>
+    <BuilderSection data-compact={compact || undefined} aria-describedby={presetLocked ? 'preset-editing-help' : undefined}>
       <HeaderRow>
         <SectionTitle>Compás A — MAX {MAX_NUM} pulsos</SectionTitle>
         <PresetsScroll>
@@ -182,6 +183,7 @@ export function TimeSignatureBuilder({ compact = false }) {
             <PresetBtn
               key={sig.label}
               type="button"
+              disabled={presetLocked}
               $isSelected={numA === sig.num && denA === sig.den}
               aria-pressed={numA === sig.num && denA === sig.den}
               onClick={() => {
@@ -199,6 +201,7 @@ export function TimeSignatureBuilder({ compact = false }) {
         <FieldBox>
           <FieldLabel>NUM</FieldLabel>
           <NumberBox
+            disabled={presetLocked}
             type="number"
             min="1"
             max={MAX_NUM}
@@ -219,6 +222,7 @@ export function TimeSignatureBuilder({ compact = false }) {
         <FieldBox>
           <FieldLabel>DEN</FieldLabel>
           <SelectBox
+            disabled={presetLocked}
             value={denA}
             onChange={e => setDenA(parseInt(e.target.value, 10))}
             aria-label="Denominador compás A"
@@ -236,6 +240,7 @@ export function TimeSignatureBuilder({ compact = false }) {
         {compact && <summary>Entrada avanzada de pulsos</summary>}
         <FreeTextRow>
           <FreeTextInput
+            disabled={presetLocked}
             type="text"
             inputMode="numeric"
             placeholder="Texto libre: escribe 12, 15, 24, 32 + Enter"
@@ -247,6 +252,7 @@ export function TimeSignatureBuilder({ compact = false }) {
             aria-label="Entrada libre de pulsos"
           />
           <Button
+            disabled={presetLocked}
             $variant="panel"
             $height="2.25rem"
             onClick={handleApplyFreeText}
@@ -267,7 +273,7 @@ export function TimeSignatureBuilder({ compact = false }) {
 
       <VolumeRow>
         <span>Vol A</span>
-        <input
+        <RangeInput
           type="range"
           min="0"
           max="1"

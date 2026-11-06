@@ -34,6 +34,7 @@ await page.addInitScript(() => {
 try {
   await page.goto(report.url, { waitUntil: 'networkidle' })
   await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos' }).click()
+  await page.getByRole('button', { name: /^Polimetría —/ }).click()
   for (const track of ['A', 'B']) {
     await page.getByLabel(`Numerador compás ${track}`, { exact: true }).fill('4')
     await page.getByLabel(`Denominador compás ${track}`, { exact: true }).selectOption('4')

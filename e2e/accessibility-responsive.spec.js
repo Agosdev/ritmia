@@ -4,17 +4,15 @@ for (const width of [320, 375, 768, 1280]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/')
     await expect(page.getByRole('heading', { name: 'Ritmia', exact: true })).toBeVisible()
-    const help = page.getByRole('button', { name: 'Abrir guía de uso' })
-    await help.focus(); await help.press('Enter')
-    await expect(page.getByRole('dialog')).toBeVisible()
-    await page.keyboard.press('Escape'); await expect(help).toBeFocused()
+    await expect(page.getByLabel('Opciones', { exact: true })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Abrir guía de uso' })).toHaveCount(0)
     for (const level of [1, 2]) {
       await page.getByRole('button', { name: new RegExp(`^Nivel ${level} —`) }).click()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       const lastKey = page.getByRole('group', { name: `Secuenciador pista ${level === 2 ? 'B' : 'A'}` }).getByRole('button').last()
       await lastKey.focus()
       await expect(lastKey).toHaveCSS('outline-width', '3px')
-      if (width <= 900) {
+      {
         const key = await lastKey.boundingBox(), dock = await page.getByTestId('lite-mobile-transport').boundingBox()
         expect(key.y + key.height).toBeLessThanOrEqual(dock.y)
       }

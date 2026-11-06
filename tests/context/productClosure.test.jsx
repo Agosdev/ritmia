@@ -15,7 +15,7 @@ beforeEach(() => {
 })
 afterEach(async () => { cleanup(); await audioEngine.dispose(); vi.useRealTimers(); vi.unstubAllGlobals() })
 
-it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and editable state without changing B or marker', async preset => {
+it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and locked state without changing B or marker', async preset => {
   const { result } = renderHook(useRitmia, { wrapper })
   act(() => { result.current.setLevel(2); result.current.setNumB(9); result.current.applyPreset(preset.id) })
   expect(result.current.numB).toBe(9)
@@ -36,7 +36,14 @@ it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and editabl
   expect(aSources.map(source => source.startTime)).toHaveLength(expected.length)
   aSources.forEach((source, index) => expect(source.startTime).toBeCloseTo(expected[index], 10))
   act(() => result.current.setAccentsA(prev => prev.map((value, i) => i === 0 ? (value + 1) % 3 : value)))
-  expect(result.current.presetModified).toBe(true)
+  expect(result.current.accentsA).toEqual(preset.accents)
+  expect(result.current.presetLocked).toBe(true)
+  act(() => result.current.clearPreset())
+  expect(result.current.presetId).toBe('')
+  expect(result.current.presetLocked).toBe(false)
+  expect(result.current.accentsA).toEqual(preset.accents)
+  act(() => result.current.setAccentsA(prev => prev.map((value, i) => i === 0 ? (value + 1) % 3 : value)))
+  expect(result.current.accentsA[0]).toBe((preset.accents[0] + 1) % 3)
 })
 
 it('reset keeps stopped intent or restarts once when playing; stop toggle preserves phase', async () => {
@@ -101,4 +108,31 @@ it('clave restaura el patrón B anterior al cambiar a otro modo', () => {
   act(() => result.current.setMode('polimetria'))
   expect(result.current.numB).toBe(3)
   expect(result.current.accentsB).toEqual([1,0,2])
+})
+
+it('presets bloquean todas las ediciones de A; compás libre conserva sonido y desbloquea', async () => {
+  const { result } = renderHook(useRitmia, { wrapper })
+  act(() => { result.current.setLevel(2); result.current.applyPreset('tangos') })
+  const updater = vi.fn(() => [2, 2, 2, 2])
+  act(() => {
+    result.current.setNumA(7); result.current.setDenA(8)
+    result.current.setAccentsA(updater); result.current.setGroupingA('1+1+1+1')
+    result.current.setBpm(120); result.current.setVolumeA(.5)
+    result.current.setAccentsB([1,1,1,1,1]); result.current.setMode('polimetria')
+  })
+  expect(updater).not.toHaveBeenCalled()
+  expect(result.current).toMatchObject({ numA: 4, denA: 4, accentsA: [0,2,1,2], groupingA: '2+2', bpm: 120, volumeA: .5, mode: 'polimetria' })
+  expect(result.current.accentsB).toEqual([1,1,1,1,1])
+  // Selecting another preset still works while locked.
+  act(() => result.current.applyPreset('sevillanas'))
+  expect(result.current).toMatchObject({ numA: 3, denA: 4, accentsA: [2,1,1], groupingA: '3', presetLocked: true })
+  await act(async () => { await result.current.startPlayback() })
+  const audioParams = { ...audioEngine.params }
+  const nextNote = audioEngine.nextNoteTimeA
+  act(() => result.current.clearPreset())
+  expect(audioEngine.isPlaying).toBe(true)
+  expect(audioEngine.nextNoteTimeA).toBe(nextNote)
+  expect(audioEngine.params).toEqual(audioParams)
+  act(() => { result.current.setNumA(4); result.current.setDenA(8); result.current.setAccentsA([0,1,2,1]); result.current.setGroupingA('2+2') })
+  expect(result.current).toMatchObject({ presetId: '', presetLocked: false, numA: 4, denA: 8, accentsA: [0,1,2,1], groupingA: '2+2' })
 })
