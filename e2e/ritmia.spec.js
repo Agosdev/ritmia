@@ -66,11 +66,15 @@ test('two levels, explicit grouping accents and presets independent from every m
   for (const name of ['Polirritmia —', 'Polimetría —', 'Morph —', 'Clave —']) {
     const mode = page.getByRole('button', { name: new RegExp('^' + name) })
     await mode.click()
+    await expect(mode).toHaveAttribute('aria-pressed', 'true')
     const b = page.getByRole('group', { name: 'Secuenciador pista B' }).getByRole('button')
+    // Clave loads B in an effect. Capture its pattern after that transition,
+    // rather than racing the previous mode's five-step grid on fast runners.
+    if (name === 'Clave —') await expect(b).toHaveCount(16)
     const before = await b.evaluateAll(items => items.map(item => item.dataset.accent))
     await page.getByLabel('Preset', { exact: true }).selectOption('marcato')
     await expect(mode).toHaveAttribute('aria-pressed', 'true')
-    expect(await b.evaluateAll(items => items.map(item => item.dataset.accent))).toEqual(before)
+    await expect.poll(() => b.evaluateAll(items => items.map(item => item.dataset.accent))).toEqual(before)
   }
 })
 
