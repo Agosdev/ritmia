@@ -37,12 +37,17 @@ export function calculateTiming({
   denB = 8,
   mode = 'polirritmia',
   claveMeasures = 1,
+  subdivisionA = 1,
 }) {
   if (!isBpm(bpm) || !isNumerator(numA) || !isNumerator(numB) ||
       !isDenominator(denA) || !isDenominator(denB) || !isMode(mode) ||
       ![1, 2].includes(claveMeasures) || (mode !== 'clave' && claveMeasures !== 1)) {
     throw new RangeError('Configuración musical inválida')
   }
+  if (![1, 2, 3, 4].includes(subdivisionA) || numA * subdivisionA > 32 || denA * subdivisionA > 32) {
+    throw new RangeError('Subdivisión A inválida')
+  }
+  const stepsA = numA * subdivisionA
   const beatSec = 60 / bpm
   const tickSec = beatSec / 8
   const ticksA = numA * (32 / denA)
@@ -53,23 +58,23 @@ export function calculateTiming({
   const adaptedMeasuresB = mode === 'clave' ? claveMeasures : 1
   // Mantener las fórmulas temporales existentes del motor.
   const measureA = polymeter ? (beatSec * (4 / denA)) * numA : beatSec * numA * (4 / denA)
-  const stepA = polymeter ? beatSec * (4 / denA) : measureA / numA
+  const stepA = measureA / stepsA
   const measureB = polymeter
     ? beatSec * (4 / denB) * numB
     : canonicalClaveCycle
       ? beatSec * 8
       : measureA * adaptedMeasuresB
   const stepB = polymeter ? beatSec * (4 / denB) : measureB / numB
-  const pulseRatio = reducedRatio(numA, numB)
+  const pulseRatio = reducedRatio(stepsA, numB)
 
   return {
     stepA, stepB, measureA, measureB, tickSec, ticksA, ticksB, lcmTicks,
     pulseRatio,
     eventRatio: polymeter
-      ? reducedRatio(denA, denB)
+      ? reducedRatio(denA * subdivisionA, denB)
       : canonicalClaveCycle
-        ? reducedRatio(ticksB * numA, ticksA * numB)
-        : reducedRatio(numA * adaptedMeasuresB, numB),
+        ? reducedRatio(ticksB * stepsA, ticksA * numB)
+        : reducedRatio(stepsA * adaptedMeasuresB, numB),
     durationRatio: polymeter || canonicalClaveCycle
       ? reducedRatio(ticksA, ticksB)
       : reducedRatio(1, adaptedMeasuresB),

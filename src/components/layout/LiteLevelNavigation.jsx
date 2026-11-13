@@ -23,7 +23,7 @@ const LevelButton = styled.button`
   ${liteSurface}
   ${litePressable}
   position: relative;
-  border-radius: 16px;
+  border-radius: ${({ theme }) => theme.glass.capsuleRadius};
   color: ${({ theme }) => theme.colors.text};
   text-align: left;
   padding-left: 1rem;
@@ -31,7 +31,8 @@ const LevelButton = styled.button`
   &[aria-pressed='true']::after {
     content: ''; position: absolute; right: .8rem; top: .75rem;
     width: 6px; height: 6px; border-radius: 50%;
-    background: ${({ theme }) => theme.colors.successNeon};
+    background: ${({ theme }) => theme.colors.selectionBorder};
+    box-shadow: 0 0 0 2px #ffffff88, 0 0 8px ${({ theme }) => theme.glass.halo};
   }
 
   strong, span {

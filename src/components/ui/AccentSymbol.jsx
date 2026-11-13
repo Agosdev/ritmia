@@ -11,7 +11,7 @@ export const AccentSymbol = styled.span.attrs({ 'aria-hidden': true })`
   background: ${({ $accent, theme }) => $accent === 0
     ? `linear-gradient(${theme.colors.panelLight}, ${theme.colors.panelLight}) padding-box, ${theme.gradients.silence} border-box`
     : $accent === 1 ? theme.gradients.soft : theme.gradients.strong};
-  box-shadow: 0 0 0 1px ${({ $accent }) => $accent === 0 ? '#6d5799' : $accent === 1 ? '#216a9c' : '#a4387f'};
+  box-shadow: 0 1px 2px #3a4a6814, inset 0 1px 0 #ffffffd9, 0 0 0 1px ${({ $accent }) => $accent === 0 ? '#9babff' : $accent === 1 ? '#2dd9d0' : '#f59ceb'};
   ${({ $active, $trackB, theme }) => $active && `outline: 2px solid ${$trackB ? theme.colors.trackBNeon : theme.colors.trackANeon}; outline-offset: 4px;`}
 `
 const Legend = styled.span`

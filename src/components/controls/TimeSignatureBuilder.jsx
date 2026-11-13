@@ -60,7 +60,7 @@ const PresetBtn = styled.button`
     : theme.colors.textDim)};
   font-weight: ${({ $isSelected, theme }) => theme.variant === 'lite' && $isSelected ? 650 : 'inherit'};
   box-shadow: ${({ $isSelected, theme }) => $isSelected && theme.variant === 'lite'
-    ? `inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.75)`
+    ? theme.physical.selected
     : 'none'};
   transition: ${({ theme }) => theme.transitions.fast};
 
@@ -99,7 +99,7 @@ const NumberBox = styled.input`
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
   box-shadow: ${({ theme }) => theme.variant === 'lite'
-    ? 'inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.8)'
+    ? theme.physical.inset
     : 'none'};
 `
 
@@ -114,7 +114,7 @@ const SelectBox = styled.select`
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
   box-shadow: ${({ theme }) => theme.variant === 'lite'
-    ? 'inset 2px 2px 4px rgba(41,52,61,0.12), inset -2px -2px 4px rgba(255,255,255,0.8)'
+    ? theme.physical.inset
     : 'none'};
 `
 
@@ -135,7 +135,7 @@ const FreeTextInput = styled.input`
   color: ${({ theme }) => theme.colors.textBright};
   min-width: 0;
   width: 100%;
-  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.physical.inset : 'none'};
 
   &::placeholder {
     font-size: 11px;
@@ -162,7 +162,7 @@ const Advanced = styled.div`
 `
 
 export function TimeSignatureBuilder({ compact = false }) {
-  const { numA, setNumA, denA, setDenA, volumeA, setVolumeA, presetLocked } = useRitmia()
+  const { numA, setNumA, denA, setDenA, volumeA, setVolumeA, presetLocked, subdivisionA, setSubdivisionA } = useRitmia()
   const [freeText, setFreeText] = useState('')
 
   const handleApplyFreeText = () => {
@@ -232,6 +232,13 @@ export function TimeSignatureBuilder({ compact = false }) {
                 {d}
               </option>
             ))}
+          </SelectBox>
+        </FieldBox>
+        <FieldBox>
+          <FieldLabel>SUBDIVISIÓN</FieldLabel>
+          <SelectBox aria-label="Subdivisiones por unidad del compás A" value={subdivisionA}
+            disabled={presetLocked} onChange={e => setSubdivisionA(Number(e.target.value))}>
+            {[1, 2, 3, 4].map(n => <option key={n} value={n} disabled={numA * n > 32 || denA * n > 32}>{n}</option>)}
           </SelectBox>
         </FieldBox>
       </InputsGrid>

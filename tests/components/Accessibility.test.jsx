@@ -39,8 +39,10 @@ describe('accesibilidad de controles y diálogos', () => {
   it('mantiene un solo selector en el transporte y la marcación antes del secuenciador', () => {
     render(<App />)
     const dock = screen.getByRole('group', { name: 'Controles de reproducción' })
+    // El selector de presets es ahora un combobox custom (button role=combobox) + listbox.
+    // Verificamos el combobox por aria-label en lugar de por valor de select nativo.
     expect(within(dock).getAllByRole('combobox')).toHaveLength(1)
-    expect(within(dock).getByRole('combobox', { name: 'Preset' })).toHaveValue('')
+    expect(within(dock).getByRole('combobox', { name: 'Preset' })).toBeInTheDocument()
     expect(within(dock).getAllByRole('button')).toHaveLength(2)
     expect(within(dock).queryByRole('checkbox')).not.toBeInTheDocument()
     const marker = screen.getByRole('group', { name: 'Marcación del compás' })

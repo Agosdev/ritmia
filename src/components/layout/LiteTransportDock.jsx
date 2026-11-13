@@ -13,8 +13,9 @@ const Dock = styled.div`
   inset-inline: 0;
   bottom: var(--lite-keyboard-inset, 0px);
   padding: .55rem .75rem calc(.55rem + env(safe-area-inset-bottom, 0px));
+  border-radius: 24px 24px 0 0;
   ${glassBar}
-  box-shadow: 0 -9px 28px #48336824, inset 0 1px 2px #fff;
+  box-shadow: ${({ theme }) => theme.physical.dock};
 `
 
 const DockInner = styled.div`
@@ -45,10 +46,10 @@ const BpmRange = styled(RangeInput)`
 const BpmNumber = styled.input`
   width: 3.25rem;
   height: 2rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 0.6rem;
-  background: ${({ theme }) => theme.colors.panel2};
-  box-shadow: inset 2px 2px 4px rgba(41, 52, 61, 0.12), inset -2px -2px 4px #fff;
+  border: 1px solid ${({ theme }) => theme.glass.rim};
+  border-radius: 0.7rem;
+  background: ${({ theme }) => theme.glass.field};
+  box-shadow: ${({ theme }) => theme.physical.inset};
   color: ${({ theme }) => theme.colors.textBright};
   text-align: center;
   font: 600 13px ${({ theme }) => theme.fonts.mono};

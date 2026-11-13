@@ -8,7 +8,7 @@ import { useRitmia, useRitmiaRealtime } from '../../context/RitmiaContext'
 const Surface = styled.section`
   min-width: 0;
   padding: clamp(0.75rem, 3vw, 1.25rem);
-  border-radius: 28px;
+  border-radius: ${({ theme }) => theme.glass.panelRadius};
   ${glassPanel}
   align-self: start;
   @media (max-width: 999px) {
@@ -47,10 +47,26 @@ const CircleFrame = styled.div`
   width: min(100%, 310px);
   margin: .5rem auto .8rem;
   aspect-ratio: 1;
+  position: relative;
   border-radius: 50%;
   background: ${({ theme }) => theme.gradients.dial};
-  box-shadow: 0 14px 22px #48336826, inset 0 3px 4px #fff, inset 0 -3px 6px #8a5cf54d;
-  border: 1px solid #ffffffcc;
+  box-shadow: ${({ theme }) => theme.physical.shell};
+  border: 1px solid ${({ theme }) => theme.glass.rim};
+  @supports ((mask-composite: exclude) or (-webkit-mask-composite: xor)) {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: ${({ theme }) => theme.glass.edge};
+      pointer-events: none;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+    }
+  }
   @media (max-width: 999px) { width: min(100%, 220px); }
   @media (max-width: 520px) { width: min(100%, 180px); }
 
@@ -95,10 +111,11 @@ const Summary = styled.div`
 `
 
 const SummaryItem = styled.p`
-  padding: 0.4rem 0.6rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 10px;
-  background: ${({ theme }) => theme.colors.panel2};
+  padding: 0.45rem 0.7rem;
+  border: 1px solid ${({ theme }) => theme.glass.rim};
+  border-radius: 999px;
+  background: ${({ theme }) => theme.glass.field};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
   color: ${({ theme }) => theme.colors.textDim};
   font-size: 12px;
 `
@@ -165,9 +182,9 @@ const Track = memo(function Track({ track, count, accents, currentBeat, progress
 
   return (
     <g>
-      <circle cx={CENTER} cy={CENTER + 1} r={radius} fill="none" stroke="#ffffff" strokeWidth="9" />
-      <circle cx={CENTER} cy={CENTER - 1} r={radius} fill="none" stroke="#b8c3cd" strokeWidth="7" />
-      <circle cx={CENTER} cy={CENTER} r={radius} fill="none" stroke="#dce2e7" strokeWidth="4" />
+      <circle cx={CENTER} cy={CENTER + 1} r={radius} fill="none" stroke="#ffffffd4" strokeWidth="8" />
+      <circle cx={CENTER} cy={CENTER} r={radius} fill="none" stroke="#ffffff66" strokeWidth="5" />
+      <circle cx={CENTER} cy={CENTER} r={radius} fill="none" stroke="#ffffffee" strokeWidth="1.4" />
       <circle
         data-testid={`lite-track-${track}-progress`}
         cx={CENTER}
@@ -213,7 +230,7 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
   const {
     accentsA,
     accentsB,
-    activeGroupingA,
+    gridGroupingA,
     activeGroupingB,
     denA,
     denB,
@@ -245,7 +262,7 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
         >
           <title id="lite-cycle-title">Visualizador circular de los ciclos musicales</title>
           <desc id="lite-cycle-description">
-            A tiene {numA} posiciones; {showTrackB ? `B tiene ${numB} posiciones. ` : ''}
+            A tiene {accentsA.length} posiciones; {showTrackB ? `B tiene ${numB} posiciones. ` : ''}
             Los puntos vacíos son silencios, los puntos pequeños son acentos suaves y los llenos son fuertes.
           </desc>
           <defs>
@@ -254,8 +271,9 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
             <linearGradient id="lite-gradient-A"><stop stopColor="#25bfba" /><stop offset="1" stopColor="#7673df" /></linearGradient>
             <linearGradient id="lite-gradient-B"><stop stopColor="#d740be" /><stop offset="1" stopColor="#f3a56e" /></linearGradient>
             <radialGradient id="lite-center-fill">
-              <stop offset="0%" stopColor="#f6f8fa" />
-              <stop offset="100%" stopColor="#d5dde4" />
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="42%" stopColor="#ffffffd4" />
+              <stop offset="100%" stopColor="#d7e8f866" />
             </radialGradient>
           </defs>
           {showTrackB && (
@@ -271,14 +289,14 @@ export function LiteRhythmVisualizer({ showTrackB = false, showGrouping = true, 
           )}
           <Track
             track="A"
-            count={numA}
+            count={accentsA.length}
             accents={accentsA}
             currentBeat={currentBeatA}
             progress={progressA}
             radius={showTrackB ? RADIUS_A : RADIUS_B}
-            grouping={showGrouping ? activeGroupingA : null}
+            grouping={showGrouping ? gridGroupingA : null}
           />
-          <circle cx={CENTER} cy={CENTER} r="19" fill="url(#lite-center-fill)" stroke="#8a97a3" />
+          <circle cx={CENTER} cy={CENTER} r="19" fill="url(#lite-center-fill)" stroke="#ffffffee" strokeWidth="1.4" />
           <text
             x={CENTER}
             y={CENTER + 3}

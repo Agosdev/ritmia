@@ -17,7 +17,7 @@ export const Button = styled.button`
   &:active {
     transform: ${({ theme }) => theme.variant === 'lite' ? 'translateY(1px)' : 'scale(0.98)'};
     ${({ theme }) => theme.variant === 'lite' && `
-      box-shadow: inset 2px 2px 5px rgba(41, 52, 61, 0.18), inset -2px -2px 5px rgba(255,255,255,0.8);
+      box-shadow: ${theme.physical.pressed};
     `}
   }
 

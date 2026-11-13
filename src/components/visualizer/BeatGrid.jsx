@@ -38,7 +38,7 @@ const BeatBox = styled.button`
   box-shadow: ${({ $isActive, $accentColor, theme }) => {
     if (!$isActive) return theme.variant === 'lite' ? theme.shadows.sm : 'none'
     return theme.variant === 'lite'
-      ? `inset 2px 2px 5px rgba(41, 52, 61, 0.2), inset -2px -2px 5px #ffffff, 0 0 0 1px ${$accentColor}`
+      ? theme.physical.selected
       : `0 0 0 1px ${$accentColor}, 0 0 18px ${$accentColor}66`
   }};
   transform: ${({ $isActive, $reduceMotion }) =>

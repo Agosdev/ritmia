@@ -9,6 +9,7 @@ const Bar = styled.header`
   inset: 0 0 auto;
   height: calc(5.5rem + var(--safe-top));
   padding: calc(.65rem + var(--safe-top)) .75rem .65rem;
+  border-radius: 0 0 20px 20px;
   ${glassBar}
 `
 const Inner = styled.div`
@@ -19,7 +20,7 @@ const Inner = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: clamp(.6rem, 3vw, 2rem);
-  h1 { font-size: clamp(17px, 3vw, 23px); letter-spacing: -.04em; }
+  h1 { font-size: clamp(17px, 3vw, 23px); letter-spacing: -.04em; text-shadow: 0 1px 0 #ffffffd4; }
   p { font-size: 11px; color: ${({ theme }) => theme.colors.textDim}; }
   @media (max-width: 600px) { p { display: none; } }
 `

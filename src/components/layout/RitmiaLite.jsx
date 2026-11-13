@@ -1,9 +1,10 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { levelThemes } from '../../styles/theme'
-import { glassPanel } from '../../styles/glassSurfaces'
+import { glassPanel, glassInset } from '../../styles/glassSurfaces'
 import { liteControls } from '../../styles/liteSurfaces'
 import { useRitmia } from '../../context/RitmiaContext'
+import { InstrumentSelect } from '../controls/InstrumentSelect'
 import { PresetExplanation, PresetChip } from '../controls/MusicalPresets'
 import { Header } from './Header'
 import { LiteTransportDock } from './LiteTransportDock'
@@ -64,7 +65,7 @@ const Intro = styled.div`
 const Card = styled.section`
   min-width: 0;
   padding: clamp(0.75rem, 2.5vw, 1rem);
-  border-radius: 26px;
+  border-radius: ${({ theme }) => theme.glass.panelRadius};
   ${glassPanel}
 `
 
@@ -109,10 +110,8 @@ const GridHeading = styled.div`
 const Options = styled.details`
   min-width: 0;
   margin-top: 0.7rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 14px;
-  background: ${({ theme }) => theme.colors.panel2};
-  box-shadow: ${({ theme }) => theme.physical.inset};
+  border-radius: ${({ theme }) => theme.glass.controlRadius};
+  ${glassInset}
 
   summary {
     min-height: 2.75rem;
@@ -141,7 +140,7 @@ export function RitmiaLite() {
     metronome,
     setMetronome,
     presetLocked,
-    numA,
+    numA, gridGroupingA, activeGroupingA,
     denA,
     numB,
     denB,
@@ -149,7 +148,6 @@ export function RitmiaLite() {
     setAccentsA,
     accentsB,
     setAccentsB,
-    activeGroupingA,
     activeGroupingB,
     reduceMotion,
     beatLabelsA,
@@ -182,7 +180,8 @@ export function RitmiaLite() {
           </div>
           {['A', ...(showTrackB ? ['B'] : [])].map(track => {
             const isB = track === 'B'
-            const grouping = isB ? activeGroupingB : activeGroupingA
+            const grouping = isB ? activeGroupingB : gridGroupingA
+            const metricGrouping = isB ? activeGroupingB : activeGroupingA
             return <GridSection key={track} data-track={track}>
               <CardHeader>
                 <h2>Secuenciador {track}</h2>
@@ -190,11 +189,12 @@ export function RitmiaLite() {
               </CardHeader>
               <GridHeading>
                 <span>{track} · {isB ? numB : numA}/{isB ? denB : denA}</span>
-                <span>{grouping ? grouping.join('+') : '○ silencio · ● suave · ▰ fuerte'}</span>
+                <span>{metricGrouping ? metricGrouping.join('+') : '○ silencio · ● suave · ▰ fuerte'}</span>
               </GridHeading>
+              <InstrumentSelect track={track} />
               <BeatGrid trackType={track} label={`Secuenciador pista ${track}`}
                 beatLabels={isB ? null : beatLabelsA}
-                numBeats={isB ? numB : numA} accents={isB ? accentsB : accentsA}
+                numBeats={isB ? numB : accentsA.length} accents={isB ? accentsB : accentsA}
                 onAccentsChange={isB ? setAccentsB : setAccentsA}
                 parsedGrouping={grouping} isValidGrouping={!!grouping}
                 reduceMotionOverride={reduceMotion} />

@@ -8,7 +8,8 @@ ambiguo `ratio` se reemplaza por estos nombres explícitos en todos sus consumid
 - `pulseRatio`: cantidad de pasos de grilla por compás propio. Incluye silencios;
   no es una cuenta de golpes audibles ni una decisión sobre el pulso percibido.
 - `eventRatio`: frecuencia de pasos sobre el mismo intervalo temporal.
-  En polirritmia es numA:numB; en polimetría es denA:denB.
+  En polirritmia es (numA × subdivisionA):numB; en polimetría es
+  (denA × subdivisionA):denB. La subdivisión vale 1 si no se indica.
 - `durationRatio`: duración efectiva de los compases. Es 1:1 cuando B se adapta
   a A; en polimetría corresponde a sus duraciones métricas independientes.
 
@@ -65,3 +66,14 @@ visible en modos donde se adapta su duración; si se desea acentuación automát
 por grupos. No se adoptan esas modificaciones aquí. Los reencuentros describen
 configuraciones estables que parten juntas: la fase tras editar en reproducción
 sigue su política anterior y no se corrige en esta tarea.
+
+## Subdivisión interna opcional de A
+
+Los presets con ataques entre unidades del compás usan `subdivisionA` (1 por
+omisión, 2 o 4), sin sustituir `numA/denA`. `stepA = measureA /
+(numA * subdivisionA)`. La rejilla A tiene ese número de posiciones, incluidos
+silencios; `pulseRatio` y `eventRatio` cuentan esas posiciones. `ticksA`,
+duraciones métricas, B y reencuentros no cambian al subdividir A. La resolución
+máxima sigue siendo fusa y la rejilla admite hasta 32 posiciones. Las agrupaciones
+se escriben en unidades del numerador y se expanden para dibujar la rejilla.
+Ver [variantes árabes y límites de audio](arabic-rhythms.md).

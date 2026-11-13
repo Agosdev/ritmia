@@ -1,6 +1,8 @@
 import { createMasterBus } from './masterBus'
-import { playSample } from './instruments'
+import { playSample, playPitchedSample } from './instruments'
 import { loadAcousticSoundBank } from './soundBank'
+import { loadInstrumentBank, loadPitchedInstrumentBank } from './instrumentBank'
+import { INSTRUMENTS, resolveInstrumentHits } from './instrumentCatalog'
 
 export class AudioEngine {
   constructor() {
@@ -16,6 +18,13 @@ export class AudioEngine {
     this.sampleBankContext = null
     this.sampleBankBuffers = null
     this.soundBankError = null
+    this.instrumentBanks = new Map()
+    this.pitchedInstrumentBanks = new Map()
+    this.pitchedBankPromises = new Map()
+    this.instrumentRequests = {}
+    this.activeInstruments = { A: 'acoustic', B: 'acoustic' }
+    this.instrumentStatus = {}
+    this.instrumentListeners = new Set()
 
     this.isPlaying = false
     this.transportState = 'stopped'
@@ -44,11 +53,19 @@ export class AudioEngine {
       volumeB: 1,
       morph: 0.5,
       metronome: false,
+      instrumentA: 'acoustic', instrumentB: 'acoustic',
+      strokesA: null, strokesB: null,
+      bassEventsA: null, bassEventsB: null,
     }
   }
 
   async ensureAcousticSoundBank() {
     if (this.sampleBankContext !== this.ctx) {
+      this.instrumentBanks.clear()
+      this.pitchedInstrumentBanks.clear()
+      this.pitchedBankPromises.clear()
+      this.instrumentRequests = {}
+      this.activeInstruments = { A: 'acoustic', B: 'acoustic' }
       this.sampleBankContext = this.ctx
       this.sampleBankPromise = null
       this.sampleBankBuffers = null
@@ -64,6 +81,7 @@ export class AudioEngine {
       // A late decode from a disposed context must not repopulate the cache.
       if (!isCurrentContext() || this.sampleBankPromise !== pending) return
       this.sampleBankBuffers = buffers
+      this.instrumentBanks.set('acoustic', buffers)
       this.soundBankError = null
     } catch (error) {
       if (!isCurrentContext()) return
@@ -74,6 +92,121 @@ export class AudioEngine {
       // All callers sharing a failed load must reject, even after the first clears it.
       throw error
     }
+  }
+
+  subscribeInstrumentStatus(listener) {
+    this.instrumentListeners.add(listener)
+    listener(this.instrumentStatus)
+    return () => this.instrumentListeners.delete(listener)
+  }
+
+  publishInstrumentStatus(track, status) {
+    this.instrumentStatus = { ...this.instrumentStatus, [track]: status }
+    this.instrumentListeners.forEach(listener => listener(this.instrumentStatus))
+  }
+
+  activateInstrument(track, id) {
+    if (this.activeInstruments[track] === id) return
+    // Replace only pending events of this track; keep the master clock and counters.
+    if (this.isPlaying) this.invalidateFutureNotes(track)
+    for (const voice of this.activeVoices) {
+      if (voice.track === track) voice.stop(.015)
+    }
+    this.activeInstruments[track] = id
+  }
+
+  prepareInstrument(track, id, retry = false) {
+    if (!Object.hasOwn(INSTRUMENTS, id)) id = 'acoustic'
+    const context = this.ctx
+    if (!context || !this.sampleBankBuffers) return Promise.resolve()
+    const previous = this.instrumentRequests[track]
+    if (!retry && previous?.id === id && previous.context === context) return previous.promise
+    const request = { id, context, promise: null }
+    this.instrumentRequests[track] = request
+    const current = () => this.ctx === context && this.instrumentRequests[track] === request
+    this.publishInstrumentStatus(track, { requested: id, effective: this.activeInstruments[track], loading: true, error: null })
+    request.promise = (async () => {
+      try {
+        const buffers = this.instrumentBanks.get(id) ?? await loadInstrumentBank(context, id)
+        if (!current()) return
+        this.instrumentBanks.set(id, buffers)
+        this.activateInstrument(track, id)
+        this.publishInstrumentStatus(track, { requested: id, effective: id, loading: false, error: null })
+      } catch (error) {
+        if (!current()) return
+        this.activateInstrument(track, 'acoustic')
+        this.publishInstrumentStatus(track, { requested: id, effective: 'acoustic', loading: false,
+          error: `No se pudo cargar ${INSTRUMENTS[id].name}. Se usa el kit acústico actual.` })
+      }
+    })()
+    return request.promise
+  }
+
+  async prepareSelectedInstruments() {
+    const context = this.ctx
+    // A selection made while loading must win before the transport starts.
+    while (this.ctx === context) {
+      const { instrumentA, instrumentB, level } = this.params
+      const tracks = [['A', instrumentA], ...(level === 2 ? [['B', instrumentB]] : [])]
+      await Promise.all(tracks.map(([track, id]) => this.prepareInstrument(track, id, !!this.instrumentStatus[track]?.error)))
+      const bassTracks = tracks.map(([track]) => track).filter(track => this.params[`bassEvents${track}`]?.length)
+      await Promise.all(bassTracks.map(track => this.preparePitchedInstrument(track)))
+      if (instrumentA === this.params.instrumentA && instrumentB === this.params.instrumentB && level === this.params.level) return
+    }
+  }
+
+  retryInstrument(track) {
+    return this.prepareInstrument(track, this.params[`instrument${track}`], true)
+  }
+
+  preparePitchedInstrument(track) {
+    const context = this.ctx
+    if (!context || !this.sampleBankBuffers) return Promise.resolve()
+    let pending = this.pitchedBankPromises.get('electricBass')
+    if (!pending) {
+      pending = loadPitchedInstrumentBank(context, 'electricBass')
+      this.pitchedBankPromises.set('electricBass', pending)
+      pending.catch(() => {
+        if (this.pitchedBankPromises.get('electricBass') === pending) this.pitchedBankPromises.delete('electricBass')
+      })
+    }
+    this.publishInstrumentStatus(track, { ...this.instrumentStatus[track], bassLoading: true, bassError: null })
+    return pending.then(buffers => {
+      if (this.ctx !== context || this.pitchedBankPromises.get('electricBass') !== pending) return
+      this.pitchedInstrumentBanks.set('electricBass', buffers)
+      this.publishInstrumentStatus(track, { ...this.instrumentStatus[track], bassLoading: false, bassError: null })
+    }).catch(error => {
+      if (this.ctx !== context) return
+      this.publishInstrumentStatus(track, { ...this.instrumentStatus[track], bassLoading: false,
+        bassError: 'No se pudo cargar el bajo; la batería continúa sin interrupción.' })
+      return error
+    })
+  }
+
+  playBassNote(track, time, note, volume) {
+    if (!note || !Number.isInteger(note.midi)) return null
+    const bank = this.pitchedInstrumentBanks.get('electricBass')
+    const sample = bank?.[note.midi]
+    if (!sample) return null
+    const voice = playPitchedSample(this.ctx, this.masterGain, time, sample, note.midi, note.midi,
+      note.velocity ?? 0.7, volume, 0.42)
+    if (voice) voice.kind = 'bass'
+    return this.trackVoice(voice, track)
+  }
+
+  playTrackHit(track, time, accent, stroke, volume) {
+    const id = this.activeInstruments[track]
+    const bank = this.instrumentBanks.get(id)
+    const fallback = resolveInstrumentHits('acoustic', accent, null, track)[0]
+    const hits = resolveInstrumentHits(id, accent, stroke, track)
+    // Bound simultaneous tails, including dense B subdivisions, without dropping attacks.
+    const sounding = [...this.activeVoices].filter(voice => voice.track === track && voice.startTime <= time && voice.endTime > time)
+      .sort((a, b) => a.startTime - b.startTime)
+    while (sounding.length + hits.length > 32) sounding.shift().stop(.005, time)
+    return hits.map(hit => {
+      const buffer = bank?.[hit.sample] ?? this.sampleBankBuffers?.[fallback?.sample]
+      return this.trackVoice(playSample(this.ctx, this.masterGain, time, buffer, hit.gain, volume), track)
+    }).filter(Boolean)
   }
 
   async ensureContext() {
@@ -92,13 +225,38 @@ export class AudioEngine {
   }
 
   setParams(newParams) {
-    const changed = Object.entries(newParams).some(([key, value]) => this.params[key] !== value)
+    newParams = { ...newParams }
+    for (const track of ['A', 'B']) {
+      const key = `instrument${track}`
+      if (key in newParams && !Object.hasOwn(INSTRUMENTS, newParams[key])) newParams[key] = 'acoustic'
+    }
+    const old = this.params
+    const changed = Object.entries(newParams).some(([key, value]) => !['instrumentA', 'instrumentB'].includes(key) && this.params[key] !== value)
     // Cancelar el lookahead viejo y retomar desde el primer timestamp pendiente mantiene la fase.
     if (changed && this.isPlaying) this.invalidateFutureNotes()
     this.params = { ...this.params, ...newParams }
+    if (old.level === 2 && this.params.level === 1) {
+      for (const voice of this.activeVoices) if (voice.track === 'B') voice.stop(.015)
+    }
+    for (const track of ['A', 'B']) {
+      if (old[`bassEvents${track}`]?.length && !this.params[`bassEvents${track}`]?.length) {
+        for (const voice of this.activeVoices) if (voice.track === track && voice.kind === 'bass') voice.stop(.015)
+      }
+    }
+    for (const track of ['A', 'B']) {
+      if (track === 'B' && this.params.level !== 2) continue
+      const key = `instrument${track}`
+      if (old[key] !== this.params[key] || (track === 'B' && old.level !== this.params.level)) {
+        this.prepareInstrument(track, this.params[key])
+      }
+      if (this.params[`bassEvents${track}`]?.length &&
+          (!old[`bassEvents${track}`]?.length || (track === 'B' && old.level !== this.params.level))) {
+        this.preparePitchedInstrument(track)
+      }
+    }
   }
 
-  invalidateFutureNotes() {
+  invalidateFutureNotes(onlyTrack = null) {
     if (!this.ctx) return
 
     const now = this.ctx.currentTime
@@ -106,7 +264,7 @@ export class AudioEngine {
     const removedCounts = { A: 0, B: 0 }
 
     this.scheduledNotes = this.scheduledNotes.filter(note => {
-      if (note.time <= now) return true
+      if (note.time <= now || (onlyTrack && note.type !== onlyTrack)) return true
 
       const track = note.type
       firstFutureTime[track] ??= note.time
@@ -151,6 +309,7 @@ export class AudioEngine {
       if (this.ctx.state !== 'running') throw new Error('AudioContext no está activo')
       {
         await this.ensureAcousticSoundBank()
+        await this.prepareSelectedInstruments()
         if (generation !== this.transportGeneration) return
       }
       if (this.isPlaying) return
@@ -216,8 +375,9 @@ export class AudioEngine {
     return pending
   }
 
-  trackVoice(voice) {
+  trackVoice(voice, track = null) {
     if (!voice) return null
+    voice.track = track
     this.activeVoices.add(voice)
     voice.onended = () => this.activeVoices.delete(voice)
     return voice
@@ -283,11 +443,13 @@ export class AudioEngine {
         volA = volumeA * (1 - morph)
       }
 
-      if (accentA !== 0) {
-        if (acousticBuffers) {
-          const sample = accentA === 2 ? acousticBuffers.kickStrong : acousticBuffers.kickSoft
-          voices.push(this.trackVoice(playSample(this.ctx, dest, this.nextNoteTimeA, sample, 1, volA)))
-        }
+      if (accentA !== 0 && acousticBuffers) {
+        voices.push(...this.playTrackHit('A', this.nextNoteTimeA, accentA, this.params.strokesA?.[posA], volA))
+      }
+      const bassA = this.params.bassEventsA?.find(event => event.position === posA)
+      if (bassA) {
+        const bassVoice = this.playBassNote('A', this.nextNoteTimeA, bassA, volA)
+        if (bassVoice) voices.push(bassVoice)
       }
 
       // Metrónomo en pulso 1 de A
@@ -322,11 +484,13 @@ export class AudioEngine {
           volB = volumeB * morph
         }
 
-        if (accentB !== 0) {
-          if (acousticBuffers) {
-            const sample = accentB === 2 ? acousticBuffers.snareStrong : acousticBuffers.snareSoft
-            voices.push(this.trackVoice(playSample(this.ctx, dest, this.nextNoteTimeB, sample, 1, volB)))
-          }
+        if (accentB !== 0 && acousticBuffers) {
+          voices.push(...this.playTrackHit('B', this.nextNoteTimeB, accentB, this.params.strokesB?.[posB], volB))
+        }
+        const bassB = this.params.bassEventsB?.find(event => event.position === posB)
+        if (bassB) {
+          const bassVoice = this.playBassNote('B', this.nextNoteTimeB, bassB, volB)
+          if (bassVoice) voices.push(bassVoice)
         }
 
         const note = {
@@ -385,6 +549,10 @@ export class AudioEngine {
     this.ctx = null
     this.masterGain = null
     this.compressor = null
+    this.instrumentBanks.clear()
+    this.instrumentRequests = {}
+    this.instrumentStatus = {}
+    this.activeInstruments = { A: 'acoustic', B: 'acoustic' }
     this.sampleBankBuffers = null
     this.sampleBankContext = null
     this.sampleBankPromise = null

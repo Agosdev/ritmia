@@ -34,7 +34,7 @@ const GroupingTextInput = styled.input`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 13px;
   color: ${({ theme }) => theme.colors.textBright};
-  box-shadow: ${({ theme }) => theme.variant === 'lite' ? 'inset 2px 2px 4px #d1cfca, inset -2px -2px 4px #ffffff' : 'none'};
+  box-shadow: ${({ theme }) => theme.variant === 'lite' ? theme.physical.inset : 'none'};
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.amber};
@@ -99,7 +99,7 @@ const InfoLegend = styled.div`
 export function GroupingInput() {
   const theme = useTheme()
   const {
-    numA,
+    numA, subdivisionA,
     presetLocked,
     accentsA,
     setAccentsA,
@@ -162,12 +162,12 @@ export function GroupingInput() {
 
       <button type="button" disabled={presetLocked || !isValidGroupingA} onClick={() => {
         const starts = new Set(); let position = 0
-        activeGroupingA.forEach(size => { starts.add(position); position += size })
+        activeGroupingA.forEach(size => { starts.add(position * subdivisionA); position += size })
         setAccentsA(accentsA.map((accent, index) => starts.has(index) && accent > 0 ? 2 : accent))
       }}>Aplicar acentos a los grupos</button>
       <p>Convierte en fuertes los comienzos que ya suenan. Conserva silencios y otros acentos; podés seguir editándolos en el secuenciador.</p>
       <InfoLegend>
-        {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: numA }).map((_, i) => beatLabelsA?.[i] ?? i + 1).join(' ')} —
+        {theme.variant === 'lite' ? 'Silencio ○ · suave ● · fuerte ▰. ' : ''}Conteo: {Array.from({ length: accentsA.length }).map((_, i) => beatLabelsA?.[i] ?? i + 1).join(' ')} —
         {theme.variant === 'lite' ? 'cada grupo comienza con una marca lateral.' : 'acentos: 0 silencio, 1 suave, 2 fuerte; percusión acústica'}
       </InfoLegend>
     </GroupingContainer>

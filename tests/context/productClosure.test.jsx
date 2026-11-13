@@ -17,22 +17,25 @@ afterEach(async () => { cleanup(); await audioEngine.dispose(); vi.useRealTimers
 
 it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and locked state without changing B or marker', async preset => {
   const { result } = renderHook(useRitmia, { wrapper })
-  act(() => { result.current.setLevel(2); result.current.setNumB(9); result.current.applyPreset(preset.id) })
+  act(() => { result.current.setLevel(2); result.current.setNumB(9); result.current.setInstrumentChoiceA('acoustic'); result.current.applyPreset(preset.id) })
   expect(result.current.numB).toBe(9)
+  expect(result.current.numA).toBe(preset.num)
+  expect(result.current.denA).toBe(preset.den)
+  expect(result.current.timing.measureA).toBeCloseTo((60 / preset.bpm) * preset.num * (4 / preset.den), 12)
   expect(result.current.level).toBe(2)
   expect(result.current.metronome).toBe(false)
   expect(result.current.presetModified).toBe(false)
   expect(result.current.accentsA).toEqual(preset.accents)
-  expect(result.current.timing.stepA).toBeCloseTo(60 / preset.bpm, 12)
+  expect(result.current.timing.stepA).toBeCloseTo((60 / preset.bpm) * (4 / preset.den) / (preset.subdivision ?? 1), 12)
   if (preset.id.startsWith('bulerias')) {
     expect(result.current.beatLabelsA).toEqual([12,1,2,3,4,5,6,7,8,9,10,11])
     expect(result.current.audioDescription).toContain('12, 3, ' + (preset.id === 'bulerias' ? '6' : '7') + ', 8, 10')
   }
   await act(async () => { await result.current.startPlayback() })
   const ctx = audioEngine.ctx
-  for (let t = .025; t < .08 + (preset.num - 1) * result.current.timing.stepA; t += .025) { ctx.advanceTo(t); audioEngine.schedule() }
+  for (let t = .025; t < .08 + (preset.accents.length - 1) * result.current.timing.stepA; t += .025) { ctx.advanceTo(t); audioEngine.schedule() }
   const aSources = ctx.sources.filter(source => [audioEngine.sampleBankBuffers.kickSoft, audioEngine.sampleBankBuffers.kickStrong].includes(source.buffer))
-  const expected = preset.accents.flatMap((accent, index) => accent ? [.08 + index * result.current.timing.stepA] : [])
+  const expected = preset.accents.flatMap((accent, index) => accent ? Array(preset.events?.[index].length || 1).fill(.08 + index * result.current.timing.stepA) : [])
   expect(aSources.map(source => source.startTime)).toHaveLength(expected.length)
   aSources.forEach((source, index) => expect(source.startTime).toBeCloseTo(expected[index], 10))
   act(() => result.current.setAccentsA(prev => prev.map((value, i) => i === 0 ? (value + 1) % 3 : value)))
@@ -112,7 +115,7 @@ it('clave restaura el patrón B anterior al cambiar a otro modo', () => {
 
 it('presets bloquean todas las ediciones de A; compás libre conserva sonido y desbloquea', async () => {
   const { result } = renderHook(useRitmia, { wrapper })
-  act(() => { result.current.setLevel(2); result.current.applyPreset('tangos') })
+  act(() => { result.current.setLevel(2); result.current.setInstrumentChoiceA('acoustic'); result.current.applyPreset('tangos') })
   const updater = vi.fn(() => [2, 2, 2, 2])
   act(() => {
     result.current.setNumA(7); result.current.setDenA(8)
@@ -135,4 +138,26 @@ it('presets bloquean todas las ediciones de A; compás libre conserva sonido y d
   expect(audioEngine.params).toEqual(audioParams)
   act(() => { result.current.setNumA(4); result.current.setDenA(8); result.current.setAccentsA([0,1,2,1]); result.current.setGroupingA('2+2') })
   expect(result.current).toMatchObject({ presetId: '', presetLocked: false, numA: 4, denA: 8, accentsA: [0,1,2,1], groupingA: '2+2' })
+})
+
+it('Malfuf conserva 2/4, ocho semicorcheas y fase al desbloquear; la edición libre mantiene la resolución', async () => {
+  const { result } = renderHook(useRitmia, { wrapper })
+  act(() => { result.current.setInstrumentChoiceA('acoustic'); result.current.applyPreset('malfuf') })
+  expect(result.current).toMatchObject({ numA: 2, denA: 4, subdivisionA: 4, gridCountA: 8 })
+  expect(result.current.timing.stepA).toBe(.125)
+  expect(result.current.timing.measureA).toBe(1)
+  expect(result.current.gridGroupingA).toEqual([4, 4])
+  expect(result.current.beatLabelsA).toEqual(['1', '1e', '1&', '1a', '2', '2e', '2&', '2a'])
+  await act(async () => { await result.current.startPlayback() })
+  const params = audioEngine.params
+  const next = audioEngine.nextNoteTimeA
+  act(() => result.current.clearPreset())
+  expect(audioEngine.params).toEqual(params)
+  expect(audioEngine.nextNoteTimeA).toBe(next)
+  expect(result.current).toMatchObject({ subdivisionA: 4, gridCountA: 8 })
+  act(() => result.current.setAccentsA(a => a.map((v, i) => i === 7 ? 1 : v)))
+  expect(result.current.accentsA[7]).toBe(1)
+  act(() => result.current.setNumA(32))
+  expect(result.current.subdivisionA).toBe(1)
+  expect(result.current.accentsA).toHaveLength(32)
 })

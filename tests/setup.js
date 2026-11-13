@@ -58,6 +58,7 @@ class MockBufferSourceNode extends MockAudioNode {
   constructor() {
     super()
     this.buffer = null
+    this.playbackRate = new MockAudioParam(1)
     this.start = vi.fn()
     this.stop = vi.fn()
   }

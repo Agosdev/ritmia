@@ -58,24 +58,47 @@ it('aplica grupos explícitamente sin borrar silencios ni otros acentos y permit
   expect(screen.getByRole('button', { name: 'Aplicar acentos a los grupos' })).toBeDisabled()
 })
 
+// Helper: abre el listbox del selector custom y hace click en un item por nombre
+function openAndSelect(name) {
+  const combobox = screen.getByRole('combobox', { name: 'Preset' })
+  fireEvent.click(combobox)
+  if (name === '') {
+    // Compás libre es el primer option en el listbox
+    const freeOpt = screen.getByRole('option', { name: /Compás libre/ })
+    fireEvent.click(freeOpt)
+  } else {
+    const option = screen.getByRole('option', { name: new RegExp(name, 'i') })
+    fireEvent.click(option)
+  }
+}
+
 it('ofrece todos los palos solicitados por su nombre sin duplicar presets existentes', () => {
   render(<App />)
-  const select = screen.getByLabelText('Preset')
-  const names = [...select.options].map(option => option.textContent)
+  // Abre el listbox
+  const combobox = screen.getByRole('combobox', { name: 'Preset' })
+  fireEvent.click(combobox)
+  // Verifica que todos los palos flamencos están presentes como opciones
   for (const name of ['Martinete', 'Soleá', 'Soleá por bulerías', 'Bulerías', 'Alegrías',
     'Seguiriyas', 'Guajiras', 'Tangos flamencos', 'Tientos', 'Rumba flamenca', 'Farruca', 'Sevillanas']) {
-    expect(names.filter(text => text === name)).toHaveLength(1)
+    const opts = screen.getAllByRole('option').filter(o => o.textContent.replace(/^(Flamenco|Árabe|Tango)/, '') === name)
+    expect(opts).toHaveLength(1)
   }
-  fireEvent.change(select, { target: { value: 'martinete' } })
+  // Verifica los ritmos árabes esenciales
+  for (const name of ['Maqsum', 'Baladi', 'Saidi', 'Malfuf', 'Ayoub', 'Masmoudi Kabir']) {
+    const opts = screen.getAllByRole('option').filter(o => o.textContent.replace(/^(Flamenco|Árabe|Tango)/, '') === name)
+    expect(opts).toHaveLength(1)
+  }
+  // Selecciona Martinete y verifica descripción
+  fireEvent.click(screen.getByRole('option', { name: /Martinete/ }))
   expect(screen.getByText(/no reproduce el cante libre de martinete/)).toBeInTheDocument()
 })
 
 it('selección inmediata bloquea A y compás libre en el transporte restituye la edición', () => {
   render(<App />)
-  const select = screen.getByLabelText('Preset')
-  expect(select).toHaveValue('')
+  const combobox = screen.getByRole('combobox', { name: 'Preset' })
   expect(screen.queryByRole('button', { name: 'Aplicar', exact: true })).not.toBeInTheDocument()
-  fireEvent.change(select, { target: { value: 'tangos' } })
+  // Selecciona "Tangos flamencos"
+  openAndSelect('Tangos flamencos')
   const grid = screen.getByRole('group', { name: 'Secuenciador pista A' })
   const cells = grid.querySelectorAll('button')
   expect(cells).toHaveLength(4)
@@ -88,15 +111,17 @@ it('selección inmediata bloquea A y compás libre en el transporte restituye la
   fireEvent.click(screen.getByText('Agrupaciones (opcional)'))
   expect(screen.getByLabelText('Agrupación métrica pista A')).toBeDisabled()
   expect(screen.getByRole('button', { name: 'Aplicar acentos a los grupos' })).toBeDisabled()
-  fireEvent.change(select, { target: { value: '' } })
+  // Volver a Compás libre
+  openAndSelect('')
   expect(cells[0]).toBeEnabled()
   expect(screen.getByLabelText('Numerador compás A')).toBeEnabled()
   expect(screen.getByLabelText('Agrupación métrica pista A')).toBeEnabled()
   fireEvent.click(cells[0])
   expect(cells[0]).toHaveAttribute('data-accent', '1')
-  fireEvent.change(select, { target: { value: 'sevillanas' } })
-  fireEvent.change(select, { target: { value: '' } })
-  expect(select).toHaveValue('')
+  // Selecciona Sevillanas y vuelve a libre; el numerador debe quedar en 3
+  openAndSelect('Sevillanas')
+  openAndSelect('')
+  expect(screen.getByRole('combobox', { name: 'Preset' })).toHaveFocus()
   expect(screen.getByLabelText('Numerador compás A')).toHaveValue(3)
   expect(screen.getByLabelText('Numerador compás A')).toBeEnabled()
   expect(screen.queryByLabelText('Opciones')).not.toBeInTheDocument()
@@ -105,28 +130,29 @@ it('selección inmediata bloquea A y compás libre en el transporte restituye la
 
 it('sincroniza chip, selector y ambas X sin borrar el patrón al volver a Compás libre', () => {
   render(<App />)
-  const select = screen.getByLabelText('Preset')
   const chip = screen.getByRole('group', { name: 'Compás elegido' })
   expect(chip).toHaveTextContent('Compás libre')
   expect(chip).toHaveTextContent('7/8')
   expect(screen.queryByRole('button', { name: /Quitar preset desde/ })).not.toBeInTheDocument()
-  fireEvent.change(select, { target: { value: 'tangos' } })
+  // Selecciona Tangos flamencos
+  openAndSelect('Tangos flamencos')
   expect(chip).toHaveTextContent('Tangos flamencos')
   expect(chip).toHaveTextContent('4/4')
   expect(chip.firstElementChild).toHaveAccessibleName('Quitar preset desde el chip')
+  // Quitar desde el selector
   fireEvent.click(screen.getByRole('button', { name: 'Quitar preset desde el selector' }))
-  expect(select).toHaveValue('')
-  expect(select).toHaveFocus()
+  expect(screen.getByRole('combobox', { name: 'Preset' })).toHaveFocus()
   expect(chip).toHaveTextContent('Compás libre')
   expect(chip).toHaveTextContent('4/4')
   expect(screen.getByLabelText('Numerador compás A')).toBeEnabled()
   expect([...screen.getByRole('group', { name: 'Secuenciador pista A' }).querySelectorAll('button')].map(b => b.dataset.accent)).toEqual(['0','2','1','2'])
-  fireEvent.change(select, { target: { value: 'sevillanas' } })
+  // Selecciona Sevillanas
+  openAndSelect('Sevillanas')
   expect(chip).toHaveTextContent('Sevillanas')
   expect(chip).toHaveTextContent('3/4')
+  // Quitar desde el chip
   fireEvent.click(screen.getByRole('button', { name: 'Quitar preset desde el chip' }))
-  expect(select).toHaveValue('')
-  expect(select).toHaveFocus()
+  expect(screen.getByRole('combobox', { name: 'Preset' })).toHaveFocus()
   expect(chip).toHaveTextContent('Compás libre')
   expect(screen.queryByRole('button', { name: /Quitar preset desde/ })).not.toBeInTheDocument()
   change('Numerador compás A', 5)

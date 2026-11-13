@@ -6,10 +6,13 @@ import { NOTE_NAMES } from '../music/constants'
 import { isNumerator, isDenominator, isBpm, isMode, isUnitValue, isAccentArray, isLevel, isText } from '../music/validation'
 import { useSystemReducedMotion } from '../hooks/useSystemReducedMotion'
 import { MUSICAL_PRESETS } from '../music/presets'
+import { BASS_PATTERNS } from '../music/bassPatterns'
+import { isInstrumentChoice, recommendedInstrument } from '../audio/instrumentCatalog'
 import { audioEngine } from '../audio/AudioEngine'
 
 const RitmiaContext = createContext(null)
 const RitmiaRealtimeContext = createContext(null)
+const isBassChoice = choice => ['auto', 'on', 'off'].includes(choice)
 
 // Preserva la API de setter de React, incluidos los actualizadores funcionales.
 function useValidatedState(initial, validate) {
@@ -103,6 +106,32 @@ export function RitmiaProvider({ children }) {
   const [metronome, setMetronome] = useState(false)
   const [audioError, setAudioError] = useState(null)
   const [presetId, setPresetId] = useState('')
+  const [instrumentChoiceA, setInstrumentChoiceA] = useValidatedState('auto', isInstrumentChoice)
+  const [instrumentChoiceB, setInstrumentChoiceB] = useValidatedState('auto', isInstrumentChoice)
+  const [bassChoiceA, setBassChoiceA] = useValidatedState('auto', isBassChoice)
+  const selectedPreset = MUSICAL_PRESETS.find(item => item.id === presetId)
+  const bassPatternA = BASS_PATTERNS[presetId] ?? null
+  const bassEnabledA = !!bassPatternA && (bassChoiceA === 'auto' ? bassPatternA.defaultEnabled : bassChoiceA === 'on')
+  const bassEventsA = bassEnabledA ? bassPatternA.events : null
+  const recommendedInstrumentA = recommendedInstrument(selectedPreset)
+  // B has no preset selector: its free/Clave pattern retains the current kit by default.
+  const recommendedInstrumentB = 'acoustic'
+  const instrumentA = instrumentChoiceA === 'auto' ? recommendedInstrumentA : instrumentChoiceA
+  const instrumentB = instrumentChoiceB === 'auto' ? recommendedInstrumentB : instrumentChoiceB
+  const [instrumentStatus, setInstrumentStatus] = useState({})
+  useEffect(() => audioEngine.subscribeInstrumentStatus(setInstrumentStatus), [])
+  const retryInstrument = useCallback(track => audioEngine.retryInstrument(track), [])
+  const [storedStrokesA, setStrokesA] = useState(null)
+
+  const [storedSubdivisionA, setSubdivisionA] = useState(1)
+  const subdivisionA = numA * storedSubdivisionA <= 32 && denA * storedSubdivisionA <= 32 ? storedSubdivisionA : 1
+  const gridCountA = numA * subdivisionA
+  const strokesA = useMemo(() => storedStrokesA
+    ? Array.from({ length: gridCountA }, (_, i) => storedStrokesA[i] ?? null)
+    : null, [storedStrokesA, gridCountA])
+  useEffect(() => {
+    if (subdivisionA !== storedSubdivisionA) setSubdivisionA(1)
+  }, [subdivisionA, storedSubdivisionA])
 
   // Estado Visual en Tiempo Real (vía rAF)
   const [currentBeatA, setCurrentBeatA] = useState(-1)
@@ -116,24 +145,23 @@ export function RitmiaProvider({ children }) {
   const playbackRequestedRef = useRef(false)
   const scheduledNotesRef = useRef(audioEngine.scheduledNotes)
 
-  // El motor recibe siempre un paso por unidad del numerador, incluso en el
-  // render anterior al efecto que redimensiona permanentemente los acentos.
-  const accentsA = useMemo(() => Array.from({ length: numA }, (_, i) => storedAccentsA[i] ?? 0), [storedAccentsA, numA])
+  // Una posición por subdivisión, sin cambiar la métrica escrita.
+  const accentsA = useMemo(() => Array.from({ length: gridCountA }, (_, i) => storedAccentsA[i] ?? 0), [storedAccentsA, gridCountA])
   const accentsB = useMemo(() => Array.from({ length: numB }, (_, i) => storedAccentsB[i] ?? 0), [storedAccentsB, numB])
 
   // Normalizar array de acentos A cuando cambia numA
   useEffect(() => {
     setAccentsA(prev => {
       const copy = [...prev]
-      if (copy.length < numA) {
-        return [...copy, ...Array(numA - copy.length).fill(0)]
+      if (copy.length < gridCountA) {
+        return [...copy, ...Array(gridCountA - copy.length).fill(0)]
       }
-      if (copy.length > numA) {
-        return copy.slice(0, numA)
+      if (copy.length > gridCountA) {
+        return copy.slice(0, gridCountA)
       }
       return copy
     })
-  }, [numA])
+  }, [gridCountA])
 
   // Normalizar array de acentos B cuando cambia numB
   useEffect(() => {
@@ -191,8 +219,8 @@ export function RitmiaProvider({ children }) {
     const claveMeasures = mode === 'clave'
       ? CLAVE_PATTERNS[claveIndex]?.cycleMeasures ?? 1
       : 1
-    return calculateTiming({ bpm, numA, denA, numB, denB, mode, claveMeasures })
-  }, [bpm, numA, denA, numB, denB, mode, claveIndex])
+    return calculateTiming({ bpm, numA, denA, numB, denB, mode, claveMeasures, subdivisionA })
+  }, [bpm, numA, denA, numB, denB, mode, claveIndex, subdivisionA])
 
   const suggestionsA = useMemo(() => getGroupingSuggestions(numA), [numA])
   const suggestionsB = useMemo(() => getGroupingSuggestions(numB), [numB])
@@ -212,8 +240,10 @@ export function RitmiaProvider({ children }) {
       volumeB,
       morph: morphAmount,
       metronome,
+      instrumentA, instrumentB, strokesA,
+      bassEventsA, bassEventsB: null,
     })
-  }, [level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome])
+  }, [level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome, instrumentA, instrumentB, strokesA, bassEventsA])
 
   // Loop de Animación Visual Sincronizado (rAF)
   const updateRealtimeState = useCallback(() => {
@@ -280,7 +310,9 @@ export function RitmiaProvider({ children }) {
         volumeB,
         morph: morphAmount,
         metronome,
-        })
+        instrumentA, instrumentB, strokesA,
+        bassEventsA, bassEventsB: null,
+      })
       if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
       setTransportState('playing')
       runAnimationLoop()
@@ -291,7 +323,7 @@ export function RitmiaProvider({ children }) {
       setAudioError('No se pudo iniciar la percusión acústica. Comprobá la conexión y volvé a intentar.')
     }
   }, [
-    level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome,
+    level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome, instrumentA, instrumentB, strokesA, bassEventsA,
     runAnimationLoop,
   ])
 
@@ -369,6 +401,8 @@ export function RitmiaProvider({ children }) {
     const preset = MUSICAL_PRESETS.find(item => item.id === id)
     if (!preset) return
     setPresetId(id)
+    setStrokesA(preset.events ? preset.events.map((events, i) => ({ events, referenceAccent: preset.accents[i] })) : preset.strokes ?? null)
+    setSubdivisionA(preset.subdivision ?? 1)
     setNumA(preset.num)
     setDenA(preset.den)
     setAccentsA([...preset.accents])
@@ -378,11 +412,18 @@ export function RitmiaProvider({ children }) {
   const preset = MUSICAL_PRESETS.find(item => item.id === presetId)
   const presetLocked = !!preset
   const clearPreset = useCallback(() => setPresetId(''), [])
+  const editSubdivisionA = useCallback(value => {
+    if (!presetLocked && [1, 2, 3, 4].includes(value) && numA * value <= 32 && denA * value <= 32) setSubdivisionA(value)
+  }, [presetLocked, numA, denA])
+  const gridGroupingA = useMemo(() => activeGroupingA?.map(size => size * subdivisionA) ?? null, [activeGroupingA, subdivisionA])
   const editNumA = useManualPatternSetter(setNumA, presetLocked)
   const editDenA = useManualPatternSetter(setDenA, presetLocked)
   const editAccentsA = useManualPatternSetter(setAccentsA, presetLocked)
   const editGroupingA = useManualPatternSetter(setGroupingA, presetLocked)
-  const beatLabelsA = preset?.labels?.length === numA && denA === preset.den ? preset.labels : null
+  const beatLabelsA = useMemo(() => subdivisionA > 1
+    ? Array.from({ length: gridCountA }, (_, i) => `${Math.floor(i / subdivisionA) + 1}${i % subdivisionA ? (subdivisionA === 2 ? '&' : (subdivisionA === 3 ? ['', '-ta', '-la'] : ['', 'e', '&', 'a'])[i % subdivisionA]) : ''}`)
+    : preset?.labels?.length === numA && denA === preset.den ? preset.labels : null,
+  [subdivisionA, gridCountA, preset, numA, denA])
   const presetModified = !!preset && (numA !== preset.num || denA !== preset.den || bpm !== preset.bpm ||
     groupingA !== preset.grouping || accentsA.some((value, index) => value !== preset.accents[index]))
 
@@ -401,6 +442,7 @@ export function RitmiaProvider({ children }) {
       strongA.length ? ` en ${strongA.join(', ')}` : ''
     }. Duración de compás: ${durCompasA}s (negra: ${durNegra}s).`
 
+    if (subdivisionA > 1) desc += ` Rejilla A: ${gridCountA} posiciones iguales (${subdivisionA} por unidad de 1/${denA}).`
     if (level === 2) {
       const accentsCountB = accentsB.filter(b => b > 0).length
       const canonicalClaveCycle = mode === 'clave' && CLAVE_PATTERNS[claveIndex]?.cycleMeasures === 2
@@ -423,6 +465,7 @@ export function RitmiaProvider({ children }) {
   }, [
     numA,
     denA,
+    subdivisionA, gridCountA,
     accentsA,
     beatLabelsA,
     bpm,
@@ -437,6 +480,10 @@ export function RitmiaProvider({ children }) {
   ])
 
   const value = useMemo(() => ({
+    instrumentChoiceA, setInstrumentChoiceA, instrumentChoiceB, setInstrumentChoiceB,
+    bassChoiceA, setBassChoiceA, bassPatternA, bassEnabledA,
+    instrumentA, instrumentB, recommendedInstrumentA, recommendedInstrumentB,
+    instrumentStatus, retryInstrument, strokesA,
     bpm,
     setBpm,
     isPlaying,
@@ -450,6 +497,7 @@ export function RitmiaProvider({ children }) {
     setLevel,
 
     // Track A
+    subdivisionA, setSubdivisionA: editSubdivisionA, gridCountA, gridGroupingA,
     numA,
     setNumA: editNumA,
     denA,
@@ -502,8 +550,12 @@ export function RitmiaProvider({ children }) {
     audioDescription,
 
   }), [
+    instrumentChoiceA, setInstrumentChoiceA, instrumentChoiceB, setInstrumentChoiceB,
+    bassChoiceA, setBassChoiceA, bassPatternA, bassEnabledA,
+    instrumentA, instrumentB, recommendedInstrumentA, recommendedInstrumentB,
+    instrumentStatus, retryInstrument, strokesA,
     bpm, setBpm, isPlaying, transportState, togglePlayback, startPlayback, pausePlayback, stopPlayback, level, setLevel,
-    numA, editNumA, denA, editDenA, accentsA, editAccentsA, groupingA, editGroupingA,
+    subdivisionA, editSubdivisionA, gridCountA, gridGroupingA, numA, editNumA, denA, editDenA, accentsA, editAccentsA, groupingA, editGroupingA,
     volumeA, setVolumeA, parsedGroupingA, isValidGroupingA, activeGroupingA,
     groupingStatusA, groupingFeedbackA, suggestionsA, numB, setNumB, denB, setDenB,
     accentsB, setAccentsB, groupingB, setGroupingB, volumeB, setVolumeB, parsedGroupingB,

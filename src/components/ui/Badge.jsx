@@ -54,8 +54,9 @@ export const Badge = styled.span`
     }
   }}
   ${({ theme }) => theme.variant === 'lite' && css`
-    background: ${theme.colors.panel2};
-    border-color: ${theme.colors.border};
+    background: ${theme.glass.field};
+    border-color: ${theme.glass.rim};
+    box-shadow: inset 0 1px 0 #ffffffee;
     color: ${theme.colors.text};
   `}
 
