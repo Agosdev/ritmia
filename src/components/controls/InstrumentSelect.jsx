@@ -21,7 +21,7 @@ export function InstrumentSelect({ track }) {
   const recommended = context[`recommendedInstrument${track}`]
   const kit = INSTRUMENTS[context[`instrument${track}`]]
   const status = context.instrumentStatus[track]
-  return <Control>
+  return <Control data-tour-target={track === 'A' ? 'instruments' : undefined}>
     <label htmlFor={id}>Instrumento pista {track}
       <select id={id} aria-label={`Instrumento pista ${track}`} value={choice}
         onChange={e => setChoice(e.target.value)} aria-describedby={`${id}-status`}>

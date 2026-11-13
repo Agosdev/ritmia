@@ -4,7 +4,7 @@ import { liteSurface, litePressable } from '../../styles/liteSurfaces'
 import { useRitmia } from '../../context/RitmiaContext'
 
 const Navigation = styled.nav`
-  width: min(72%, 640px);
+  width: 100%;
   min-width: 0;
 `
 

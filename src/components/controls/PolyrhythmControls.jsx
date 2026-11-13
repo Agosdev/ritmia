@@ -215,7 +215,7 @@ export function PolyrhythmControls() {
 
   return (
     <PolyrhythmContainer>
-      <ModesGrid>
+      <ModesGrid data-tour-target="modes">
         <div style={{ gridColumn: 'span 2', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em', color: theme.colors.textDim, fontFamily: theme.fonts.mono }}>
           Modo · relación entre A y B
         </div>

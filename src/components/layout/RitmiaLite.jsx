@@ -6,6 +6,8 @@ import { liteControls } from '../../styles/liteSurfaces'
 import { useRitmia } from '../../context/RitmiaContext'
 import { InstrumentSelect } from '../controls/InstrumentSelect'
 import { PresetExplanation, PresetChip } from '../controls/MusicalPresets'
+import { LearningTour } from '../tour/LearningTour'
+import { useLearningTour } from '../tour/useLearningTour'
 import { Header } from './Header'
 import { LiteTransportDock } from './LiteTransportDock'
 import { TimeSignatureBuilder } from '../controls/TimeSignatureBuilder'
@@ -137,6 +139,7 @@ const Options = styled.details`
 export function RitmiaLite() {
   const {
     level,
+    setLevel,
     metronome,
     setMetronome,
     presetLocked,
@@ -154,12 +157,14 @@ export function RitmiaLite() {
   } = useRitmia()
   const showGrouping = true
   const showTrackB = level === 2
+  const tour = useLearningTour({ level, setLevel })
 
   return (
     <ThemeProvider theme={levelThemes[level]}>
     <Page className="lite-interface" data-level={level} data-reduced-motion={reduceMotion}>
-      <Header />
+      <Header onHelp={tour.startMain} />
       <LiteTransportDock />
+      <LearningTour controller={tour} />
       <Main>
         <Intro>
           <h2>{level === 1 ? 'Creá un ritmo' : 'Explorá dos ritmos'}</h2>
@@ -182,7 +187,8 @@ export function RitmiaLite() {
             const isB = track === 'B'
             const grouping = isB ? activeGroupingB : gridGroupingA
             const metricGrouping = isB ? activeGroupingB : activeGroupingA
-            return <GridSection key={track} data-track={track}>
+            return <GridSection key={track} data-track={track}
+              data-tour-target={track === 'A' ? 'sequencer' : 'tracks'}>
               <CardHeader>
                 <h2>Secuenciador {track}</h2>
                 <p>{!isB && presetLocked ? 'Patrón del preset · bloqueado' : 'Silencio → suave → fuerte'}</p>
@@ -212,7 +218,7 @@ export function RitmiaLite() {
             <Options open>
               <summary>Relación entre A y B</summary>
               <div>
-                <PolyrhythmControls />
+              <PolyrhythmControls />
               </div>
             </Options>
           )}

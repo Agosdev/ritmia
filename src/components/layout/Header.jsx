@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { glassBar } from '../../styles/glassSurfaces'
 import { LiteLevelNavigation } from './LiteLevelNavigation'
+import { TourHelpButton } from '../tour/LearningTour'
 
 const Bar = styled.header`
   position: fixed;
@@ -25,9 +26,19 @@ const Inner = styled.div`
   @media (max-width: 600px) { p { display: none; } }
 `
 
-export function Header() {
+const LevelActions = styled.div`
+  width: min(74%, 690px);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  > nav { flex: 1 1 auto; width: auto; }
+  > button { flex: 0 0 44px; }
+`
+
+export function Header({ onHelp }) {
   return <Bar><Inner>
     <div><h1>Ritmia</h1><p>Laboratorio rítmico</p></div>
-    <LiteLevelNavigation />
+    <LevelActions><LiteLevelNavigation /><TourHelpButton onClick={onHelp} /></LevelActions>
   </Inner></Bar>
 }

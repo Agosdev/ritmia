@@ -101,7 +101,7 @@ export function LiteTransportDock() {
   return (
     <Dock data-testid="lite-mobile-transport">
       <DockInner role="group" aria-label="Controles de reproducción">
-        <BpmControl>
+        <BpmControl data-tour-target="bpm">
           <span>BPM</span>
           <BpmRange
             type="range"
@@ -124,7 +124,7 @@ export function LiteTransportDock() {
             aria-label="Valor numérico BPM"
           />
         </BpmControl>
-        <Actions data-testid="transport-actions">
+        <Actions data-testid="transport-actions" data-tour-target="transport">
           <TransportActions />
           <PresetSelect />
         </Actions>

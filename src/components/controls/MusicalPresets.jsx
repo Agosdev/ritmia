@@ -519,7 +519,7 @@ export function PresetSelect() {
   const optionId = index => `${listboxId}-opt-${index}`
 
   return (
-    <ComboWrapper ref={wrapperRef} data-preset-control onBlur={event => {
+    <ComboWrapper ref={wrapperRef} data-preset-control data-tour-target="preset" onBlur={event => {
       if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget) && !popupRef.current?.contains(event.relatedTarget)) closePopup()
     }}>
       {open ? (
