@@ -1,11 +1,10 @@
 import { expect, test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 
-const shots = '/private/tmp/ritmia-search-layout'
-mkdirSync(shots, { recursive: true })
-
 for (const width of [320, 375, 768, 1280]) test(`selector responsive ${width}px: alineación, coincidencias y vacío`, async ({ browser }, testInfo) => {
   test.setTimeout(60000)
+  const shots = testInfo.outputPath('screenshots')
+  mkdirSync(shots, { recursive: true })
   const mobile = width <= 375
   const context = await browser.newContext({ viewport: { width, height: 900 }, isMobile: mobile, hasTouch: mobile })
   try {

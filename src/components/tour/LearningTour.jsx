@@ -97,6 +97,11 @@ const Invite = styled(Card)`
   right: 12px;
   width: min(330px, calc(100vw - 24px));
   max-height: min(280px, calc(100dvh - 24px));
+  /* A first-visit invitation is a non-modal notice; the app remains usable
+     wherever the notice itself has no interactive control. */
+  pointer-events: none;
+  > * { pointer-events: none; }
+  button { pointer-events: auto; }
   @media (max-width: 600px) { top: calc(5.5rem + var(--safe-top) + 8px); }
 `
 

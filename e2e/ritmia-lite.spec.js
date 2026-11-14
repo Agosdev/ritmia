@@ -4,7 +4,7 @@ for (const width of [320, 375, 768, 1280]) {
   test(`Ritmia fits ${width}px and keeps its primary controls usable`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/')
-    await expect(page.getByRole('heading', { name: 'Ritmia' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ritmia', exact: true })).toBeVisible()
     const dock = page.getByTestId('lite-mobile-transport')
     const actions = page.getByTestId('transport-actions')
     await expect(dock).toHaveCSS('position', 'fixed')

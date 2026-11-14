@@ -273,15 +273,17 @@ export function RitmiaProvider({ children }) {
 
   const runAnimationLoop = useCallback(() => {
     let lastVisualTime = -Infinity
+    const isNarrowScreen = window.matchMedia?.('(max-width: 600px)')?.matches === true
+    const visualInterval = isNarrowScreen ? 1 / 24 : 1 / 30
     const loop = () => {
       if (!audioEngine.isPlaying || !audioEngine.ctx) {
         rafRef.current = null
         return
       }
 
-      // Presentation only: at most 30 React updates/s, positioned by the audio clock.
+      // Presentation only: lower mobile React work slightly; audio keeps the same clock.
       const now = audioEngine.getCurrentAudioTime()
-      if (!document.hidden && now - lastVisualTime >= 1 / 30 - 0.001) {
+      if (!document.hidden && now - lastVisualTime >= visualInterval - 0.001) {
         lastVisualTime = now
         updateRealtimeState()
       }

@@ -1,10 +1,13 @@
 import { chromium, expect } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
-const output = process.env.AUDIO_EVIDENCE_DIR || '/private/tmp/ritmia-10-evidence'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+const output = process.env.AUDIO_EVIDENCE_DIR || path.join(tmpdir(), 'ritmia-10-evidence')
+const playbackMs = Number(process.env.AUDIO_PLAYBACK_MS || 8000)
 await mkdir(output, { recursive: true })
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, headless: true })
+const browser = await chromium.launch({ ...(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {}), headless: true })
 const page = await browser.newPage()
-const report = { url: process.env.AUDIO_AUDIT_URL || 'http://127.0.0.1:4173/ritmia/', errors: [], notes: 'Actual AudioContext and decoded WAVs. Timestamp instrumentation, not a listening assessment; no physical-device latency measurement.' }
+const report = { url: process.env.AUDIO_AUDIT_URL || 'http://127.0.0.1:4173/ritmia/', longPlaybackMs: playbackMs, errors: [], notes: 'Actual AudioContext and decoded WAVs. Timestamp instrumentation, not a listening assessment; no physical-device latency measurement.' }
 page.on('pageerror', e => report.errors.push(e.message))
 await page.addInitScript(() => {
   const Native = window.AudioContext
@@ -44,7 +47,7 @@ try {
   }
   await page.getByRole('spinbutton', { name: 'Valor numérico BPM' }).fill('120')
   await page.getByRole('button', { name: 'Reproducir', exact: true }).click()
-  await page.waitForTimeout(8000)
+  await page.waitForTimeout(playbackMs)
   await page.getByRole('button', { name: 'Detener reproducción' }).click()
   const frozen = await page.evaluate(() => ({ time: __auditContext.currentTime, state: __auditContext.state, trace: structuredClone(__audioAudit) }))
   await page.waitForTimeout(200)

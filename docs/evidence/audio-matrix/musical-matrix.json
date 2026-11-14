@@ -1,0 +1,7595 @@
+{
+  "method": "Preset data loaded through Vite SSR; bar/step duration independently calculated as (60/BPM)*(4/den)/subdivision and multiplied by the written numerator/subdivision. This checks data and arithmetic, not cultural/perceptual correctness or live scheduler timing.",
+  "presets": [
+    {
+      "id": "bulerias",
+      "family": "flamenco",
+      "name": "Bulerías",
+      "meter": "12/4",
+      "bpm": 180,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.333333,
+      "barSeconds": 4,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:fuerte",
+        "7:suave",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico: 12 posiciones iguales, una negra por cuenta. Acentos 12, 3, 6, 8 y 10. El 12/4 es la rejilla interna, no una transcripción convencional de bulerías."
+    },
+    {
+      "id": "bulerias-7",
+      "family": "flamenco",
+      "name": "Bulerías — variante en 7",
+      "meter": "12/4",
+      "bpm": 180,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.333333,
+      "barSeconds": 4,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:suave",
+        "7:fuerte",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        7,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Variante pedagógica con acento en 7 en lugar de 6; misma duración y conteo desde 12."
+    },
+    {
+      "id": "tangos",
+      "family": "flamenco",
+      "name": "Tangos flamencos",
+      "meter": "4/4",
+      "bpm": 100,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "4 x 1/4",
+      "stepSeconds": 0.6,
+      "barSeconds": 2.4,
+      "attacks": [
+        "1:fuerte",
+        "2:suave",
+        "3:fuerte"
+      ],
+      "silences": [
+        0
+      ],
+      "strongPositions": [
+        1,
+        3
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Reducción de palmas: primer tiempo vacío, apoyos en 2 y 4 y un golpe suave en 3. No representa todos los acompañamientos de tangos."
+    },
+    {
+      "id": "marcato",
+      "family": "tango",
+      "name": "Tango argentino — Marcato en cuatro",
+      "meter": "4/4",
+      "bpm": 112,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "4 x 1/4",
+      "stepSeconds": 0.535714,
+      "barSeconds": 2.142857,
+      "attacks": [
+        "0:fuerte",
+        "1:fuerte",
+        "2:fuerte",
+        "3:fuerte"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "acoustic",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Cuatro negras igualmente marcadas. Reducción rítmica sin anticipaciones, articulación instrumental ni armonía."
+    },
+    {
+      "id": "martinete",
+      "family": "flamenco",
+      "name": "Martinete",
+      "meter": "12/4",
+      "bpm": 80,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.75,
+      "barSeconds": 9,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:fuerte",
+        "3:suave",
+        "4:fuerte",
+        "5:suave",
+        "6:suave",
+        "7:fuerte",
+        "8:suave",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        2,
+        4,
+        7,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta. Adaptación al compás de seguiriya para el baile; no reproduce el cante libre de martinete. La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "solea",
+      "family": "flamenco",
+      "name": "Soleá",
+      "meter": "12/4",
+      "bpm": 90,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.666667,
+      "barSeconds": 8,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:fuerte",
+        "7:suave",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta.  La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "solea-por-bulerias",
+      "family": "flamenco",
+      "name": "Soleá por bulerías",
+      "meter": "12/4",
+      "bpm": 140,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.428571,
+      "barSeconds": 5.142857,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:fuerte",
+        "7:suave",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta.  La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "alegrias",
+      "family": "flamenco",
+      "name": "Alegrías",
+      "meter": "12/4",
+      "bpm": 130,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.461538,
+      "barSeconds": 5.538462,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:fuerte",
+        "7:suave",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta.  La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "seguiriyas",
+      "family": "flamenco",
+      "name": "Seguiriyas",
+      "meter": "12/4",
+      "bpm": 80,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.75,
+      "barSeconds": 9,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:fuerte",
+        "3:suave",
+        "4:fuerte",
+        "5:suave",
+        "6:suave",
+        "7:fuerte",
+        "8:suave",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        2,
+        4,
+        7,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta. Conteo desde 1; apoyos en los comienzos de los grupos 2+2+3+3+2. La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "guajiras",
+      "family": "flamenco",
+      "name": "Guajiras",
+      "meter": "12/4",
+      "bpm": 110,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/4",
+      "stepSeconds": 0.545455,
+      "barSeconds": 6.545455,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave",
+        "3:fuerte",
+        "4:suave",
+        "5:suave",
+        "6:fuerte",
+        "7:suave",
+        "8:fuerte",
+        "9:suave",
+        "10:fuerte",
+        "11:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo pedagógico de 12 posiciones iguales, una negra por cuenta. Los grupos 3+3 y 2+2+2 representan la alternancia de agrupación 6/8 y 3/4 sobre subdivisiones iguales. La rejilla interna 12/4 no es una transcripción convencional del palo."
+    },
+    {
+      "id": "tientos",
+      "family": "flamenco",
+      "name": "Tientos",
+      "meter": "4/4",
+      "bpm": 65,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "4 x 1/4",
+      "stepSeconds": 0.923077,
+      "barSeconds": 3.692308,
+      "attacks": [
+        "1:fuerte",
+        "2:suave",
+        "3:fuerte"
+      ],
+      "silences": [
+        0
+      ],
+      "strongPositions": [
+        1,
+        3
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Modelo editable en 4/4, basado en las palmas de tangos a un tempo más pausado. Sin microtiming ni articulación del cante."
+    },
+    {
+      "id": "rumba-flamenca",
+      "family": "flamenco",
+      "name": "Rumba flamenca",
+      "meter": "4/4",
+      "bpm": 110,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "4 x 1/4",
+      "stepSeconds": 0.545455,
+      "barSeconds": 2.181818,
+      "attacks": [
+        "0:suave",
+        "1:fuerte",
+        "2:suave",
+        "3:fuerte"
+      ],
+      "silences": [],
+      "strongPositions": [
+        1,
+        3
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "cajon-palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak",
+            "dum"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge",
+            "bass"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge",
+            "clap",
+            "bass"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak",
+            "zill",
+            "dum"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatSoft",
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Base pedagógica en 4/4 con apoyos en 2 y 4. No reproduce el rasgueo ni las síncopas de un acompañamiento de rumba."
+    },
+    {
+      "id": "farruca",
+      "family": "flamenco",
+      "name": "Farruca",
+      "meter": "4/4",
+      "bpm": 100,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "4 x 1/4",
+      "stepSeconds": 0.6,
+      "barSeconds": 2.4,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:fuerte",
+        "3:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        2
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "cajon",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Base pedagógica en 4/4 con apoyos en 1 y 3. Patrón editable, sin representar frases de baile ni acompañamiento completo."
+    },
+    {
+      "id": "sevillanas",
+      "family": "flamenco",
+      "name": "Sevillanas",
+      "meter": "3/4",
+      "bpm": 140,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "3 x 1/4",
+      "stepSeconds": 0.428571,
+      "barSeconds": 1.285714,
+      "attacks": [
+        "0:fuerte",
+        "1:suave",
+        "2:suave"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0
+      ],
+      "articulationEvents": null,
+      "strokes": null,
+      "recommendedInstrument": "palmas",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Base pedagógica en 3/4: primer tiempo fuerte y dos suaves. No reproduce la estructura completa de una sevillana."
+    },
+    {
+      "id": "maqsum",
+      "family": "arabe",
+      "name": "Maqsum",
+      "meter": "4/4",
+      "bpm": 100,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.3,
+      "barSeconds": 2.4,
+      "attacks": [
+        "0:D",
+        "1:T",
+        "3:T",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "T",
+        "-",
+        "T",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "4/4; 8 posiciones de 1/8. Base de Maqsum. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "baladi",
+      "family": "arabe",
+      "name": "Baladi",
+      "meter": "4/4",
+      "bpm": 92,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.326087,
+      "barSeconds": 2.608696,
+      "attacks": [
+        "0:D",
+        "1:D",
+        "3:T",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        1,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "D",
+        "-",
+        "T",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "4/4; 8 posiciones de 1/8. Masmoudi Saghir: dos DUM en el primer tiempo. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "saidi",
+      "family": "arabe",
+      "name": "Saidi",
+      "meter": "4/4",
+      "bpm": 90,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.333333,
+      "barSeconds": 2.666667,
+      "attacks": [
+        "0:D",
+        "1:T",
+        "3:D",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        3,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "T",
+        "-",
+        "D",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "4/4; 8 posiciones de 1/8. Variante con DUM al final del segundo tiempo y al comienzo del tercero. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "malfuf",
+      "family": "arabe",
+      "name": "Malfuf",
+      "meter": "2/4",
+      "bpm": 120,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 4,
+      "grid": "8 x 1/16",
+      "stepSeconds": 0.125,
+      "barSeconds": 1,
+      "attacks": [
+        "0:D",
+        "3:T",
+        "6:T"
+      ],
+      "silences": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "-",
+        "-",
+        "T",
+        "-",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "2/4; 8 posiciones de 1/16. Base de Malfuf; ataques separados por 3+3+2 semicorcheas. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "ayoub",
+      "family": "arabe",
+      "name": "Ayoub",
+      "meter": "2/4",
+      "bpm": 76,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 4,
+      "grid": "8 x 1/16",
+      "stepSeconds": 0.197368,
+      "barSeconds": 1.578947,
+      "attacks": [
+        "0:D",
+        "3:K",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        1,
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "-",
+        "-",
+        "K",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "ride",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "2/4; 8 posiciones de 1/16. Ayoub con KA antes del segundo tiempo, sin tresillos. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "masmoudi-kabir",
+      "family": "arabe",
+      "name": "Masmoudi Kabir",
+      "meter": "8/4",
+      "bpm": 60,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "8 x 1/4",
+      "stepSeconds": 1,
+      "barSeconds": 8,
+      "attacks": [
+        "0:D",
+        "1:D",
+        "3:T",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        1,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "D",
+        "-",
+        "T",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "8/4; 8 posiciones de 1/4. Base de dos DUM iniciales, sin rellenos. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "chiftetelli",
+      "family": "arabe",
+      "name": "Chiftetelli",
+      "meter": "8/4",
+      "bpm": 72,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "16 x 1/8",
+      "stepSeconds": 0.416667,
+      "barSeconds": 6.666667,
+      "attacks": [
+        "0:D",
+        "3:T",
+        "6:T",
+        "8:D",
+        "10:D",
+        "12:T"
+      ],
+      "silences": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        9,
+        11,
+        13,
+        14,
+        15
+      ],
+      "strongPositions": [
+        0,
+        8,
+        10
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "-",
+        "-",
+        "T",
+        "-",
+        "-",
+        "T",
+        "-",
+        "D",
+        "-",
+        "D",
+        "-",
+        "T",
+        "-",
+        "-",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "8/4; 16 posiciones de 1/8. Variante lenta turca/griega en ocho tiempos, sin rellenos; incluida en esta familia por afinidad de repertorio. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "wahda",
+      "family": "arabe",
+      "name": "Wahda",
+      "meter": "4/4",
+      "bpm": 72,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.416667,
+      "barSeconds": 3.333333,
+      "attacks": [
+        "0:D",
+        "3:T",
+        "6:T"
+      ],
+      "silences": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "-",
+        "-",
+        "T",
+        "-",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 3,
+          "sourceOnsets": 3,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "4/4; 8 posiciones de 1/8. Wahda Sogayara: un solo DUM inicial (variante de Nesma y Khamis Henkesh). Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "fallahi",
+      "family": "arabe",
+      "name": "Fallahi",
+      "meter": "2/4",
+      "bpm": 108,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 4,
+      "grid": "8 x 1/16",
+      "stepSeconds": 0.138889,
+      "barSeconds": 1.111111,
+      "attacks": [
+        "0:D",
+        "1:T",
+        "3:T",
+        "4:D",
+        "6:T"
+      ],
+      "silences": [
+        2,
+        5,
+        7
+      ],
+      "strongPositions": [
+        0,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "T",
+        "-",
+        "T",
+        "D",
+        "-",
+        "T",
+        "-"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 5,
+          "sourceOnsets": 5,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "2/4; 8 posiciones de 1/16. Base comprimida de Maqsum en dos tiempos; TAK representa aquí también la articulación ZAK, no disponible en el audio. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "karsilama",
+      "family": "arabe",
+      "name": "Karsilama",
+      "meter": "9/8",
+      "bpm": 96,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "9 x 1/8",
+      "stepSeconds": 0.3125,
+      "barSeconds": 2.8125,
+      "attacks": [
+        "0:D",
+        "2:T",
+        "4:D",
+        "6:T",
+        "7:T",
+        "8:T"
+      ],
+      "silences": [
+        1,
+        3,
+        5
+      ],
+      "strongPositions": [
+        0,
+        4
+      ],
+      "articulationEvents": null,
+      "strokes": [
+        "D",
+        "-",
+        "T",
+        "-",
+        "D",
+        "-",
+        "T",
+        "T",
+        "T"
+      ],
+      "recommendedInstrument": "darbuka",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong",
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "9/8; 9 posiciones de 1/8. Variante turca de nueve corcheas, agrupadas 2+2+2+3; incluida por afinidad de repertorio. Sin swing interpretativo. Esqueleto de práctica sin adornos. D = DUM, T = TAK, K = KA; guion = silencio. La articulación audible depende del instrumento elegido."
+    },
+    {
+      "id": "pop-clasico",
+      "family": "pop",
+      "name": "Pop clásico",
+      "meter": "4/4",
+      "bpm": 100,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.3,
+      "barSeconds": 2.4,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:closedHat",
+        "2:snare+closedHat",
+        "3:closedHat",
+        "4:kick+closedHat",
+        "5:closedHat",
+        "6:snare+closedHat",
+        "7:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.85
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.85
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Corcheas rectas; bombo en 1 y 3, redoblante en 2 y 4. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "dance-pop",
+      "family": "pop",
+      "name": "Dance Pop",
+      "meter": "4/4",
+      "bpm": 120,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.25,
+      "barSeconds": 2,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:closedHat",
+        "2:kick+snare+closedHat",
+        "3:closedHat",
+        "4:kick+closedHat",
+        "5:closedHat",
+        "6:kick+snare+closedHat",
+        "7:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 1
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 1
+          },
+          {
+            "articulation": "snare",
+            "velocity": 0.8
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 1
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 1
+          },
+          {
+            "articulation": "snare",
+            "velocity": 0.8
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Four-on-the-floor: bombo en los cuatro tiempos, backbeat en 2 y 4 y hi-hat en corcheas. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "rock-clasico",
+      "family": "rock",
+      "name": "Rock clásico",
+      "meter": "4/4",
+      "bpm": 110,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.272727,
+      "barSeconds": 2.181818,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:kick+closedHat",
+        "2:snare+closedHat",
+        "3:closedHat",
+        "4:kick+closedHat",
+        "5:kick+closedHat",
+        "6:snare+closedHat",
+        "7:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 1
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 1
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.45
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Base rock de Berklee: bombos en 1, 1&, 3 y 3&; backbeat 2 y 4; corcheas rectas. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "half-time-rock",
+      "family": "rock",
+      "name": "Half-time Rock",
+      "meter": "4/4",
+      "bpm": 90,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 2,
+      "grid": "8 x 1/8",
+      "stepSeconds": 0.333333,
+      "barSeconds": 2.666667,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:closedHat",
+        "2:closedHat",
+        "3:closedHat",
+        "4:snare+closedHat",
+        "5:closedHat",
+        "6:closedHat",
+        "7:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        4
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.95
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 1
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.4
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Medio tiempo: redoblante principal en 3, bombo en 1; se mantienen el 4/4 y las corcheas, sin dividir el BPM. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "blues-shuffle",
+      "family": "blues",
+      "name": "Blues Shuffle",
+      "meter": "4/4",
+      "bpm": 96,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 3,
+      "grid": "12 x 1/12",
+      "stepSeconds": 0.208333,
+      "barSeconds": 2.5,
+      "attacks": [
+        "0:kick+closedHat",
+        "2:closedHat",
+        "3:snare+closedHat",
+        "5:closedHat",
+        "6:kick+closedHat",
+        "8:closedHat",
+        "9:snare+closedHat",
+        "11:closedHat"
+      ],
+      "silences": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.35
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums-soft",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 8,
+          "sourceOnsets": 8,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [
+        {
+          "position": 0,
+          "midi": 31,
+          "velocity": 0.82
+        },
+        {
+          "position": 2,
+          "midi": 38,
+          "velocity": 0.52
+        },
+        {
+          "position": 3,
+          "midi": 31,
+          "velocity": 0.62
+        },
+        {
+          "position": 5,
+          "midi": 38,
+          "velocity": 0.5
+        },
+        {
+          "position": 6,
+          "midi": 31,
+          "velocity": 0.76
+        },
+        {
+          "position": 8,
+          "midi": 38,
+          "velocity": 0.52
+        },
+        {
+          "position": 9,
+          "midi": 31,
+          "velocity": 0.65
+        },
+        {
+          "position": 11,
+          "midi": 38,
+          "velocity": 0.48
+        }
+      ],
+      "description": "Shuffle ternario 2:1: primera y tercera parte de cada tresillo; backbeat en 2 y 4. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "slow-blues",
+      "family": "blues",
+      "name": "Slow Blues",
+      "meter": "12/8",
+      "bpm": 72,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 1,
+      "grid": "12 x 1/8",
+      "stepSeconds": 0.416667,
+      "barSeconds": 5,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:closedHat",
+        "2:closedHat",
+        "3:snare+closedHat",
+        "4:closedHat",
+        "5:closedHat",
+        "6:kick+closedHat",
+        "7:closedHat",
+        "8:closedHat",
+        "9:snare+closedHat",
+        "10:closedHat",
+        "11:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        3,
+        6,
+        9
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.65
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.65
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.7
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.3
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 12,
+          "sourceOnsets": 12,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [
+        {
+          "position": 0,
+          "midi": 31,
+          "velocity": 0.82
+        },
+        {
+          "position": 3,
+          "midi": 38,
+          "velocity": 0.52
+        },
+        {
+          "position": 6,
+          "midi": 31,
+          "velocity": 0.72
+        },
+        {
+          "position": 9,
+          "midi": 38,
+          "velocity": 0.5
+        }
+      ],
+      "description": "12/8 agrupado 3+3+3+3: cuatro pulsos de negra con puntillo y las doce corcheas audibles. 72 negras/min equivalen a 48 pulsos con puntillo/min. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "jazz-swing",
+      "family": "jazz",
+      "name": "Jazz Swing",
+      "meter": "4/4",
+      "bpm": 132,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 3,
+      "grid": "12 x 1/12",
+      "stepSeconds": 0.151515,
+      "barSeconds": 1.818182,
+      "attacks": [
+        "0:ride",
+        "3:ride+pedalHat",
+        "5:ride",
+        "6:ride",
+        "9:ride+pedalHat",
+        "11:ride"
+      ],
+      "silences": [
+        1,
+        2,
+        4,
+        7,
+        8,
+        10
+      ],
+      "strongPositions": [],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          },
+          {
+            "articulation": "pedalHat",
+            "velocity": 0.55
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          }
+        ],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          },
+          {
+            "articulation": "pedalHat",
+            "velocity": 0.55
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.45
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums-jazz",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge",
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak",
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride",
+            "pedalHat"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 6,
+          "sourceOnsets": 6,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Ride de swing y hi-hat de pedal en 2 y 4; aproximación ternaria fija 2:1, sin comping ni bajo añadido. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "jazz-waltz",
+      "family": "jazz",
+      "name": "Jazz Waltz",
+      "meter": "3/4",
+      "bpm": 120,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 3,
+      "grid": "9 x 1/12",
+      "stepSeconds": 0.166667,
+      "barSeconds": 1.5,
+      "attacks": [
+        "0:ride+kick",
+        "3:ride+pedalHat",
+        "5:ride",
+        "6:ride+pedalHat"
+      ],
+      "silences": [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      "strongPositions": [
+        0
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.4
+          },
+          {
+            "articulation": "kick",
+            "velocity": 0.3
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.4
+          },
+          {
+            "articulation": "pedalHat",
+            "velocity": 0.45
+          }
+        ],
+        [],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.4
+          }
+        ],
+        [
+          {
+            "articulation": "ride",
+            "velocity": 0.4
+          },
+          {
+            "articulation": "pedalHat",
+            "velocity": 0.45
+          }
+        ],
+        [],
+        []
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums-jazz",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak",
+            "dum"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge",
+            "bass"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "edge",
+            "clap",
+            "bass"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "tak",
+            "zill",
+            "dum"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatSoft",
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareSoft",
+            "kickSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "ride",
+            "kickStrong",
+            "pedalHat"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 4,
+          "sourceOnsets": 4,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [],
+      "description": "Vals jazz en tres tiempos: ride con anticipación ternaria después de 2, pedal en 2 y 3 y bombo ligero en 1 (variantes de Vic Firth). Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    },
+    {
+      "id": "funk-clasico",
+      "family": "funk",
+      "name": "Funk clásico",
+      "meter": "4/4",
+      "bpm": 100,
+      "bpmUnit": "quarter-note/minute (BPM = negra/min)",
+      "subdivision": 4,
+      "grid": "16 x 1/16",
+      "stepSeconds": 0.15,
+      "barSeconds": 2.4,
+      "attacks": [
+        "0:kick+closedHat",
+        "1:closedHat",
+        "2:closedHat",
+        "3:closedHat",
+        "4:snare+closedHat",
+        "5:closedHat",
+        "6:closedHat",
+        "7:kick+ghostSnare+closedHat",
+        "8:kick+closedHat",
+        "9:ghostSnare+closedHat",
+        "10:closedHat",
+        "11:closedHat",
+        "12:snare+closedHat",
+        "13:closedHat",
+        "14:closedHat",
+        "15:closedHat"
+      ],
+      "silences": [],
+      "strongPositions": [
+        0,
+        4,
+        7,
+        8,
+        12
+      ],
+      "articulationEvents": [
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.95
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "ghostSnare",
+            "velocity": 0.2
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "kick",
+            "velocity": 0.9
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "ghostSnare",
+            "velocity": 0.2
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "snare",
+            "velocity": 0.95
+          },
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ],
+        [
+          {
+            "articulation": "closedHat",
+            "velocity": 0.28
+          }
+        ]
+      ],
+      "strokes": null,
+      "recommendedInstrument": "drums",
+      "instrumentAvailable": true,
+      "instrumentCoverage": [
+        {
+          "instrumentId": "acoustic",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "palmas",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "clap"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "castanets",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "castanet"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cajon-palmas",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "bass",
+            "clap",
+            "edge"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "zills",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "zill"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "darbuka-zills",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "dum",
+            "zill",
+            "tak"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-soft",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickSoft",
+            "hatSoft",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "drums-jazz",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong",
+            "hatSoft",
+            "snareStrong",
+            "snareSoft"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "kick",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "kickStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "snare",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "snareStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "hihat",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "hatStrong"
+          ],
+          "mappedToDeclaredSamples": true
+        },
+        {
+          "instrumentId": "cymbals",
+          "resolvedOnsets": 16,
+          "sourceOnsets": 16,
+          "silentCellsAudible": 0,
+          "usedSamples": [
+            "crash"
+          ],
+          "mappedToDeclaredSamples": true
+        }
+      ],
+      "bass": [
+        {
+          "position": 0,
+          "midi": 31,
+          "velocity": 0.92
+        },
+        {
+          "position": 3,
+          "midi": 38,
+          "velocity": 0.55
+        },
+        {
+          "position": 7,
+          "midi": 31,
+          "velocity": 0.72
+        },
+        {
+          "position": 10,
+          "midi": 38,
+          "velocity": 0.58
+        },
+        {
+          "position": 14,
+          "midi": 31,
+          "velocity": 0.84
+        }
+      ],
+      "description": "Semicorcheas ajustadas: base funk de Berklee, bombo sincopado en 2a y ghost notes suaves en 2a y 3e basadas en PAS. Adaptación didáctica, sin fills. Modelo didáctico con golpes simultáneos y dinámica por instrumento. BPM = negras/min. La rejilla resume actividad y acentos globales; cambiar de kit conserva cada ataque."
+    }
+  ],
+  "freeMode": {
+    "family": "libre",
+    "name": "Compás libre",
+    "fixedMeter": false,
+    "fixedBpm": false,
+    "fixedPattern": false,
+    "defaultInstrument": "acoustic",
+    "note": "Es un modo de edición, no una entrada de MUSICAL_PRESETS; el compás, BPM, subdivisión, ataques, acentos y silencios pertenecen al usuario."
+  },
+  "audioMeasurementSummary": {
+    "renderedPresets": 33,
+    "totalDefinedPresets": 33,
+    "allAttackCountsMatch": true,
+    "allOutputsBelowUnity": true
+  },
+  "assets": {
+    "count": 19,
+    "totalBytes": 1310180,
+    "estimatedDecodedBytesAllInstruments": 2618688,
+    "files": [
+      {
+        "file": "acoustic/kick-soft.wav",
+        "bytes": 28708,
+        "decodedBytesEstimate": 57328,
+        "sampleRate": 22050,
+        "channels": 1,
+        "durationSeconds": 0.6499773242630386
+      },
+      {
+        "file": "acoustic/kick-strong.wav",
+        "bytes": 28708,
+        "decodedBytesEstimate": 57328,
+        "sampleRate": 22050,
+        "channels": 1,
+        "durationSeconds": 0.6499773242630386
+      },
+      {
+        "file": "acoustic/snare-soft.wav",
+        "bytes": 24300,
+        "decodedBytesEstimate": 48512,
+        "sampleRate": 22050,
+        "channels": 1,
+        "durationSeconds": 0.5500226757369614
+      },
+      {
+        "file": "acoustic/snare-strong.wav",
+        "bytes": 24300,
+        "decodedBytesEstimate": 48512,
+        "sampleRate": 22050,
+        "channels": 1,
+        "durationSeconds": 0.5500226757369614
+      },
+      {
+        "file": "instruments/bass-d2.wav",
+        "bytes": 66194,
+        "decodedBytesEstimate": 132300,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.75
+      },
+      {
+        "file": "instruments/bass-g1.wav",
+        "bytes": 66194,
+        "decodedBytesEstimate": 132300,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.75
+      },
+      {
+        "file": "instruments/cajon-bass.wav",
+        "bytes": 31572,
+        "decodedBytesEstimate": 63056,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.3574603174603175
+      },
+      {
+        "file": "instruments/cajon-edge.wav",
+        "bytes": 31176,
+        "decodedBytesEstimate": 62264,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.35297052154195013
+      },
+      {
+        "file": "instruments/castanets.wav",
+        "bytes": 23406,
+        "decodedBytesEstimate": 46724,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.264875283446712
+      },
+      {
+        "file": "instruments/crash.wav",
+        "bytes": 264644,
+        "decodedBytesEstimate": 529200,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 3
+      },
+      {
+        "file": "instruments/darbuka-dum.wav",
+        "bytes": 53098,
+        "decodedBytesEstimate": 106108,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.6015192743764173
+      },
+      {
+        "file": "instruments/darbuka-pa.wav",
+        "bytes": 30336,
+        "decodedBytesEstimate": 60584,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.3434467120181406
+      },
+      {
+        "file": "instruments/darbuka-tak.wav",
+        "bytes": 41526,
+        "decodedBytesEstimate": 82964,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.4703174603174603
+      },
+      {
+        "file": "instruments/finger-cymbals.wav",
+        "bytes": 220544,
+        "decodedBytesEstimate": 441000,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 2.5
+      },
+      {
+        "file": "instruments/hihat-soft.wav",
+        "bytes": 38920,
+        "decodedBytesEstimate": 77752,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.44077097505668933
+      },
+      {
+        "file": "instruments/hihat-strong.wav",
+        "bytes": 50064,
+        "decodedBytesEstimate": 100040,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.5671201814058957
+      },
+      {
+        "file": "instruments/palmas.wav",
+        "bytes": 26212,
+        "decodedBytesEstimate": 52336,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.2966893424036281
+      },
+      {
+        "file": "instruments/pedal-hat.wav",
+        "bytes": 39734,
+        "decodedBytesEstimate": 79380,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 0.45
+      },
+      {
+        "file": "instruments/ride.wav",
+        "bytes": 220544,
+        "decodedBytesEstimate": 441000,
+        "sampleRate": 44100,
+        "channels": 1,
+        "durationSeconds": 2.5
+      }
+    ]
+  }
+}

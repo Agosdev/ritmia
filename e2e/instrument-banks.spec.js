@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { mkdirSync } from 'node:fs'
 
 async function preset(page,id){
   await page.getByRole('combobox',{name:'Preset',exact:true}).click()
@@ -14,7 +15,7 @@ async function musical(page){
   }
 }
 for(const width of [375,1280]){
-  test(`bancos A/B, automático/manual, caché e invariancia musical ${width}px`,async({page})=>{
+  test(`bancos A/B, automático/manual, caché e invariancia musical ${width}px`,async({page},testInfo)=>{
     test.setTimeout(120_000) // Full multi-kit playback journey on desktop and mobile.
     await page.setViewportSize({width,height:900})
     const requests=[], errors=[]
@@ -68,7 +69,9 @@ for(const width of [375,1280]){
     await a.focus()
     await expect(a).toHaveCSS('outline-width','3px')
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
-    await page.screenshot({path:`/private/tmp/ritmia-instruments/controls-${width}.png`,fullPage:true})
+    const shots=testInfo.outputPath('screenshots')
+    mkdirSync(shots,{recursive:true})
+    await page.screenshot({path:`${shots}/instrument-controls-${width}.png`,fullPage:true})
     expect(errors).toEqual([])
   })
 }

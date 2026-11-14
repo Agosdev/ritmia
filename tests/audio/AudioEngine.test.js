@@ -357,6 +357,22 @@ describe('AudioEngine transporte y scheduler', () => {
     expect(ctx.sources).toHaveLength(2)
   })
 
+  it('tras un bloqueo largo salta timestamps vencidos y vuelve a la rejilla sin deriva acumulada', async () => {
+    await engine.start(params)
+    const ctx = engine.ctx
+    ctx.advanceTo(1.3) // More than the 100ms lookahead; late hits must not be fired out of time.
+    engine.schedule()
+    expect(engine.nextNoteTimeA).toBeCloseTo(1.58, 10)
+    expect(engine.stepCountA).toBe(3)
+    expect(engine.scheduledNotes.some(note => note.time < 1.3)).toBe(false)
+
+    ctx.advanceTo(1.5)
+    engine.schedule()
+    const recovered = engine.scheduledNotes.filter(note => note.type === 'A' && note.time >= 1.5)
+    expect(recovered[0]).toMatchObject({ time: 1.58, pos: 3, accent: params.accentsA[3] })
+    expect(engine.nextNoteTimeA).toBeCloseTo(2.08, 10)
+  })
+
   it.each([0, -1, NaN, Infinity])('un step inválido (%s) no bloquea el scheduler', async step => {
     await engine.start({ ...params, level: 2, stepA: step, stepB: step })
     expect(engine.scheduledNotes).toEqual([])

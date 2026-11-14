@@ -1,0 +1,1366 @@
+{
+  "methodology": "Chrome DevTools Performance metrics, requestAnimationFrame intervals, PerformanceObserver long tasks, SVG mutation counts, JS heap when exposed, WAV Resource Timing, and instrumented AudioBufferSource starts/ends. Browser viewport simulation is not a physical mobile device. Samples are collected after playback begins and include this instrumentation overhead.",
+  "browser": {
+    "name": "chromium",
+    "version": "150.0.7871.125",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+    "platform": "darwin",
+    "architecture": "x64",
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "isMobileContext": true
+  },
+  "durationMs": 5000,
+  "samples": [
+    {
+      "label": "idle",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "ScriptDuration": 10.96,
+        "TaskDuration": 80.84,
+        "TaskOtherDuration": 68.26
+      },
+      "durationMs": 5009,
+      "frames": 301,
+      "fps": 60.1,
+      "frameIntervalMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.700000000000728,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "intervalsOver32ms": 0,
+      "intervalsOver50ms": 0,
+      "longTasks": {
+        "count": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 10245499,
+      "audio": {
+        "sources": [],
+        "contexts": 0,
+        "decodedBuffers": []
+      },
+      "audioRequests": []
+    },
+    {
+      "label": "simple-maqsum-level-1",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 31.93,
+        "RecalcStyleDuration": 49.78,
+        "ScriptDuration": 341.87,
+        "TaskDuration": 739.18,
+        "TaskOtherDuration": 315.07
+      },
+      "durationMs": 5007,
+      "frames": 214,
+      "fps": 42.7,
+      "frameIntervalMs": {
+        "p50": 16.69999999999891,
+        "p95": 66.70000000000073,
+        "p99": 116.59999999999854,
+        "max": 116.69999999999891
+      },
+      "intervalsOver32ms": 32,
+      "intervalsOver50ms": 15,
+      "longTasks": {
+        "count": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 11531854,
+      "audio": {
+        "sources": [
+          {
+            "start": 0.08,
+            "requestedAt": 0,
+            "ended": true
+          },
+          {
+            "start": 0.38,
+            "requestedAt": 0.29024943310657597,
+            "ended": true
+          },
+          {
+            "start": 0.98,
+            "requestedAt": 0.8881632653061224,
+            "ended": true
+          },
+          {
+            "start": 1.28,
+            "requestedAt": 1.1900226757369614,
+            "ended": true
+          },
+          {
+            "start": 1.8800000000000001,
+            "requestedAt": 1.787936507936508,
+            "ended": true
+          },
+          {
+            "start": 2.48,
+            "requestedAt": 2.391655328798186,
+            "ended": true
+          },
+          {
+            "start": 2.78,
+            "requestedAt": 2.6877097505668934,
+            "ended": true
+          },
+          {
+            "start": 3.3799999999999994,
+            "requestedAt": 3.2914285714285714,
+            "ended": true
+          },
+          {
+            "start": 3.6799999999999993,
+            "requestedAt": 3.5874829931972787,
+            "ended": true
+          },
+          {
+            "start": 4.279999999999999,
+            "requestedAt": 4.191201814058957,
+            "ended": true
+          },
+          {
+            "start": 4.879999999999999,
+            "requestedAt": 4.789115646258503,
+            "ended": false
+          }
+        ],
+        "contexts": 1,
+        "decodedBuffers": [
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 15146,
+            "pcmBytes": 60584
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 26527,
+            "pcmBytes": 106108
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 20741,
+            "pcmBytes": 82964
+          }
+        ]
+      },
+      "audioRequests": [
+        {
+          "name": "acoustic/kick-soft.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/kick-strong.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/snare-soft.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "acoustic/snare-strong.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "instruments/darbuka-dum.wav",
+          "transferBytes": 53398,
+          "decodedBodyBytes": 53098
+        },
+        {
+          "name": "instruments/darbuka-tak.wav",
+          "transferBytes": 41826,
+          "decodedBodyBytes": 41526
+        },
+        {
+          "name": "instruments/darbuka-pa.wav",
+          "transferBytes": 30636,
+          "decodedBodyBytes": 30336
+        }
+      ]
+    },
+    {
+      "label": "dense-funk-plus-32-step-track-B",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 96.89,
+        "RecalcStyleDuration": 198.65,
+        "ScriptDuration": 1332.62,
+        "TaskDuration": 2357.21,
+        "TaskOtherDuration": 720.36
+      },
+      "durationMs": 5014,
+      "frames": 82,
+      "fps": 16.4,
+      "frameIntervalMs": {
+        "p50": 33.400000000001455,
+        "p95": 183.29999999999927,
+        "p99": 300,
+        "max": 300
+      },
+      "intervalsOver32ms": 54,
+      "intervalsOver50ms": 32,
+      "longTasks": {
+        "count": 9,
+        "totalMs": 666,
+        "maxMs": 115,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 18505784,
+      "audio": {
+        "sources": [
+          {
+            "start": 0.08,
+            "requestedAt": 0,
+            "ended": true
+          },
+          {
+            "start": 0.38,
+            "requestedAt": 0.29024943310657597,
+            "ended": true
+          },
+          {
+            "start": 0.98,
+            "requestedAt": 0.8881632653061224,
+            "ended": true
+          },
+          {
+            "start": 1.28,
+            "requestedAt": 1.1900226757369614,
+            "ended": true
+          },
+          {
+            "start": 1.8800000000000001,
+            "requestedAt": 1.787936507936508,
+            "ended": true
+          },
+          {
+            "start": 2.48,
+            "requestedAt": 2.391655328798186,
+            "ended": true
+          },
+          {
+            "start": 2.78,
+            "requestedAt": 2.6877097505668934,
+            "ended": true
+          },
+          {
+            "start": 3.3799999999999994,
+            "requestedAt": 3.2914285714285714,
+            "ended": true
+          },
+          {
+            "start": 3.6799999999999993,
+            "requestedAt": 3.5874829931972787,
+            "ended": true
+          },
+          {
+            "start": 4.279999999999999,
+            "requestedAt": 4.191201814058957,
+            "ended": true
+          },
+          {
+            "start": 4.879999999999999,
+            "requestedAt": 4.789115646258503,
+            "ended": true
+          },
+          {
+            "start": 5.179999999999999,
+            "requestedAt": 5.090975056689342,
+            "ended": true
+          },
+          {
+            "start": 5.179999999999999,
+            "requestedAt": 5.16063492063492,
+            "ended": true
+          },
+          {
+            "start": 5.254999999999999,
+            "requestedAt": 5.16063492063492,
+            "ended": true
+          },
+          {
+            "start": 5.404999999999999,
+            "requestedAt": 5.3986394557823125,
+            "ended": true
+          },
+          {
+            "start": 5.404999999999999,
+            "requestedAt": 5.3986394557823125,
+            "ended": true
+          },
+          {
+            "start": 5.4799999999999995,
+            "requestedAt": 5.3986394557823125,
+            "ended": true
+          },
+          {
+            "start": 5.435000000000001,
+            "requestedAt": 5.3986394557823125,
+            "ended": true
+          },
+          {
+            "start": 5.555,
+            "requestedAt": 5.497324263038549,
+            "ended": true
+          },
+          {
+            "start": 5.510000000000002,
+            "requestedAt": 5.497324263038549,
+            "ended": true
+          },
+          {
+            "start": 5.585000000000002,
+            "requestedAt": 5.497324263038549,
+            "ended": true
+          },
+          {
+            "start": 5.63,
+            "requestedAt": 5.537959183673469,
+            "ended": true
+          },
+          {
+            "start": 5.63,
+            "requestedAt": 5.537959183673469,
+            "ended": true
+          },
+          {
+            "start": 5.63,
+            "requestedAt": 5.537959183673469,
+            "ended": true
+          },
+          {
+            "start": 5.63,
+            "requestedAt": 5.537959183673469,
+            "ended": true
+          },
+          {
+            "start": 5.660000000000002,
+            "requestedAt": 5.561179138321996,
+            "ended": true
+          },
+          {
+            "start": 5.705,
+            "requestedAt": 5.636643990929705,
+            "ended": true
+          },
+          {
+            "start": 5.705,
+            "requestedAt": 5.636643990929705,
+            "ended": true
+          },
+          {
+            "start": 5.735000000000002,
+            "requestedAt": 5.636643990929705,
+            "ended": true
+          },
+          {
+            "start": 5.78,
+            "requestedAt": 5.688888888888889,
+            "ended": true
+          },
+          {
+            "start": 5.78,
+            "requestedAt": 5.688888888888889,
+            "ended": true
+          },
+          {
+            "start": 5.810000000000002,
+            "requestedAt": 5.712108843537415,
+            "ended": true
+          },
+          {
+            "start": 5.855,
+            "requestedAt": 5.764353741496599,
+            "ended": true
+          },
+          {
+            "start": 5.855,
+            "requestedAt": 5.764353741496599,
+            "ended": true
+          },
+          {
+            "start": 5.8850000000000025,
+            "requestedAt": 5.799183673469388,
+            "ended": true
+          },
+          {
+            "start": 5.930000000000001,
+            "requestedAt": 5.839818594104308,
+            "ended": true
+          },
+          {
+            "start": 5.960000000000003,
+            "requestedAt": 5.863038548752835,
+            "ended": true
+          },
+          {
+            "start": 6.005000000000001,
+            "requestedAt": 5.909478458049887,
+            "ended": true
+          },
+          {
+            "start": 6.005000000000001,
+            "requestedAt": 5.909478458049887,
+            "ended": true
+          },
+          {
+            "start": 6.035000000000003,
+            "requestedAt": 5.938503401360544,
+            "ended": true
+          },
+          {
+            "start": 6.080000000000001,
+            "requestedAt": 5.990748299319728,
+            "ended": true
+          },
+          {
+            "start": 6.110000000000003,
+            "requestedAt": 6.013968253968254,
+            "ended": true
+          },
+          {
+            "start": 6.230000000000001,
+            "requestedAt": 6.188117913832199,
+            "ended": true
+          },
+          {
+            "start": 6.260000000000003,
+            "requestedAt": 6.188117913832199,
+            "ended": true
+          },
+          {
+            "start": 6.3050000000000015,
+            "requestedAt": 6.211337868480726,
+            "ended": true
+          },
+          {
+            "start": 6.3050000000000015,
+            "requestedAt": 6.211337868480726,
+            "ended": true
+          },
+          {
+            "start": 6.3050000000000015,
+            "requestedAt": 6.211337868480726,
+            "ended": true
+          },
+          {
+            "start": 6.3350000000000035,
+            "requestedAt": 6.240362811791384,
+            "ended": true
+          },
+          {
+            "start": 6.380000000000002,
+            "requestedAt": 6.368072562358277,
+            "ended": true
+          },
+          {
+            "start": 6.455000000000002,
+            "requestedAt": 6.368072562358277,
+            "ended": true
+          },
+          {
+            "start": 6.410000000000004,
+            "requestedAt": 6.368072562358277,
+            "ended": true
+          },
+          {
+            "start": 6.485000000000004,
+            "requestedAt": 6.391292517006803,
+            "ended": true
+          },
+          {
+            "start": 6.530000000000002,
+            "requestedAt": 6.437732426303855,
+            "ended": true
+          },
+          {
+            "start": 6.530000000000002,
+            "requestedAt": 6.437732426303855,
+            "ended": true
+          },
+          {
+            "start": 6.560000000000004,
+            "requestedAt": 6.460952380952381,
+            "ended": true
+          },
+          {
+            "start": 6.605000000000002,
+            "requestedAt": 6.513197278911565,
+            "ended": true
+          },
+          {
+            "start": 6.605000000000002,
+            "requestedAt": 6.513197278911565,
+            "ended": true
+          },
+          {
+            "start": 6.635000000000004,
+            "requestedAt": 6.5364172335600905,
+            "ended": true
+          },
+          {
+            "start": 6.680000000000002,
+            "requestedAt": 6.588662131519274,
+            "ended": true
+          },
+          {
+            "start": 6.710000000000004,
+            "requestedAt": 6.623492063492064,
+            "ended": true
+          },
+          {
+            "start": 6.755000000000003,
+            "requestedAt": 6.675736961451247,
+            "ended": true
+          },
+          {
+            "start": 6.785000000000005,
+            "requestedAt": 6.6873469387755105,
+            "ended": true
+          },
+          {
+            "start": 6.830000000000003,
+            "requestedAt": 6.739591836734694,
+            "ended": true
+          },
+          {
+            "start": 6.830000000000003,
+            "requestedAt": 6.739591836734694,
+            "ended": true
+          },
+          {
+            "start": 6.830000000000003,
+            "requestedAt": 6.739591836734694,
+            "ended": true
+          },
+          {
+            "start": 6.830000000000003,
+            "requestedAt": 6.739591836734694,
+            "ended": true
+          },
+          {
+            "start": 6.860000000000005,
+            "requestedAt": 6.7628117913832195,
+            "ended": true
+          },
+          {
+            "start": 6.905000000000003,
+            "requestedAt": 6.815056689342404,
+            "ended": true
+          },
+          {
+            "start": 6.905000000000003,
+            "requestedAt": 6.815056689342404,
+            "ended": true
+          },
+          {
+            "start": 6.935000000000005,
+            "requestedAt": 6.8382766439909295,
+            "ended": true
+          },
+          {
+            "start": 6.980000000000003,
+            "requestedAt": 6.884716553287982,
+            "ended": true
+          },
+          {
+            "start": 6.980000000000003,
+            "requestedAt": 6.884716553287982,
+            "ended": true
+          },
+          {
+            "start": 7.010000000000005,
+            "requestedAt": 6.919546485260771,
+            "ended": true
+          },
+          {
+            "start": 7.055000000000003,
+            "requestedAt": 6.971791383219955,
+            "ended": true
+          },
+          {
+            "start": 7.055000000000003,
+            "requestedAt": 6.971791383219955,
+            "ended": true
+          },
+          {
+            "start": 7.085000000000005,
+            "requestedAt": 6.989206349206349,
+            "ended": true
+          },
+          {
+            "start": 7.1300000000000034,
+            "requestedAt": 7.035646258503402,
+            "ended": true
+          },
+          {
+            "start": 7.1600000000000055,
+            "requestedAt": 7.064671201814059,
+            "ended": true
+          },
+          {
+            "start": 7.205000000000004,
+            "requestedAt": 7.134331065759637,
+            "ended": true
+          },
+          {
+            "start": 7.205000000000004,
+            "requestedAt": 7.134331065759637,
+            "ended": true
+          },
+          {
+            "start": 7.235000000000006,
+            "requestedAt": 7.1459410430839005,
+            "ended": true
+          },
+          {
+            "start": 7.280000000000004,
+            "requestedAt": 7.186575963718821,
+            "ended": true
+          },
+          {
+            "start": 7.355000000000004,
+            "requestedAt": 7.262040816326531,
+            "ended": true
+          },
+          {
+            "start": 7.355000000000004,
+            "requestedAt": 7.262040816326531,
+            "ended": true
+          },
+          {
+            "start": 7.310000000000006,
+            "requestedAt": 7.262040816326531,
+            "ended": true
+          },
+          {
+            "start": 7.385000000000006,
+            "requestedAt": 7.285260770975056,
+            "ended": true
+          },
+          {
+            "start": 7.430000000000004,
+            "requestedAt": 7.343310657596372,
+            "ended": true
+          },
+          {
+            "start": 7.460000000000006,
+            "requestedAt": 7.360725623582766,
+            "ended": true
+          },
+          {
+            "start": 7.505000000000004,
+            "requestedAt": 7.41297052154195,
+            "ended": true
+          },
+          {
+            "start": 7.505000000000004,
+            "requestedAt": 7.41297052154195,
+            "ended": true
+          },
+          {
+            "start": 7.505000000000004,
+            "requestedAt": 7.41297052154195,
+            "ended": true
+          },
+          {
+            "start": 7.535000000000006,
+            "requestedAt": 7.436190476190476,
+            "ended": true
+          },
+          {
+            "start": 7.5800000000000045,
+            "requestedAt": 7.517460317460317,
+            "ended": true
+          },
+          {
+            "start": 7.6100000000000065,
+            "requestedAt": 7.534875283446712,
+            "ended": true
+          },
+          {
+            "start": 7.655000000000005,
+            "requestedAt": 7.56390022675737,
+            "ended": true
+          },
+          {
+            "start": 7.685000000000007,
+            "requestedAt": 7.587120181405895,
+            "ended": true
+          },
+          {
+            "start": 7.730000000000005,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.730000000000005,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.760000000000007,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.805000000000005,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.805000000000005,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.835000000000007,
+            "requestedAt": 7.738049886621315,
+            "ended": true
+          },
+          {
+            "start": 7.880000000000005,
+            "requestedAt": 7.87156462585034,
+            "ended": true
+          },
+          {
+            "start": 7.955000000000005,
+            "requestedAt": 7.87156462585034,
+            "ended": true
+          },
+          {
+            "start": 7.910000000000007,
+            "requestedAt": 7.87156462585034,
+            "ended": true
+          },
+          {
+            "start": 7.985000000000007,
+            "requestedAt": 7.888979591836734,
+            "ended": true
+          },
+          {
+            "start": 8.030000000000005,
+            "requestedAt": 7.993469387755102,
+            "ended": true
+          },
+          {
+            "start": 8.030000000000005,
+            "requestedAt": 7.993469387755102,
+            "ended": true
+          },
+          {
+            "start": 8.030000000000005,
+            "requestedAt": 7.993469387755102,
+            "ended": true
+          },
+          {
+            "start": 8.030000000000005,
+            "requestedAt": 7.993469387755102,
+            "ended": true
+          },
+          {
+            "start": 8.060000000000008,
+            "requestedAt": 7.993469387755102,
+            "ended": true
+          },
+          {
+            "start": 8.180000000000003,
+            "requestedAt": 8.121179138321995,
+            "ended": true
+          },
+          {
+            "start": 8.180000000000003,
+            "requestedAt": 8.121179138321995,
+            "ended": true
+          },
+          {
+            "start": 8.135000000000007,
+            "requestedAt": 8.126984126984127,
+            "ended": true
+          },
+          {
+            "start": 8.210000000000006,
+            "requestedAt": 8.126984126984127,
+            "ended": true
+          },
+          {
+            "start": 8.255000000000003,
+            "requestedAt": 8.17342403628118,
+            "ended": true
+          },
+          {
+            "start": 8.255000000000003,
+            "requestedAt": 8.17342403628118,
+            "ended": true
+          },
+          {
+            "start": 8.285000000000005,
+            "requestedAt": 8.185034013605442,
+            "ended": true
+          },
+          {
+            "start": 8.330000000000002,
+            "requestedAt": 8.289523809523809,
+            "ended": true
+          },
+          {
+            "start": 8.360000000000005,
+            "requestedAt": 8.289523809523809,
+            "ended": true
+          },
+          {
+            "start": 8.405000000000001,
+            "requestedAt": 8.312743764172335,
+            "ended": true
+          },
+          {
+            "start": 8.405000000000001,
+            "requestedAt": 8.312743764172335,
+            "ended": true
+          },
+          {
+            "start": 8.435000000000004,
+            "requestedAt": 8.341768707482993,
+            "ended": true
+          },
+          {
+            "start": 8.48,
+            "requestedAt": 8.382403628117913,
+            "ended": true
+          },
+          {
+            "start": 8.510000000000003,
+            "requestedAt": 8.411428571428571,
+            "ended": true
+          },
+          {
+            "start": 8.555,
+            "requestedAt": 8.51591836734694,
+            "ended": true
+          },
+          {
+            "start": 8.555,
+            "requestedAt": 8.51591836734694,
+            "ended": true
+          },
+          {
+            "start": 8.585000000000003,
+            "requestedAt": 8.51591836734694,
+            "ended": true
+          },
+          {
+            "start": 8.629999999999999,
+            "requestedAt": 8.539138321995464,
+            "ended": true
+          },
+          {
+            "start": 8.704999999999998,
+            "requestedAt": 8.672653061224489,
+            "ended": true
+          },
+          {
+            "start": 8.704999999999998,
+            "requestedAt": 8.672653061224489,
+            "ended": true
+          },
+          {
+            "start": 8.704999999999998,
+            "requestedAt": 8.672653061224489,
+            "ended": true
+          },
+          {
+            "start": 8.735000000000001,
+            "requestedAt": 8.672653061224489,
+            "ended": true
+          },
+          {
+            "start": 8.779999999999998,
+            "requestedAt": 8.684263038548753,
+            "ended": true
+          },
+          {
+            "start": 8.81,
+            "requestedAt": 8.753922902494331,
+            "ended": true
+          },
+          {
+            "start": 8.854999999999997,
+            "requestedAt": 8.811972789115647,
+            "ended": true
+          },
+          {
+            "start": 8.885,
+            "requestedAt": 8.811972789115647,
+            "ended": true
+          },
+          {
+            "start": 8.929999999999996,
+            "requestedAt": 8.840997732426304,
+            "ended": true
+          },
+          {
+            "start": 8.929999999999996,
+            "requestedAt": 8.840997732426304,
+            "ended": true
+          },
+          {
+            "start": 8.959999999999999,
+            "requestedAt": 8.864217687074829,
+            "ended": true
+          },
+          {
+            "start": 9.004999999999995,
+            "requestedAt": 8.910657596371882,
+            "ended": true
+          },
+          {
+            "start": 9.004999999999995,
+            "requestedAt": 8.910657596371882,
+            "ended": true
+          },
+          {
+            "start": 9.034999999999998,
+            "requestedAt": 8.945487528344671,
+            "ended": true
+          },
+          {
+            "start": 9.079999999999995,
+            "requestedAt": 8.991927437641724,
+            "ended": true
+          },
+          {
+            "start": 9.109999999999998,
+            "requestedAt": 9.044172335600907,
+            "ended": true
+          },
+          {
+            "start": 9.154999999999994,
+            "requestedAt": 9.113832199546485,
+            "ended": true
+          },
+          {
+            "start": 9.184999999999997,
+            "requestedAt": 9.113832199546485,
+            "ended": true
+          },
+          {
+            "start": 9.304999999999993,
+            "requestedAt": 9.241541950113378,
+            "ended": true
+          },
+          {
+            "start": 9.304999999999993,
+            "requestedAt": 9.241541950113378,
+            "ended": true
+          },
+          {
+            "start": 9.259999999999996,
+            "requestedAt": 9.241541950113378,
+            "ended": true
+          },
+          {
+            "start": 9.334999999999996,
+            "requestedAt": 9.241541950113378,
+            "ended": true
+          },
+          {
+            "start": 9.379999999999992,
+            "requestedAt": 9.287981859410431,
+            "ended": true
+          },
+          {
+            "start": 9.379999999999992,
+            "requestedAt": 9.287981859410431,
+            "ended": true
+          },
+          {
+            "start": 9.409999999999995,
+            "requestedAt": 9.311201814058958,
+            "ended": true
+          },
+          {
+            "start": 9.454999999999991,
+            "requestedAt": 9.36344671201814,
+            "ended": true
+          },
+          {
+            "start": 9.454999999999991,
+            "requestedAt": 9.36344671201814,
+            "ended": true
+          },
+          {
+            "start": 9.484999999999994,
+            "requestedAt": 9.392471655328798,
+            "ended": true
+          },
+          {
+            "start": 9.52999999999999,
+            "requestedAt": 9.444716553287982,
+            "ended": true
+          },
+          {
+            "start": 9.559999999999993,
+            "requestedAt": 9.462131519274376,
+            "ended": true
+          },
+          {
+            "start": 9.60499999999999,
+            "requestedAt": 9.51437641723356,
+            "ended": true
+          },
+          {
+            "start": 9.60499999999999,
+            "requestedAt": 9.51437641723356,
+            "ended": true
+          },
+          {
+            "start": 9.634999999999993,
+            "requestedAt": 9.537596371882087,
+            "ended": true
+          },
+          {
+            "start": 9.679999999999989,
+            "requestedAt": 9.58984126984127,
+            "ended": true
+          },
+          {
+            "start": 9.709999999999992,
+            "requestedAt": 9.613061224489796,
+            "ended": true
+          },
+          {
+            "start": 9.754999999999988,
+            "requestedAt": 9.659501133786849,
+            "ended": true
+          },
+          {
+            "start": 9.754999999999988,
+            "requestedAt": 9.66530612244898,
+            "ended": true
+          },
+          {
+            "start": 9.784999999999991,
+            "requestedAt": 9.688526077097505,
+            "ended": true
+          },
+          {
+            "start": 9.829999999999988,
+            "requestedAt": 9.734965986394558,
+            "ended": true
+          },
+          {
+            "start": 9.85999999999999,
+            "requestedAt": 9.763990929705216,
+            "ended": false
+          },
+          {
+            "start": 9.904999999999987,
+            "requestedAt": 9.810430839002267,
+            "ended": false
+          },
+          {
+            "start": 9.904999999999987,
+            "requestedAt": 9.810430839002267,
+            "ended": true
+          },
+          {
+            "start": 9.904999999999987,
+            "requestedAt": 9.810430839002267,
+            "ended": true
+          },
+          {
+            "start": 9.93499999999999,
+            "requestedAt": 9.839455782312925,
+            "ended": false
+          },
+          {
+            "start": 9.979999999999986,
+            "requestedAt": 9.891700680272109,
+            "ended": false
+          },
+          {
+            "start": 10.054999999999986,
+            "requestedAt": 9.996190476190476,
+            "ended": false
+          },
+          {
+            "start": 10.00999999999999,
+            "requestedAt": 9.996190476190476,
+            "ended": false
+          },
+          {
+            "start": 10.084999999999988,
+            "requestedAt": 9.996190476190476,
+            "ended": false
+          },
+          {
+            "start": 10.129999999999985,
+            "requestedAt": 10.036825396825396,
+            "ended": false
+          },
+          {
+            "start": 10.129999999999985,
+            "requestedAt": 10.036825396825396,
+            "ended": false
+          },
+          {
+            "start": 10.159999999999988,
+            "requestedAt": 10.060045351473923,
+            "ended": false
+          },
+          {
+            "start": 10.204999999999984,
+            "requestedAt": 10.112290249433107,
+            "ended": false
+          },
+          {
+            "start": 10.204999999999984,
+            "requestedAt": 10.112290249433107,
+            "ended": false
+          },
+          {
+            "start": 10.234999999999987,
+            "requestedAt": 10.135510204081633,
+            "ended": false
+          },
+          {
+            "start": 10.279999999999983,
+            "requestedAt": 10.187755102040816,
+            "ended": false
+          },
+          {
+            "start": 10.309999999999986,
+            "requestedAt": 10.216780045351474,
+            "ended": false
+          },
+          {
+            "start": 10.354999999999983,
+            "requestedAt": 10.263219954648527,
+            "ended": false
+          },
+          {
+            "start": 10.384999999999986,
+            "requestedAt": 10.286439909297052,
+            "ended": false
+          },
+          {
+            "start": 10.429999999999982,
+            "requestedAt": 10.332879818594105,
+            "ended": false
+          },
+          {
+            "start": 10.429999999999982,
+            "requestedAt": 10.332879818594105,
+            "ended": false
+          },
+          {
+            "start": 10.429999999999982,
+            "requestedAt": 10.332879818594105,
+            "ended": false
+          },
+          {
+            "start": 10.429999999999982,
+            "requestedAt": 10.332879818594105,
+            "ended": false
+          },
+          {
+            "start": 10.459999999999985,
+            "requestedAt": 10.361904761904762,
+            "ended": false
+          }
+        ],
+        "contexts": 1,
+        "decodedBuffers": [
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 15146,
+            "pcmBytes": 60584
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 26527,
+            "pcmBytes": 106108
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 20741,
+            "pcmBytes": 82964
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 19438,
+            "pcmBytes": 77752
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 25010,
+            "pcmBytes": 100040
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 132300,
+            "pcmBytes": 529200
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 33075,
+            "pcmBytes": 132300
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 33075,
+            "pcmBytes": 132300
+          }
+        ]
+      },
+      "audioRequests": [
+        {
+          "name": "acoustic/kick-soft.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/kick-strong.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/snare-soft.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "acoustic/snare-strong.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "instruments/darbuka-dum.wav",
+          "transferBytes": 53398,
+          "decodedBodyBytes": 53098
+        },
+        {
+          "name": "instruments/darbuka-tak.wav",
+          "transferBytes": 41826,
+          "decodedBodyBytes": 41526
+        },
+        {
+          "name": "instruments/darbuka-pa.wav",
+          "transferBytes": 30636,
+          "decodedBodyBytes": 30336
+        },
+        {
+          "name": "instruments/hihat-soft.wav",
+          "transferBytes": 39220,
+          "decodedBodyBytes": 38920
+        },
+        {
+          "name": "instruments/hihat-strong.wav",
+          "transferBytes": 50364,
+          "decodedBodyBytes": 50064
+        },
+        {
+          "name": "instruments/crash.wav",
+          "transferBytes": 264944,
+          "decodedBodyBytes": 264644
+        },
+        {
+          "name": "instruments/bass-g1.wav",
+          "transferBytes": 66494,
+          "decodedBodyBytes": 66194
+        },
+        {
+          "name": "instruments/bass-d2.wav",
+          "transferBytes": 66494,
+          "decodedBodyBytes": 66194
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

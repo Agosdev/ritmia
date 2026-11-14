@@ -106,3 +106,23 @@ test('Ayuda, teclado, persistencia, zoom y movimiento reducido', async ({ page }
   expect(panel.x).toBeGreaterThanOrEqual(0)
   expect(panel.x + panel.width).toBeLessThanOrEqual(375)
 })
+
+test('la invitación inicial no bloquea los controles de Ritmia', async ({ browser }) => {
+  for (const width of [375, 1280]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, isMobile: width <= 600, hasTouch: width <= 600 })
+    try {
+      const page = await context.newPage()
+      await page.goto('/')
+      const invitation = page.getByRole('region', { name: '¿Primera vez en Ritmia?' })
+      await expect(invitation).toBeVisible()
+      await page.getByRole('button', { name: 'Nivel 2 — Dos ritmos', exact: true }).click()
+      await expect(page.locator('.lite-interface')).toHaveAttribute('data-level', '2')
+      await expect(invitation).toBeVisible()
+      await invitation.getByRole('button', { name: 'Ahora no', exact: true }).click()
+      await expect(invitation).toHaveCount(0)
+      await expect(page.locator('.lite-interface')).toHaveAttribute('data-level', '2')
+    } finally {
+      await context.close()
+    }
+  }
+})

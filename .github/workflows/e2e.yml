@@ -32,13 +32,22 @@ jobs:
         run: npm test
 
       - name: Build application
-        run: npm run build
+        run: npm run build -- --mode pages
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E
         run: npx playwright test --project=chromium
+
+      - name: Save verified GitHub Pages build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ritmia-pages-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 1
 
       - name: Upload Playwright reports and failure traces
         if: always()

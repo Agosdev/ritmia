@@ -1,0 +1,1356 @@
+{
+  "methodology": "Chrome DevTools Performance metrics, requestAnimationFrame intervals, PerformanceObserver long tasks, SVG mutation counts, JS heap when exposed, WAV Resource Timing, and instrumented AudioBufferSource starts/ends. Browser viewport simulation is not a physical mobile device. Samples are collected after playback begins and include this instrumentation overhead.",
+  "browser": {
+    "name": "chromium",
+    "version": "150.0.7871.125",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+    "platform": "darwin",
+    "architecture": "x64",
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "isMobileContext": true
+  },
+  "durationMs": 5000,
+  "samples": [
+    {
+      "label": "idle",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 0,
+        "RecalcStyleDuration": 0,
+        "ScriptDuration": 11.01,
+        "TaskDuration": 76.75,
+        "TaskOtherDuration": 64.35
+      },
+      "durationMs": 5016,
+      "frames": 301,
+      "fps": 60,
+      "frameIntervalMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.799999999999727,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "intervalsOver32ms": 0,
+      "intervalsOver50ms": 0,
+      "longTasks": {
+        "count": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 11137931,
+      "audio": {
+        "sources": [],
+        "contexts": 0,
+        "decodedBuffers": []
+      },
+      "audioRequests": []
+    },
+    {
+      "label": "simple-maqsum-level-1",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 16.49,
+        "RecalcStyleDuration": 61.14,
+        "ScriptDuration": 275.5,
+        "TaskDuration": 636.13,
+        "TaskOtherDuration": 282.17
+      },
+      "durationMs": 5016,
+      "frames": 301,
+      "fps": 60,
+      "frameIntervalMs": {
+        "p50": 16.69999999999891,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000109,
+        "max": 16.80000000000109
+      },
+      "intervalsOver32ms": 0,
+      "intervalsOver50ms": 0,
+      "longTasks": {
+        "count": 0,
+        "totalMs": 0,
+        "maxMs": 0,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 13747650,
+      "audio": {
+        "sources": [
+          {
+            "start": 0.08580498866213151,
+            "requestedAt": 0.005804988662131519,
+            "ended": true
+          },
+          {
+            "start": 0.38580498866213153,
+            "requestedAt": 0.3076643990929705,
+            "ended": true
+          },
+          {
+            "start": 0.9858049886621316,
+            "requestedAt": 0.905578231292517,
+            "ended": true
+          },
+          {
+            "start": 1.2858049886621317,
+            "requestedAt": 1.207437641723356,
+            "ended": true
+          },
+          {
+            "start": 1.8858049886621318,
+            "requestedAt": 1.8053514739229024,
+            "ended": true
+          },
+          {
+            "start": 2.4858049886621316,
+            "requestedAt": 2.4090702947845806,
+            "ended": true
+          },
+          {
+            "start": 2.7858049886621314,
+            "requestedAt": 2.705124716553288,
+            "ended": true
+          },
+          {
+            "start": 3.385804988662131,
+            "requestedAt": 3.308843537414966,
+            "ended": true
+          },
+          {
+            "start": 3.685804988662131,
+            "requestedAt": 3.610702947845805,
+            "ended": true
+          },
+          {
+            "start": 4.2858049886621306,
+            "requestedAt": 4.208616780045351,
+            "ended": true
+          },
+          {
+            "start": 4.88580498866213,
+            "requestedAt": 4.806530612244898,
+            "ended": false
+          }
+        ],
+        "contexts": 1,
+        "decodedBuffers": [
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 26527,
+            "pcmBytes": 106108
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 15146,
+            "pcmBytes": 60584
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 20741,
+            "pcmBytes": 82964
+          }
+        ]
+      },
+      "audioRequests": [
+        {
+          "name": "acoustic/kick-soft.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/kick-strong.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/snare-soft.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "acoustic/snare-strong.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "instruments/darbuka-dum.wav",
+          "transferBytes": 53398,
+          "decodedBodyBytes": 53098
+        },
+        {
+          "name": "instruments/darbuka-tak.wav",
+          "transferBytes": 41826,
+          "decodedBodyBytes": 41526
+        },
+        {
+          "name": "instruments/darbuka-pa.wav",
+          "transferBytes": 30636,
+          "decodedBodyBytes": 30336
+        }
+      ]
+    },
+    {
+      "label": "dense-funk-plus-32-step-track-B",
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 48.26,
+        "RecalcStyleDuration": 171.7,
+        "ScriptDuration": 858.89,
+        "TaskDuration": 1608.32,
+        "TaskOtherDuration": 528.22
+      },
+      "durationMs": 5026,
+      "frames": 146,
+      "fps": 29,
+      "frameIntervalMs": {
+        "p50": 16.700000000000728,
+        "p95": 116.59999999999854,
+        "p99": 150.10000000000218,
+        "max": 166.6999999999971
+      },
+      "intervalsOver32ms": 67,
+      "intervalsOver50ms": 22,
+      "longTasks": {
+        "count": 2,
+        "totalMs": 277,
+        "maxMs": 148,
+        "supported": true
+      },
+      "svgMutations": {
+        "attributes": 0,
+        "childList": 0,
+        "characterData": 0
+      },
+      "heapBytes": 21566142,
+      "audio": {
+        "sources": [
+          {
+            "start": 0.08580498866213151,
+            "requestedAt": 0.005804988662131519,
+            "ended": true
+          },
+          {
+            "start": 0.38580498866213153,
+            "requestedAt": 0.3076643990929705,
+            "ended": true
+          },
+          {
+            "start": 0.9858049886621316,
+            "requestedAt": 0.905578231292517,
+            "ended": true
+          },
+          {
+            "start": 1.2858049886621317,
+            "requestedAt": 1.207437641723356,
+            "ended": true
+          },
+          {
+            "start": 1.8858049886621318,
+            "requestedAt": 1.8053514739229024,
+            "ended": true
+          },
+          {
+            "start": 2.4858049886621316,
+            "requestedAt": 2.4090702947845806,
+            "ended": true
+          },
+          {
+            "start": 2.7858049886621314,
+            "requestedAt": 2.705124716553288,
+            "ended": true
+          },
+          {
+            "start": 3.385804988662131,
+            "requestedAt": 3.308843537414966,
+            "ended": true
+          },
+          {
+            "start": 3.685804988662131,
+            "requestedAt": 3.610702947845805,
+            "ended": true
+          },
+          {
+            "start": 4.2858049886621306,
+            "requestedAt": 4.208616780045351,
+            "ended": true
+          },
+          {
+            "start": 4.88580498866213,
+            "requestedAt": 4.806530612244898,
+            "ended": true
+          },
+          {
+            "start": 5.18580498866213,
+            "requestedAt": 5.114195011337869,
+            "ended": true
+          },
+          {
+            "start": 5.26080498866213,
+            "requestedAt": 5.1722448979591835,
+            "ended": true
+          },
+          {
+            "start": 5.33580498866213,
+            "requestedAt": 5.241904761904762,
+            "ended": true
+          },
+          {
+            "start": 5.33580498866213,
+            "requestedAt": 5.241904761904762,
+            "ended": true
+          },
+          {
+            "start": 5.365804988662132,
+            "requestedAt": 5.294149659863946,
+            "ended": true
+          },
+          {
+            "start": 5.4108049886621306,
+            "requestedAt": 5.317369614512471,
+            "ended": true
+          },
+          {
+            "start": 5.4108049886621306,
+            "requestedAt": 5.317369614512471,
+            "ended": true
+          },
+          {
+            "start": 5.440804988662133,
+            "requestedAt": 5.369614512471656,
+            "ended": true
+          },
+          {
+            "start": 5.485804988662131,
+            "requestedAt": 5.392834467120181,
+            "ended": true
+          },
+          {
+            "start": 5.515804988662133,
+            "requestedAt": 5.416054421768708,
+            "ended": true
+          },
+          {
+            "start": 5.560804988662131,
+            "requestedAt": 5.468299319727891,
+            "ended": true
+          },
+          {
+            "start": 5.710804988662131,
+            "requestedAt": 5.648253968253968,
+            "ended": true
+          },
+          {
+            "start": 5.710804988662131,
+            "requestedAt": 5.648253968253968,
+            "ended": true
+          },
+          {
+            "start": 5.665804988662133,
+            "requestedAt": 5.648253968253968,
+            "ended": true
+          },
+          {
+            "start": 5.740804988662133,
+            "requestedAt": 5.648253968253968,
+            "ended": true
+          },
+          {
+            "start": 5.785804988662131,
+            "requestedAt": 5.69469387755102,
+            "ended": true
+          },
+          {
+            "start": 5.785804988662131,
+            "requestedAt": 5.69469387755102,
+            "ended": true
+          },
+          {
+            "start": 5.8158049886621335,
+            "requestedAt": 5.717913832199547,
+            "ended": true
+          },
+          {
+            "start": 5.860804988662132,
+            "requestedAt": 5.77015873015873,
+            "ended": true
+          },
+          {
+            "start": 5.860804988662132,
+            "requestedAt": 5.77015873015873,
+            "ended": true
+          },
+          {
+            "start": 5.890804988662134,
+            "requestedAt": 5.793378684807256,
+            "ended": true
+          },
+          {
+            "start": 5.935804988662132,
+            "requestedAt": 5.839818594104308,
+            "ended": true
+          },
+          {
+            "start": 5.965804988662134,
+            "requestedAt": 5.874648526077097,
+            "ended": true
+          },
+          {
+            "start": 6.010804988662132,
+            "requestedAt": 5.921088435374149,
+            "ended": true
+          },
+          {
+            "start": 6.010804988662132,
+            "requestedAt": 5.921088435374149,
+            "ended": true
+          },
+          {
+            "start": 6.040804988662134,
+            "requestedAt": 5.944308390022676,
+            "ended": true
+          },
+          {
+            "start": 6.085804988662132,
+            "requestedAt": 5.990748299319728,
+            "ended": true
+          },
+          {
+            "start": 6.115804988662134,
+            "requestedAt": 6.019773242630386,
+            "ended": true
+          },
+          {
+            "start": 6.160804988662132,
+            "requestedAt": 6.072018140589569,
+            "ended": true
+          },
+          {
+            "start": 6.160804988662132,
+            "requestedAt": 6.072018140589569,
+            "ended": true
+          },
+          {
+            "start": 6.190804988662134,
+            "requestedAt": 6.124263038548753,
+            "ended": true
+          },
+          {
+            "start": 6.2358049886621325,
+            "requestedAt": 6.141678004535147,
+            "ended": true
+          },
+          {
+            "start": 6.2658049886621345,
+            "requestedAt": 6.193922902494331,
+            "ended": true
+          },
+          {
+            "start": 6.310804988662133,
+            "requestedAt": 6.217142857142857,
+            "ended": true
+          },
+          {
+            "start": 6.310804988662133,
+            "requestedAt": 6.217142857142857,
+            "ended": true
+          },
+          {
+            "start": 6.310804988662133,
+            "requestedAt": 6.217142857142857,
+            "ended": true
+          },
+          {
+            "start": 6.340804988662135,
+            "requestedAt": 6.246167800453515,
+            "ended": true
+          },
+          {
+            "start": 6.385804988662133,
+            "requestedAt": 6.292607709750567,
+            "ended": true
+          },
+          {
+            "start": 6.415804988662135,
+            "requestedAt": 6.327437641723356,
+            "ended": true
+          },
+          {
+            "start": 6.460804988662133,
+            "requestedAt": 6.379682539682539,
+            "ended": true
+          },
+          {
+            "start": 6.490804988662135,
+            "requestedAt": 6.391292517006803,
+            "ended": true
+          },
+          {
+            "start": 6.535804988662133,
+            "requestedAt": 6.443537414965986,
+            "ended": true
+          },
+          {
+            "start": 6.535804988662133,
+            "requestedAt": 6.443537414965986,
+            "ended": true
+          },
+          {
+            "start": 6.565804988662135,
+            "requestedAt": 6.466757369614513,
+            "ended": true
+          },
+          {
+            "start": 6.610804988662133,
+            "requestedAt": 6.519002267573696,
+            "ended": true
+          },
+          {
+            "start": 6.610804988662133,
+            "requestedAt": 6.519002267573696,
+            "ended": true
+          },
+          {
+            "start": 6.640804988662135,
+            "requestedAt": 6.542222222222223,
+            "ended": true
+          },
+          {
+            "start": 6.685804988662134,
+            "requestedAt": 6.59156462585034,
+            "ended": true
+          },
+          {
+            "start": 6.715804988662136,
+            "requestedAt": 6.617687074829932,
+            "ended": true
+          },
+          {
+            "start": 6.760804988662134,
+            "requestedAt": 6.669931972789116,
+            "ended": true
+          },
+          {
+            "start": 6.790804988662136,
+            "requestedAt": 6.693151927437642,
+            "ended": true
+          },
+          {
+            "start": 6.835804988662134,
+            "requestedAt": 6.745396825396825,
+            "ended": true
+          },
+          {
+            "start": 6.835804988662134,
+            "requestedAt": 6.745396825396825,
+            "ended": true
+          },
+          {
+            "start": 6.835804988662134,
+            "requestedAt": 6.745396825396825,
+            "ended": true
+          },
+          {
+            "start": 6.835804988662134,
+            "requestedAt": 6.745396825396825,
+            "ended": true
+          },
+          {
+            "start": 6.865804988662136,
+            "requestedAt": 6.780226757369615,
+            "ended": true
+          },
+          {
+            "start": 6.910804988662134,
+            "requestedAt": 6.820861678004535,
+            "ended": true
+          },
+          {
+            "start": 6.910804988662134,
+            "requestedAt": 6.820861678004535,
+            "ended": true
+          },
+          {
+            "start": 6.940804988662136,
+            "requestedAt": 6.844081632653062,
+            "ended": true
+          },
+          {
+            "start": 6.985804988662134,
+            "requestedAt": 6.890521541950114,
+            "ended": true
+          },
+          {
+            "start": 6.985804988662134,
+            "requestedAt": 6.890521541950114,
+            "ended": true
+          },
+          {
+            "start": 7.015804988662136,
+            "requestedAt": 6.919546485260771,
+            "ended": true
+          },
+          {
+            "start": 7.0608049886621345,
+            "requestedAt": 6.965986394557823,
+            "ended": true
+          },
+          {
+            "start": 7.0608049886621345,
+            "requestedAt": 6.965986394557823,
+            "ended": true
+          },
+          {
+            "start": 7.0908049886621365,
+            "requestedAt": 6.995011337868481,
+            "ended": true
+          },
+          {
+            "start": 7.135804988662135,
+            "requestedAt": 7.047256235827664,
+            "ended": true
+          },
+          {
+            "start": 7.165804988662137,
+            "requestedAt": 7.070476190476191,
+            "ended": true
+          },
+          {
+            "start": 7.210804988662135,
+            "requestedAt": 7.122721088435374,
+            "ended": true
+          },
+          {
+            "start": 7.210804988662135,
+            "requestedAt": 7.122721088435374,
+            "ended": true
+          },
+          {
+            "start": 7.285804988662135,
+            "requestedAt": 7.250430839002267,
+            "ended": true
+          },
+          {
+            "start": 7.315804988662137,
+            "requestedAt": 7.250430839002267,
+            "ended": true
+          },
+          {
+            "start": 7.360804988662135,
+            "requestedAt": 7.267845804988662,
+            "ended": true
+          },
+          {
+            "start": 7.360804988662135,
+            "requestedAt": 7.267845804988662,
+            "ended": true
+          },
+          {
+            "start": 7.390804988662137,
+            "requestedAt": 7.29687074829932,
+            "ended": true
+          },
+          {
+            "start": 7.435804988662135,
+            "requestedAt": 7.349115646258503,
+            "ended": true
+          },
+          {
+            "start": 7.465804988662137,
+            "requestedAt": 7.366530612244898,
+            "ended": true
+          },
+          {
+            "start": 7.5108049886621355,
+            "requestedAt": 7.418775510204082,
+            "ended": true
+          },
+          {
+            "start": 7.5108049886621355,
+            "requestedAt": 7.418775510204082,
+            "ended": true
+          },
+          {
+            "start": 7.5108049886621355,
+            "requestedAt": 7.418775510204082,
+            "ended": true
+          },
+          {
+            "start": 7.5408049886621376,
+            "requestedAt": 7.441995464852607,
+            "ended": true
+          },
+          {
+            "start": 7.585804988662136,
+            "requestedAt": 7.494240362811792,
+            "ended": true
+          },
+          {
+            "start": 7.615804988662138,
+            "requestedAt": 7.523265306122449,
+            "ended": true
+          },
+          {
+            "start": 7.660804988662136,
+            "requestedAt": 7.575510204081633,
+            "ended": true
+          },
+          {
+            "start": 7.690804988662138,
+            "requestedAt": 7.592925170068027,
+            "ended": true
+          },
+          {
+            "start": 7.735804988662136,
+            "requestedAt": 7.645170068027211,
+            "ended": true
+          },
+          {
+            "start": 7.735804988662136,
+            "requestedAt": 7.645170068027211,
+            "ended": true
+          },
+          {
+            "start": 7.765804988662138,
+            "requestedAt": 7.6741950113378685,
+            "ended": true
+          },
+          {
+            "start": 7.810804988662136,
+            "requestedAt": 7.720634920634921,
+            "ended": true
+          },
+          {
+            "start": 7.810804988662136,
+            "requestedAt": 7.720634920634921,
+            "ended": true
+          },
+          {
+            "start": 7.840804988662138,
+            "requestedAt": 7.7496598639455785,
+            "ended": true
+          },
+          {
+            "start": 7.885804988662136,
+            "requestedAt": 7.796099773242631,
+            "ended": true
+          },
+          {
+            "start": 7.915804988662138,
+            "requestedAt": 7.819319727891156,
+            "ended": true
+          },
+          {
+            "start": 7.960804988662137,
+            "requestedAt": 7.865759637188209,
+            "ended": true
+          },
+          {
+            "start": 7.990804988662139,
+            "requestedAt": 7.894784580498866,
+            "ended": true
+          },
+          {
+            "start": 8.035804988662136,
+            "requestedAt": 7.9412244897959186,
+            "ended": true
+          },
+          {
+            "start": 8.035804988662136,
+            "requestedAt": 7.9412244897959186,
+            "ended": true
+          },
+          {
+            "start": 8.035804988662136,
+            "requestedAt": 7.9412244897959186,
+            "ended": true
+          },
+          {
+            "start": 8.035804988662136,
+            "requestedAt": 7.9412244897959186,
+            "ended": true
+          },
+          {
+            "start": 8.065804988662139,
+            "requestedAt": 7.970249433106576,
+            "ended": true
+          },
+          {
+            "start": 8.110804988662135,
+            "requestedAt": 8.016689342403629,
+            "ended": true
+          },
+          {
+            "start": 8.110804988662135,
+            "requestedAt": 8.016689342403629,
+            "ended": true
+          },
+          {
+            "start": 8.140804988662138,
+            "requestedAt": 8.045714285714286,
+            "ended": true
+          },
+          {
+            "start": 8.185804988662134,
+            "requestedAt": 8.092154195011338,
+            "ended": true
+          },
+          {
+            "start": 8.185804988662134,
+            "requestedAt": 8.092154195011338,
+            "ended": true
+          },
+          {
+            "start": 8.215804988662137,
+            "requestedAt": 8.144399092970522,
+            "ended": true
+          },
+          {
+            "start": 8.260804988662134,
+            "requestedAt": 8.167619047619048,
+            "ended": true
+          },
+          {
+            "start": 8.260804988662134,
+            "requestedAt": 8.167619047619048,
+            "ended": true
+          },
+          {
+            "start": 8.290804988662137,
+            "requestedAt": 8.190839002267573,
+            "ended": true
+          },
+          {
+            "start": 8.335804988662133,
+            "requestedAt": 8.243083900226758,
+            "ended": true
+          },
+          {
+            "start": 8.365804988662136,
+            "requestedAt": 8.272108843537415,
+            "ended": true
+          },
+          {
+            "start": 8.410804988662132,
+            "requestedAt": 8.318548752834467,
+            "ended": true
+          },
+          {
+            "start": 8.410804988662132,
+            "requestedAt": 8.318548752834467,
+            "ended": true
+          },
+          {
+            "start": 8.440804988662135,
+            "requestedAt": 8.341768707482993,
+            "ended": true
+          },
+          {
+            "start": 8.485804988662132,
+            "requestedAt": 8.394013605442177,
+            "ended": true
+          },
+          {
+            "start": 8.515804988662135,
+            "requestedAt": 8.423038548752835,
+            "ended": true
+          },
+          {
+            "start": 8.560804988662131,
+            "requestedAt": 8.475283446712018,
+            "ended": true
+          },
+          {
+            "start": 8.560804988662131,
+            "requestedAt": 8.475283446712018,
+            "ended": true
+          },
+          {
+            "start": 8.590804988662134,
+            "requestedAt": 8.504308390022675,
+            "ended": true
+          },
+          {
+            "start": 8.63580498866213,
+            "requestedAt": 8.544943310657596,
+            "ended": true
+          },
+          {
+            "start": 8.665804988662133,
+            "requestedAt": 8.568163265306122,
+            "ended": true
+          },
+          {
+            "start": 8.71080498866213,
+            "requestedAt": 8.626213151927438,
+            "ended": true
+          },
+          {
+            "start": 8.71080498866213,
+            "requestedAt": 8.626213151927438,
+            "ended": true
+          },
+          {
+            "start": 8.71080498866213,
+            "requestedAt": 8.626213151927438,
+            "ended": true
+          },
+          {
+            "start": 8.740804988662132,
+            "requestedAt": 8.643628117913833,
+            "ended": true
+          },
+          {
+            "start": 8.785804988662129,
+            "requestedAt": 8.690068027210884,
+            "ended": true
+          },
+          {
+            "start": 8.815804988662132,
+            "requestedAt": 8.730702947845804,
+            "ended": true
+          },
+          {
+            "start": 8.860804988662128,
+            "requestedAt": 8.765532879818593,
+            "ended": true
+          },
+          {
+            "start": 8.890804988662131,
+            "requestedAt": 8.800362811791382,
+            "ended": true
+          },
+          {
+            "start": 8.935804988662127,
+            "requestedAt": 8.840997732426304,
+            "ended": true
+          },
+          {
+            "start": 8.935804988662127,
+            "requestedAt": 8.840997732426304,
+            "ended": true
+          },
+          {
+            "start": 8.96580498866213,
+            "requestedAt": 8.893242630385487,
+            "ended": true
+          },
+          {
+            "start": 9.010804988662127,
+            "requestedAt": 8.916462585034013,
+            "ended": true
+          },
+          {
+            "start": 9.010804988662127,
+            "requestedAt": 8.916462585034013,
+            "ended": true
+          },
+          {
+            "start": 9.04080498866213,
+            "requestedAt": 8.945487528344671,
+            "ended": true
+          },
+          {
+            "start": 9.085804988662126,
+            "requestedAt": 8.991927437641724,
+            "ended": true
+          },
+          {
+            "start": 9.115804988662129,
+            "requestedAt": 9.02095238095238,
+            "ended": true
+          },
+          {
+            "start": 9.160804988662125,
+            "requestedAt": 9.067392290249433,
+            "ended": true
+          },
+          {
+            "start": 9.190804988662128,
+            "requestedAt": 9.13124716553288,
+            "ended": true
+          },
+          {
+            "start": 9.235804988662125,
+            "requestedAt": 9.142857142857142,
+            "ended": true
+          },
+          {
+            "start": 9.235804988662125,
+            "requestedAt": 9.142857142857142,
+            "ended": true
+          },
+          {
+            "start": 9.235804988662125,
+            "requestedAt": 9.142857142857142,
+            "ended": true
+          },
+          {
+            "start": 9.235804988662125,
+            "requestedAt": 9.142857142857142,
+            "ended": true
+          },
+          {
+            "start": 9.265804988662127,
+            "requestedAt": 9.166077097505669,
+            "ended": true
+          },
+          {
+            "start": 9.310804988662124,
+            "requestedAt": 9.218321995464853,
+            "ended": true
+          },
+          {
+            "start": 9.310804988662124,
+            "requestedAt": 9.218321995464853,
+            "ended": true
+          },
+          {
+            "start": 9.340804988662127,
+            "requestedAt": 9.241541950113378,
+            "ended": true
+          },
+          {
+            "start": 9.385804988662123,
+            "requestedAt": 9.293786848072562,
+            "ended": true
+          },
+          {
+            "start": 9.385804988662123,
+            "requestedAt": 9.293786848072562,
+            "ended": true
+          },
+          {
+            "start": 9.415804988662126,
+            "requestedAt": 9.317006802721089,
+            "ended": true
+          },
+          {
+            "start": 9.460804988662122,
+            "requestedAt": 9.369251700680271,
+            "ended": true
+          },
+          {
+            "start": 9.460804988662122,
+            "requestedAt": 9.369251700680271,
+            "ended": true
+          },
+          {
+            "start": 9.490804988662125,
+            "requestedAt": 9.398276643990929,
+            "ended": true
+          },
+          {
+            "start": 9.535804988662122,
+            "requestedAt": 9.444716553287982,
+            "ended": true
+          },
+          {
+            "start": 9.565804988662125,
+            "requestedAt": 9.467936507936509,
+            "ended": true
+          },
+          {
+            "start": 9.610804988662121,
+            "requestedAt": 9.520181405895691,
+            "ended": true
+          },
+          {
+            "start": 9.610804988662121,
+            "requestedAt": 9.520181405895691,
+            "ended": true
+          },
+          {
+            "start": 9.640804988662124,
+            "requestedAt": 9.543401360544218,
+            "ended": true
+          },
+          {
+            "start": 9.68580498866212,
+            "requestedAt": 9.58984126984127,
+            "ended": true
+          },
+          {
+            "start": 9.715804988662123,
+            "requestedAt": 9.630476190476191,
+            "ended": false
+          },
+          {
+            "start": 9.76080498866212,
+            "requestedAt": 9.66530612244898,
+            "ended": false
+          },
+          {
+            "start": 9.76080498866212,
+            "requestedAt": 9.66530612244898,
+            "ended": true
+          },
+          {
+            "start": 9.790804988662122,
+            "requestedAt": 9.694331065759638,
+            "ended": false
+          },
+          {
+            "start": 9.835804988662119,
+            "requestedAt": 9.740770975056689,
+            "ended": false
+          },
+          {
+            "start": 9.865804988662122,
+            "requestedAt": 9.769795918367347,
+            "ended": false
+          },
+          {
+            "start": 9.910804988662118,
+            "requestedAt": 9.8162358276644,
+            "ended": false
+          },
+          {
+            "start": 9.910804988662118,
+            "requestedAt": 9.8162358276644,
+            "ended": false
+          },
+          {
+            "start": 9.910804988662118,
+            "requestedAt": 9.8162358276644,
+            "ended": false
+          },
+          {
+            "start": 9.940804988662121,
+            "requestedAt": 9.845260770975056,
+            "ended": false
+          },
+          {
+            "start": 9.985804988662117,
+            "requestedAt": 9.891700680272109,
+            "ended": false
+          },
+          {
+            "start": 10.01580498866212,
+            "requestedAt": 9.920725623582767,
+            "ended": false
+          },
+          {
+            "start": 10.060804988662117,
+            "requestedAt": 9.97297052154195,
+            "ended": false
+          },
+          {
+            "start": 10.09080498866212,
+            "requestedAt": 10.019410430839002,
+            "ended": false
+          },
+          {
+            "start": 10.135804988662116,
+            "requestedAt": 10.042630385487529,
+            "ended": false
+          },
+          {
+            "start": 10.135804988662116,
+            "requestedAt": 10.042630385487529,
+            "ended": false
+          },
+          {
+            "start": 10.165804988662119,
+            "requestedAt": 10.065850340136054,
+            "ended": false
+          },
+          {
+            "start": 10.210804988662115,
+            "requestedAt": 10.118095238095238,
+            "ended": false
+          },
+          {
+            "start": 10.210804988662115,
+            "requestedAt": 10.118095238095238,
+            "ended": false
+          },
+          {
+            "start": 10.240804988662118,
+            "requestedAt": 10.147120181405896,
+            "ended": false
+          },
+          {
+            "start": 10.285804988662115,
+            "requestedAt": 10.193560090702947,
+            "ended": false
+          }
+        ],
+        "contexts": 1,
+        "decodedBuffers": [
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 28664,
+            "pcmBytes": 114656
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 24256,
+            "pcmBytes": 97024
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 26527,
+            "pcmBytes": 106108
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 15146,
+            "pcmBytes": 60584
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 20741,
+            "pcmBytes": 82964
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 19438,
+            "pcmBytes": 77752
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 25010,
+            "pcmBytes": 100040
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 33075,
+            "pcmBytes": 132300
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 33075,
+            "pcmBytes": 132300
+          },
+          {
+            "sampleRate": 44100,
+            "channels": 1,
+            "frames": 132300,
+            "pcmBytes": 529200
+          }
+        ]
+      },
+      "audioRequests": [
+        {
+          "name": "acoustic/kick-soft.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/kick-strong.wav",
+          "transferBytes": 29008,
+          "decodedBodyBytes": 28708
+        },
+        {
+          "name": "acoustic/snare-soft.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "acoustic/snare-strong.wav",
+          "transferBytes": 24600,
+          "decodedBodyBytes": 24300
+        },
+        {
+          "name": "instruments/darbuka-dum.wav",
+          "transferBytes": 53398,
+          "decodedBodyBytes": 53098
+        },
+        {
+          "name": "instruments/darbuka-tak.wav",
+          "transferBytes": 41826,
+          "decodedBodyBytes": 41526
+        },
+        {
+          "name": "instruments/darbuka-pa.wav",
+          "transferBytes": 30636,
+          "decodedBodyBytes": 30336
+        },
+        {
+          "name": "instruments/hihat-soft.wav",
+          "transferBytes": 39220,
+          "decodedBodyBytes": 38920
+        },
+        {
+          "name": "instruments/hihat-strong.wav",
+          "transferBytes": 50364,
+          "decodedBodyBytes": 50064
+        },
+        {
+          "name": "instruments/crash.wav",
+          "transferBytes": 264944,
+          "decodedBodyBytes": 264644
+        },
+        {
+          "name": "instruments/bass-g1.wav",
+          "transferBytes": 66494,
+          "decodedBodyBytes": 66194
+        },
+        {
+          "name": "instruments/bass-d2.wav",
+          "transferBytes": 66494,
+          "decodedBodyBytes": 66194
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

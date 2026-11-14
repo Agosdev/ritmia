@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
+import { mkdirSync } from 'node:fs'
 
 for (const width of [320, 1280]) {
-  test(`selector por familias: teclado, foco, métrica y cierre a ${width}px`, async ({ page }) => {
+  test(`selector por familias: teclado, foco, métrica y cierre a ${width}px`, async ({ page }, testInfo) => {
     test.setTimeout(60_000) // Full keyboard/pointer journey, matching the existing preset tests.
     await page.setViewportSize({ width, height: 812 })
     const errors = []
@@ -55,10 +56,12 @@ for (const width of [320, 1280]) {
     await page.getByRole('heading', { name: 'Ritmia', exact: true }).click()
     await expect(list).toHaveCount(0)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    await page.screenshot({ path: `/private/tmp/ritmia-recovery/selector-${width}-closed.png`, fullPage: true })
+    const shots = testInfo.outputPath('screenshots')
+    mkdirSync(shots, { recursive: true })
+    await page.screenshot({ path: `${shots}/selector-${width}-closed.png`, fullPage: true })
     await combo.click()
     await combo.press('End')
-    await page.screenshot({ path: `/private/tmp/ritmia-recovery/selector-${width}-open.png` })
+    await page.screenshot({ path: `${shots}/selector-${width}-open.png` })
     await page.getByRole('button', { name: 'Quitar preset desde el selector', exact: true }).click()
     await expect(list).toHaveCount(0)
     await expect(combo).toHaveValue('Compás libre')

@@ -1,8 +1,10 @@
 import { chromium, expect } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
-const output = process.env.PRODUCT_EVIDENCE_DIR || '/private/tmp/ritmia-11-evidence'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+const output = process.env.PRODUCT_EVIDENCE_DIR || path.join(tmpdir(), 'ritmia-11-evidence')
 await mkdir(output, { recursive: true })
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, headless: true })
+const browser = await chromium.launch({ ...(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {}), headless: true })
 const report = { screenshots: [], errors: [], badResponses: [] }
 try {
   for (const width of [375, 1280]) {

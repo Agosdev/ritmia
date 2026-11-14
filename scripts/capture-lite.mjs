@@ -1,12 +1,13 @@
 import { chromium } from '@playwright/test'
 import { mkdir, writeFile, readdir } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 // Run against the current Vite server. Writes evidence outside the repository by default.
-const output = process.env.RITMIA_EVIDENCE_DIR || '/private/tmp/ritmia-08E2-evidence'
+const output = process.env.RITMIA_EVIDENCE_DIR || path.join(tmpdir(), 'ritmia-08E2-evidence')
 const baseURL = process.env.RITMIA_EVIDENCE_URL || 'http://127.0.0.1:5173'
 await mkdir(output, { recursive: true })
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, headless: true })
+const browser = await chromium.launch({ ...(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {}), headless: true })
 const evidence = { baseURL, browser: browser.version(), captures: [], performance: [], errors: [] }
 async function capture(page, name, options = {}) {
   await page.screenshot({ path: path.join(output, name), animations: 'allow', ...options })
