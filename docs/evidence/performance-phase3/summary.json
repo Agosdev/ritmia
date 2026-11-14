@@ -1,0 +1,2368 @@
+{
+  "methodology": "Chrome headless 150.0.7871.125 on macOS x64, 375x812 touch viewport. Five-second scenarios and 120-second dense playback. PerformanceObserver, CDP metrics, rAF, SVG mutations, V8 heap samples, instrumented Web Audio and Resource Timing. Instrumentation overhead applies; this is not a physical Android test.",
+  "publishedBuildSha": "d0967defe11aa96e3e3340b2bd6ed44dad926cde",
+  "runs": [
+    {
+      "label": "published-baseline",
+      "note": "1955144,d0967de code unchanged",
+      "browser": {
+        "name": "chromium",
+        "version": "150.0.7871.125",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+        "platform": "darwin",
+        "architecture": "x64",
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "isMobileContext": true
+      },
+      "samples": {
+        "idle": {
+          "durationMs": 5002,
+          "fps": 60,
+          "frameIntervalMs": {
+            "p50": 16.699999999999818,
+            "p95": 16.799999999999272,
+            "p99": 16.800000000000182,
+            "max": 16.800000000000182
+          },
+          "intervalsOver32ms": 0,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 0,
+            "RecalcStyleDuration": 0,
+            "ScriptDuration": 10.34,
+            "TaskDuration": 68.56,
+            "TaskOtherDuration": 56.18
+          },
+          "heapBytes": 6135555,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 0,
+            "childList": 0,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 0,
+            "activeVoicesPeak": 0,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 0,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": null,
+              "p95": null,
+              "min": null
+            }
+          },
+          "audioSourcesStarted": 0,
+          "audioRequestCount": 0,
+          "audioTransferBytes": 0
+        },
+        "simple-free-time-level-1": {
+          "durationMs": 5016,
+          "fps": 59.4,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 16.80000000000109,
+            "max": 50
+          },
+          "intervalsOver32ms": 2,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 16.34,
+            "RecalcStyleDuration": 60.74,
+            "ScriptDuration": 113.44,
+            "TaskDuration": 448.62,
+            "TaskOtherDuration": 257.36
+          },
+          "heapBytes": 7114993,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 343,
+            "childList": 32,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 1,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 6,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 85.27536231884136,
+              "p95": 95.88405797101629,
+              "min": 81.50724637681162
+            }
+          },
+          "audioSourcesStarted": 6,
+          "audioRequestCount": 4,
+          "audioTransferBytes": 107216
+        },
+        "funk-battery-plus-bass-level-1": {
+          "durationMs": 5012,
+          "fps": 59.7,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 16.80000000000291,
+            "max": 33.399999999999636
+          },
+          "intervalsOver32ms": 1,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 22.24,
+            "RecalcStyleDuration": 48.44,
+            "ScriptDuration": 144.51,
+            "TaskDuration": 519.46,
+            "TaskOtherDuration": 303.79
+          },
+          "heapBytes": 6785523,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 412,
+            "childList": 56,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 8,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 55,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 91.99999999999608,
+              "p95": 98.11594202898365,
+              "min": 74.46376811593858
+            }
+          },
+          "audioSourcesStarted": 55,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "two-tracks-funk-plus-default-B": {
+          "durationMs": 5009,
+          "fps": 59.9,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 16.799999999999272,
+            "p99": 16.80000000000291,
+            "max": 16.80000000000291
+          },
+          "intervalsOver32ms": 0,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 47.28,
+            "RecalcStyleDuration": 171.96,
+            "ScriptDuration": 201.39,
+            "TaskDuration": 946.9,
+            "TaskOtherDuration": 525.68
+          },
+          "heapBytes": 6086634,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1072,
+            "childList": 199,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 16,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 137,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 79.40579710142437,
+              "p95": 82.5797101449357,
+              "min": 75.40579710143724
+            }
+          },
+          "audioSourcesStarted": 137,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "dense-funk-plus-32-step-track-B": {
+          "durationMs": 5006,
+          "fps": 58.5,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 16.799999999999272,
+            "p99": 33.29999999999927,
+            "max": 33.30000000000291
+          },
+          "intervalsOver32ms": 7,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 66.2,
+            "RecalcStyleDuration": 252.02,
+            "ScriptDuration": 301.63,
+            "TaskDuration": 1426.58,
+            "TaskOtherDuration": 806.05
+          },
+          "heapBytes": 12472232,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1213,
+            "childList": 253,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 21,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 186,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 79.57971014489829,
+              "p95": 83.57971014488896,
+              "min": 13.246376811579808
+            }
+          },
+          "audioSourcesStarted": 186,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "preset-and-tempo-changes-during-playback": {
+          "durationMs": 5001,
+          "fps": 47.8,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 50,
+            "p99": 116.70000000000073,
+            "max": 133.40000000000146
+          },
+          "intervalsOver32ms": 27,
+          "intervalsOver50ms": 7,
+          "longTasks": {
+            "count": 1,
+            "totalMs": 52,
+            "maxMs": 52,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 83.34,
+            "RecalcStyleDuration": 208.74,
+            "ScriptDuration": 381.09,
+            "TaskDuration": 1620.02,
+            "TaskOtherDuration": 854.54
+          },
+          "heapBytes": 9938850,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1125,
+            "childList": 196,
+            "characterData": 4
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 18,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 122,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 91.20019133677815,
+              "p95": 97.20019133677482,
+              "min": 18.576575476235035
+            }
+          },
+          "audioSourcesStarted": 122,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        },
+        "dense-two-track-playback-long": {
+          "durationMs": 120015,
+          "fps": 58.3,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 16.799999999995634,
+            "p99": 33.30000000000291,
+            "max": 333.3000000000029
+          },
+          "intervalsOver32ms": 125,
+          "intervalsOver50ms": 18,
+          "longTasks": {
+            "count": 1,
+            "totalMs": 75,
+            "maxMs": 75,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 1326.12,
+            "RecalcStyleDuration": 4007.72,
+            "ScriptDuration": 6090.83,
+            "TaskDuration": 28024.32,
+            "TaskOtherDuration": 16599.23
+          },
+          "heapBytes": 11904412,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 25718,
+            "childList": 4550,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 13,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 2666,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 92.24324214623891,
+              "p95": 97.8668580043518,
+              "min": 11.24324214436001
+            }
+          },
+          "audioSourcesStarted": 2666,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "same-build-repeat",
+      "note": "d0967de, unchanged",
+      "browser": {
+        "name": "chromium",
+        "version": "150.0.7871.125",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+        "platform": "darwin",
+        "architecture": "x64",
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "isMobileContext": true
+      },
+      "samples": {
+        "idle": {
+          "durationMs": 5004,
+          "fps": 60,
+          "frameIntervalMs": {
+            "p50": 16.699999999999818,
+            "p95": 16.700000000000728,
+            "p99": 16.800000000000182,
+            "max": 16.800000000000182
+          },
+          "intervalsOver32ms": 0,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 0,
+            "RecalcStyleDuration": 0,
+            "ScriptDuration": 9.36,
+            "TaskDuration": 64.67,
+            "TaskOtherDuration": 53.54
+          },
+          "heapBytes": 6166437,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 0,
+            "childList": 0,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 0,
+            "activeVoicesPeak": 0,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 0,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": null,
+              "p95": null,
+              "min": null
+            }
+          },
+          "audioSourcesStarted": 0,
+          "audioRequestCount": 0,
+          "audioTransferBytes": 0
+        },
+        "simple-free-time-level-1": {
+          "durationMs": 5000,
+          "fps": 58.8,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 16.80000000000109,
+            "max": 83.39999999999964
+          },
+          "intervalsOver32ms": 2,
+          "intervalsOver50ms": 1,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 15.28,
+            "RecalcStyleDuration": 59.83,
+            "ScriptDuration": 112.84,
+            "TaskDuration": 423.52,
+            "TaskOtherDuration": 235.1
+          },
+          "heapBytes": 7022888,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 341,
+            "childList": 30,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 1,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 6,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 77.62318840579807,
+              "p95": 93.68115942028999,
+              "min": 74.60869565217453
+            }
+          },
+          "audioSourcesStarted": 6,
+          "audioRequestCount": 4,
+          "audioTransferBytes": 107216
+        },
+        "funk-battery-plus-bass-level-1": {
+          "durationMs": 5007,
+          "fps": 59.7,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.700000000000728,
+            "p99": 16.80000000000109,
+            "max": 33.30000000000109
+          },
+          "intervalsOver32ms": 1,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 23.4,
+            "RecalcStyleDuration": 52.89,
+            "ScriptDuration": 147.59,
+            "TaskDuration": 564.02,
+            "TaskOtherDuration": 339.1
+          },
+          "heapBytes": 6045869,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 420,
+            "childList": 60,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 8,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 52,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 87.4202898550669,
+              "p95": 98.11594202898277,
+              "min": 73.71014492753147
+            }
+          },
+          "audioSourcesStarted": 52,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "two-tracks-funk-plus-default-B": {
+          "durationMs": 5004,
+          "fps": 58.5,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 16.799999999999272,
+            "p99": 33.29999999999927,
+            "max": 66.73600000000079
+          },
+          "intervalsOver32ms": 4,
+          "intervalsOver50ms": 1,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 55.31,
+            "RecalcStyleDuration": 198.84,
+            "ScriptDuration": 216.24,
+            "TaskDuration": 1090.05,
+            "TaskOtherDuration": 618.27
+          },
+          "heapBytes": 8188687,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1051,
+            "childList": 193,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 16,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 136,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 82.40579710141027,
+              "p95": 85.07246376806066,
+              "min": 64.40579710143801
+            }
+          },
+          "audioSourcesStarted": 136,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "dense-funk-plus-32-step-track-B": {
+          "durationMs": 5014,
+          "fps": 54.4,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 33.30000000000291,
+            "p99": 33.400000000001455,
+            "max": 50
+          },
+          "intervalsOver32ms": 26,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 72.39,
+            "RecalcStyleDuration": 241.54,
+            "ScriptDuration": 327.1,
+            "TaskDuration": 1504.66,
+            "TaskOtherDuration": 863.18
+          },
+          "heapBytes": 12914817,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1207,
+            "childList": 257,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 21,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 182,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 82.07246376798238,
+              "p95": 84.73913043467007,
+              "min": 73.6521739130076
+            }
+          },
+          "audioSourcesStarted": 182,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "preset-and-tempo-changes-during-playback": {
+          "durationMs": 5016,
+          "fps": 37.7,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 66.69999999999709,
+            "p99": 166.70000000000437,
+            "max": 216.59999999999854
+          },
+          "intervalsOver32ms": 45,
+          "intervalsOver50ms": 13,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 89.57,
+            "RecalcStyleDuration": 181.8,
+            "ScriptDuration": 380.77,
+            "TaskDuration": 1513.95,
+            "TaskOtherDuration": 782.74
+          },
+          "heapBytes": 12719657,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 1003,
+            "childList": 167,
+            "characterData": 4
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 19,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 122,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 82.98444878676392,
+              "p95": 89.73082559836243,
+              "min": 2.4427821200951882
+            }
+          },
+          "audioSourcesStarted": 122,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        },
+        "dense-two-track-playback-long": {
+          "durationMs": 120011,
+          "fps": 58.8,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 16.799999999995634,
+            "p99": 33.30000000000291,
+            "max": 100
+          },
+          "intervalsOver32ms": 126,
+          "intervalsOver50ms": 6,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 1400.23,
+            "RecalcStyleDuration": 4257.73,
+            "ScriptDuration": 6228.52,
+            "TaskDuration": 28878.93,
+            "TaskOtherDuration": 16991.32
+          },
+          "heapBytes": 17608967,
+          "heapTrend": null,
+          "svgMutations": {
+            "attributes": 25671,
+            "childList": 4460,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 13,
+            "decodedBuffersTotal": null,
+            "decodedPcmBytesTotal": null,
+            "decodeMsTotal": null
+          },
+          "scheduler": {
+            "startedSources": 2667,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 84.10944878833959,
+              "p95": 87.10944879013027,
+              "min": 53.10944878748103
+            }
+          },
+          "audioSourcesStarted": 2667,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "final-instrumented-run",
+      "note": "d0967de, unchanged",
+      "browser": {
+        "name": "chromium",
+        "version": "150.0.7871.125",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+        "platform": "darwin",
+        "architecture": "x64",
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "isMobileContext": true
+      },
+      "samples": {
+        "idle": {
+          "durationMs": 5001,
+          "fps": 60.2,
+          "frameIntervalMs": {
+            "p50": 16.699999999999818,
+            "p95": 16.799999999999727,
+            "p99": 16.800000000000182,
+            "max": 16.800000000000182
+          },
+          "intervalsOver32ms": 0,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 0,
+            "RecalcStyleDuration": 0,
+            "ScriptDuration": 11.12,
+            "TaskDuration": 75.73,
+            "TaskOtherDuration": 62.42
+          },
+          "heapBytes": 6059961,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 6023275,
+            "lastBytes": 6059961,
+            "minBytes": 6023275,
+            "maxBytes": 6059961,
+            "deltaBytes": 36686
+          },
+          "svgMutations": {
+            "attributes": 0,
+            "childList": 0,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 0,
+            "activeVoicesPeak": 0,
+            "decodedBuffersTotal": 0,
+            "decodedPcmBytesTotal": 0,
+            "decodeMsTotal": 0
+          },
+          "scheduler": {
+            "startedSources": 0,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": null,
+              "p95": null,
+              "min": null
+            }
+          },
+          "audioSourcesStarted": 0,
+          "audioRequestCount": 0,
+          "audioTransferBytes": 0
+        },
+        "simple-free-time-level-1": {
+          "durationMs": 5011,
+          "fps": 58.1,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 33.30000000000018,
+            "max": 116.69999999999982
+          },
+          "intervalsOver32ms": 4,
+          "intervalsOver50ms": 1,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 17.55,
+            "RecalcStyleDuration": 71.89,
+            "ScriptDuration": 122.5,
+            "TaskDuration": 458.45,
+            "TaskOtherDuration": 245.96
+          },
+          "heapBytes": 6865510,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 5738498,
+            "lastBytes": 6865510,
+            "minBytes": 5738498,
+            "maxBytes": 7577375,
+            "deltaBytes": 1127012
+          },
+          "svgMutations": {
+            "attributes": 341,
+            "childList": 30,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 1,
+            "decodedBuffersTotal": 4,
+            "decodedPcmBytesTotal": 460792,
+            "decodeMsTotal": 14.900000095367432
+          },
+          "scheduler": {
+            "startedSources": 6,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 85.27536231884092,
+              "p95": 90.55072463768177,
+              "min": 76.17391304347831
+            }
+          },
+          "audioSourcesStarted": 6,
+          "audioRequestCount": 4,
+          "audioTransferBytes": 107216
+        },
+        "funk-battery-plus-bass-level-1": {
+          "durationMs": 5008,
+          "fps": 59.3,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 16.80000000000109,
+            "max": 50.100000000000364
+          },
+          "intervalsOver32ms": 2,
+          "intervalsOver50ms": 1,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 28.24,
+            "RecalcStyleDuration": 67.57,
+            "ScriptDuration": 166.65,
+            "TaskDuration": 639.7,
+            "TaskOtherDuration": 376.72
+          },
+          "heapBytes": 6883562,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 7657662,
+            "lastBytes": 6883562,
+            "minBytes": 6883562,
+            "maxBytes": 7657662,
+            "deltaBytes": -774100
+          },
+          "svgMutations": {
+            "attributes": 413,
+            "childList": 58,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 8,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 148.60000002384186
+          },
+          "scheduler": {
+            "startedSources": 55,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 86.72463768116057,
+              "p95": 93.50724637680585,
+              "min": 73.68115942028375
+            }
+          },
+          "audioSourcesStarted": 55,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "two-tracks-funk-plus-default-B": {
+          "durationMs": 5001,
+          "fps": 58.6,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 16.700000000000728,
+            "p99": 33.29999999999927,
+            "max": 50
+          },
+          "intervalsOver32ms": 3,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 43.55,
+            "RecalcStyleDuration": 164.96,
+            "ScriptDuration": 205.81,
+            "TaskDuration": 974.55,
+            "TaskOtherDuration": 559.04
+          },
+          "heapBytes": 7135549,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 10555259,
+            "lastBytes": 7135549,
+            "minBytes": 6330495,
+            "maxBytes": 10555259,
+            "deltaBytes": -3419710
+          },
+          "svgMutations": {
+            "attributes": 1072,
+            "childList": 199,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 16,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 148.60000002384186
+          },
+          "scheduler": {
+            "startedSources": 137,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 88.07246376809985,
+              "p95": 90.73913043474846,
+              "min": 79.91304347826045
+            }
+          },
+          "audioSourcesStarted": 137,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "dense-funk-plus-32-step-track-B": {
+          "durationMs": 5009,
+          "fps": 55.7,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 33.29999999999927,
+            "p99": 33.400000000001455,
+            "max": 50
+          },
+          "intervalsOver32ms": 21,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 75.04,
+            "RecalcStyleDuration": 230.67,
+            "ScriptDuration": 291.26,
+            "TaskDuration": 1388.37,
+            "TaskOtherDuration": 790.88
+          },
+          "heapBytes": 7072385,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 8913206,
+            "lastBytes": 7072385,
+            "minBytes": 7072385,
+            "maxBytes": 12628555,
+            "deltaBytes": -1840821
+          },
+          "svgMutations": {
+            "attributes": 1213,
+            "childList": 260,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 21,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 148.60000002384186
+          },
+          "scheduler": {
+            "startedSources": 186,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 87.91304347821338,
+              "p95": 91.57971014490585,
+              "min": 0.4057971013580186
+            }
+          },
+          "audioSourcesStarted": 186,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "preset-and-tempo-changes-during-playback": {
+          "durationMs": 5005,
+          "fps": 45.4,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 50,
+            "p99": 116.5,
+            "max": 133.29999999999927
+          },
+          "intervalsOver32ms": 37,
+          "intervalsOver50ms": 10,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 90.22,
+            "RecalcStyleDuration": 218.75,
+            "ScriptDuration": 393.94,
+            "TaskDuration": 1598.76,
+            "TaskOtherDuration": 796.19
+          },
+          "heapBytes": 10333048,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 8348049,
+            "lastBytes": 10333048,
+            "minBytes": 8348049,
+            "maxBytes": 11035595,
+            "deltaBytes": 1984999
+          },
+          "svgMutations": {
+            "attributes": 1157,
+            "childList": 203,
+            "characterData": 4
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 19,
+            "decodedBuffersTotal": 12,
+            "decodedPcmBytesTotal": 1790032,
+            "decodeMsTotal": 161
+          },
+          "scheduler": {
+            "startedSources": 130,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 78.62212994617224,
+              "p95": 98.87143787640085,
+              "min": 1.6583618302483671
+            }
+          },
+          "audioSourcesStarted": 130,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        },
+        "dense-two-track-playback-long": {
+          "durationMs": 120003,
+          "fps": 58.7,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 16.80000000000291,
+            "p99": 33.30000000000291,
+            "max": 66.69999999999709
+          },
+          "intervalsOver32ms": 133,
+          "intervalsOver50ms": 5,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 1400.43,
+            "RecalcStyleDuration": 4610.5,
+            "ScriptDuration": 6303.96,
+            "TaskDuration": 30237.12,
+            "TaskOtherDuration": 17921.71
+          },
+          "heapBytes": 17849326,
+          "heapTrend": {
+            "samples": 122,
+            "firstBytes": 10333048,
+            "lastBytes": 17849326,
+            "minBytes": 7421646,
+            "maxBytes": 21948337,
+            "deltaBytes": 7516278
+          },
+          "svgMutations": {
+            "attributes": 25495,
+            "childList": 4358,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 13,
+            "decodedBuffersTotal": 12,
+            "decodedPcmBytesTotal": 1790032,
+            "decodeMsTotal": 161
+          },
+          "scheduler": {
+            "startedSources": 2666,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 78.87143787688444,
+              "p95": 82.28879661415078,
+              "min": 50.871437877560766
+            }
+          },
+          "audioSourcesStarted": 2666,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "final-heap-series",
+      "note": "d0967de, unchanged; heap sampled every second",
+      "browser": {
+        "name": "chromium",
+        "version": "150.0.7871.125",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+        "platform": "darwin",
+        "architecture": "x64",
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "isMobileContext": true
+      },
+      "samples": {
+        "idle": {
+          "durationMs": 5001,
+          "fps": 60.2,
+          "frameIntervalMs": {
+            "p50": 16.699999999999818,
+            "p95": 16.799999999999955,
+            "p99": 16.800000000000182,
+            "max": 16.800000000000182
+          },
+          "intervalsOver32ms": 0,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 0,
+            "RecalcStyleDuration": 0,
+            "ScriptDuration": 9.81,
+            "TaskDuration": 65.49,
+            "TaskOtherDuration": 53.29
+          },
+          "heapBytes": 6068720,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 6032078,
+            "lastBytes": 6068720,
+            "minBytes": 6032078,
+            "maxBytes": 6068720,
+            "deltaBytes": 36642,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 6032078
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 6044528
+              },
+              {
+                "elapsedMs": 2001,
+                "bytes": 6050140
+              },
+              {
+                "elapsedMs": 3001,
+                "bytes": 6056508
+              },
+              {
+                "elapsedMs": 4001,
+                "bytes": 6064020
+              },
+              {
+                "elapsedMs": 5001,
+                "bytes": 6068720
+              },
+              {
+                "elapsedMs": 5002,
+                "bytes": 6068720
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 0,
+            "childList": 0,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 0,
+            "activeVoicesPeak": 0,
+            "decodedBuffersTotal": 0,
+            "decodedPcmBytesTotal": 0,
+            "decodeMsTotal": 0
+          },
+          "scheduler": {
+            "startedSources": 0,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": null,
+              "p95": null,
+              "min": null
+            }
+          },
+          "audioSourcesStarted": 0,
+          "audioRequestCount": 0,
+          "audioTransferBytes": 0
+        },
+        "simple-free-time-level-1": {
+          "durationMs": 5003,
+          "fps": 58.8,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.700000000000728,
+            "p99": 16.80000000000109,
+            "max": 83.30000000000018
+          },
+          "intervalsOver32ms": 2,
+          "intervalsOver50ms": 1,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 14.99,
+            "RecalcStyleDuration": 70.51,
+            "ScriptDuration": 124.5,
+            "TaskDuration": 464.68,
+            "TaskOtherDuration": 253.97
+          },
+          "heapBytes": 6940829,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 5714285,
+            "lastBytes": 6940829,
+            "minBytes": 5714285,
+            "maxBytes": 6940829,
+            "deltaBytes": 1226544,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 5714285
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 6018022
+              },
+              {
+                "elapsedMs": 2000,
+                "bytes": 6235359
+              },
+              {
+                "elapsedMs": 3000,
+                "bytes": 6460905
+              },
+              {
+                "elapsedMs": 4000,
+                "bytes": 6710686
+              },
+              {
+                "elapsedMs": 5000,
+                "bytes": 6940829
+              },
+              {
+                "elapsedMs": 5004,
+                "bytes": 6940829
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 338,
+            "childList": 30,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 1,
+            "decodedBuffersTotal": 4,
+            "decodedPcmBytesTotal": 460792,
+            "decodeMsTotal": 12.300000071525574
+          },
+          "scheduler": {
+            "startedSources": 6,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 85.27536231884092,
+              "p95": 95.88405797101541,
+              "min": 81.50724637681162
+            }
+          },
+          "audioSourcesStarted": 6,
+          "audioRequestCount": 4,
+          "audioTransferBytes": 107216
+        },
+        "funk-battery-plus-bass-level-1": {
+          "durationMs": 5005,
+          "fps": 58.3,
+          "frameIntervalMs": {
+            "p50": 16.69999999999891,
+            "p95": 16.799999999999272,
+            "p99": 33.399999999999636,
+            "max": 50
+          },
+          "intervalsOver32ms": 4,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 30.53,
+            "RecalcStyleDuration": 73.48,
+            "ScriptDuration": 164.57,
+            "TaskDuration": 672.01,
+            "TaskOtherDuration": 402.78
+          },
+          "heapBytes": 5982778,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 6660699,
+            "lastBytes": 5982778,
+            "minBytes": 5982778,
+            "maxBytes": 6780507,
+            "deltaBytes": -677921,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 6660699
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 6719961
+              },
+              {
+                "elapsedMs": 2001,
+                "bytes": 6780507
+              },
+              {
+                "elapsedMs": 3001,
+                "bytes": 6672818
+              },
+              {
+                "elapsedMs": 4001,
+                "bytes": 6119704
+              },
+              {
+                "elapsedMs": 5001,
+                "bytes": 5982778
+              },
+              {
+                "elapsedMs": 5011,
+                "bytes": 5982778
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 420,
+            "childList": 60,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 8,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 82.50000011920929
+          },
+          "scheduler": {
+            "startedSources": 55,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 86.63768115941295,
+              "p95": 93.50724637680585,
+              "min": 73.68115942028197
+            }
+          },
+          "audioSourcesStarted": 55,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "two-tracks-funk-plus-default-B": {
+          "durationMs": 5016,
+          "fps": 58.6,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 16.799999999999272,
+            "p99": 33.400000000001455,
+            "max": 50
+          },
+          "intervalsOver32ms": 4,
+          "intervalsOver50ms": 0,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 52.37,
+            "RecalcStyleDuration": 174.68,
+            "ScriptDuration": 225.64,
+            "TaskDuration": 1104.8,
+            "TaskOtherDuration": 651.44
+          },
+          "heapBytes": 7944259,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 6614846,
+            "lastBytes": 7944259,
+            "minBytes": 6614846,
+            "maxBytes": 8567264,
+            "deltaBytes": 1329413,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 6614846
+              },
+              {
+                "elapsedMs": 1002,
+                "bytes": 6685293
+              },
+              {
+                "elapsedMs": 2002,
+                "bytes": 7739188
+              },
+              {
+                "elapsedMs": 3003,
+                "bytes": 8567264
+              },
+              {
+                "elapsedMs": 4002,
+                "bytes": 7135268
+              },
+              {
+                "elapsedMs": 5003,
+                "bytes": 7944259
+              },
+              {
+                "elapsedMs": 5021,
+                "bytes": 7944259
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 1070,
+            "childList": 199,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 15,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 82.50000011920929
+          },
+          "scheduler": {
+            "startedSources": 137,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 93.07246376809886,
+              "p95": 96.07246376809364,
+              "min": 74.46376811594213
+            }
+          },
+          "audioSourcesStarted": 137,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "dense-funk-plus-32-step-track-B": {
+          "durationMs": 5022,
+          "fps": 51.8,
+          "frameIntervalMs": {
+            "p50": 16.700000000000728,
+            "p95": 33.39999999999782,
+            "p99": 50.10000000000218,
+            "max": 83.40000000000146
+          },
+          "intervalsOver32ms": 32,
+          "intervalsOver50ms": 3,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 71.89,
+            "RecalcStyleDuration": 221.25,
+            "ScriptDuration": 282.96,
+            "TaskDuration": 1318.86,
+            "TaskOtherDuration": 742.25
+          },
+          "heapBytes": 9438974,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 9364515,
+            "lastBytes": 9438974,
+            "minBytes": 8154499,
+            "maxBytes": 13027189,
+            "deltaBytes": 74459,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 9364515
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 10972794
+              },
+              {
+                "elapsedMs": 2001,
+                "bytes": 12433739
+              },
+              {
+                "elapsedMs": 3003,
+                "bytes": 13027189
+              },
+              {
+                "elapsedMs": 4001,
+                "bytes": 8154499
+              },
+              {
+                "elapsedMs": 5005,
+                "bytes": 9438974
+              },
+              {
+                "elapsedMs": 5027,
+                "bytes": 9438974
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 1199,
+            "childList": 253,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 21,
+            "decodedBuffersTotal": 9,
+            "decodedPcmBytesTotal": 1518304,
+            "decodeMsTotal": 82.50000011920929
+          },
+          "scheduler": {
+            "startedSources": 188,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 92.07246376799816,
+              "p95": 96.07246376799239,
+              "min": 32.79710144924408
+            }
+          },
+          "audioSourcesStarted": 188,
+          "audioRequestCount": 9,
+          "audioTransferBytes": 594732
+        },
+        "preset-and-tempo-changes-during-playback": {
+          "durationMs": 5011,
+          "fps": 41.5,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 66.59999999999854,
+            "p99": 116.70000000000437,
+            "max": 183.40000000000146
+          },
+          "intervalsOver32ms": 42,
+          "intervalsOver50ms": 13,
+          "longTasks": {
+            "count": 0,
+            "totalMs": 0,
+            "maxMs": 0,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 90.25,
+            "RecalcStyleDuration": 216.15,
+            "ScriptDuration": 383.27,
+            "TaskDuration": 1545.82,
+            "TaskOtherDuration": 764.98
+          },
+          "heapBytes": 11311537,
+          "heapTrend": {
+            "samples": 7,
+            "firstBytes": 11134613,
+            "lastBytes": 11311537,
+            "minBytes": 9517148,
+            "maxBytes": 11635403,
+            "deltaBytes": 176924,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 11134613
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 9517148
+              },
+              {
+                "elapsedMs": 2000,
+                "bytes": 11635403
+              },
+              {
+                "elapsedMs": 3001,
+                "bytes": 10042847
+              },
+              {
+                "elapsedMs": 4001,
+                "bytes": 10526757
+              },
+              {
+                "elapsedMs": 5001,
+                "bytes": 11311537
+              },
+              {
+                "elapsedMs": 5014,
+                "bytes": 11311537
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 1083,
+            "childList": 187,
+            "characterData": 4
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 16,
+            "decodedBuffersTotal": 12,
+            "decodedPcmBytesTotal": 1790032,
+            "decodeMsTotal": 97.70000004768372
+          },
+          "scheduler": {
+            "startedSources": 131,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 89.68095587021452,
+              "p95": 98.10944878675087,
+              "min": 19.209086467917302
+            }
+          },
+          "audioSourcesStarted": 131,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        },
+        "dense-two-track-playback-long": {
+          "durationMs": 120101,
+          "fps": 48.8,
+          "frameIntervalMs": {
+            "p50": 16.69999999999709,
+            "p95": 33.39999999999418,
+            "p99": 116.70000000001164,
+            "max": 533.3000000000029
+          },
+          "intervalsOver32ms": 475,
+          "intervalsOver50ms": 156,
+          "longTasks": {
+            "count": 2,
+            "totalMs": 227,
+            "maxMs": 136,
+            "supported": true
+          },
+          "mainThreadDeltaMs": {
+            "LayoutDuration": 1409.93,
+            "RecalcStyleDuration": 3985.72,
+            "ScriptDuration": 6215.93,
+            "TaskDuration": 28388.55,
+            "TaskOtherDuration": 16776.33
+          },
+          "heapBytes": 14247325,
+          "heapTrend": {
+            "samples": 122,
+            "firstBytes": 12382248,
+            "lastBytes": 14247325,
+            "minBytes": 6899499,
+            "maxBytes": 30139430,
+            "deltaBytes": 1865077,
+            "series": [
+              {
+                "elapsedMs": 0,
+                "bytes": 12382248
+              },
+              {
+                "elapsedMs": 1001,
+                "bytes": 12922893
+              },
+              {
+                "elapsedMs": 2001,
+                "bytes": 8567110
+              },
+              {
+                "elapsedMs": 3002,
+                "bytes": 9159596
+              },
+              {
+                "elapsedMs": 4004,
+                "bytes": 6899499
+              },
+              {
+                "elapsedMs": 5001,
+                "bytes": 7495600
+              },
+              {
+                "elapsedMs": 6001,
+                "bytes": 8670190
+              },
+              {
+                "elapsedMs": 7001,
+                "bytes": 7163814
+              },
+              {
+                "elapsedMs": 8001,
+                "bytes": 7941281
+              },
+              {
+                "elapsedMs": 9001,
+                "bytes": 9494154
+              },
+              {
+                "elapsedMs": 10001,
+                "bytes": 10087350
+              },
+              {
+                "elapsedMs": 11001,
+                "bytes": 10219918
+              },
+              {
+                "elapsedMs": 12001,
+                "bytes": 17486305
+              },
+              {
+                "elapsedMs": 13001,
+                "bytes": 10857405
+              },
+              {
+                "elapsedMs": 14001,
+                "bytes": 18124836
+              },
+              {
+                "elapsedMs": 15001,
+                "bytes": 10606166
+              },
+              {
+                "elapsedMs": 16001,
+                "bytes": 17879551
+              },
+              {
+                "elapsedMs": 17000,
+                "bytes": 9363720
+              },
+              {
+                "elapsedMs": 18001,
+                "bytes": 16642403
+              },
+              {
+                "elapsedMs": 19001,
+                "bytes": 10362476
+              },
+              {
+                "elapsedMs": 20002,
+                "bytes": 10087794
+              },
+              {
+                "elapsedMs": 21001,
+                "bytes": 17349241
+              },
+              {
+                "elapsedMs": 22001,
+                "bytes": 8580278
+              },
+              {
+                "elapsedMs": 23001,
+                "bytes": 15833323
+              },
+              {
+                "elapsedMs": 24004,
+                "bytes": 7862846
+              },
+              {
+                "elapsedMs": 25001,
+                "bytes": 15068238
+              },
+              {
+                "elapsedMs": 26001,
+                "bytes": 8873263
+              },
+              {
+                "elapsedMs": 27001,
+                "bytes": 13166788
+              },
+              {
+                "elapsedMs": 28001,
+                "bytes": 20402823
+              },
+              {
+                "elapsedMs": 29001,
+                "bytes": 9333215
+              },
+              {
+                "elapsedMs": 30001,
+                "bytes": 16585418
+              },
+              {
+                "elapsedMs": 31001,
+                "bytes": 9342886
+              },
+              {
+                "elapsedMs": 32001,
+                "bytes": 16932876
+              },
+              {
+                "elapsedMs": 33002,
+                "bytes": 8978934
+              },
+              {
+                "elapsedMs": 34001,
+                "bytes": 16229965
+              },
+              {
+                "elapsedMs": 35001,
+                "bytes": 10011051
+              },
+              {
+                "elapsedMs": 36001,
+                "bytes": 12978629
+              },
+              {
+                "elapsedMs": 37003,
+                "bytes": 20206675
+              },
+              {
+                "elapsedMs": 38001,
+                "bytes": 12614319
+              },
+              {
+                "elapsedMs": 39001,
+                "bytes": 19145696
+              },
+              {
+                "elapsedMs": 40001,
+                "bytes": 7923498
+              },
+              {
+                "elapsedMs": 41005,
+                "bytes": 14812155
+              },
+              {
+                "elapsedMs": 42000,
+                "bytes": 8591147
+              },
+              {
+                "elapsedMs": 43001,
+                "bytes": 14436784
+              },
+              {
+                "elapsedMs": 44001,
+                "bytes": 8203742
+              },
+              {
+                "elapsedMs": 45001,
+                "bytes": 13723029
+              },
+              {
+                "elapsedMs": 46004,
+                "bytes": 20262931
+              },
+              {
+                "elapsedMs": 47001,
+                "bytes": 12277839
+              },
+              {
+                "elapsedMs": 48001,
+                "bytes": 19504645
+              },
+              {
+                "elapsedMs": 49001,
+                "bytes": 11193287
+              },
+              {
+                "elapsedMs": 50001,
+                "bytes": 18441495
+              },
+              {
+                "elapsedMs": 51001,
+                "bytes": 10671556
+              },
+              {
+                "elapsedMs": 52001,
+                "bytes": 17957171
+              },
+              {
+                "elapsedMs": 53002,
+                "bytes": 11700438
+              },
+              {
+                "elapsedMs": 54001,
+                "bytes": 11571871
+              },
+              {
+                "elapsedMs": 55001,
+                "bytes": 18811005
+              },
+              {
+                "elapsedMs": 56001,
+                "bytes": 10507042
+              },
+              {
+                "elapsedMs": 57001,
+                "bytes": 17750551
+              },
+              {
+                "elapsedMs": 58002,
+                "bytes": 9982498
+              },
+              {
+                "elapsedMs": 59001,
+                "bytes": 17216399
+              },
+              {
+                "elapsedMs": 60000,
+                "bytes": 9053785
+              },
+              {
+                "elapsedMs": 61001,
+                "bytes": 16662413
+              },
+              {
+                "elapsedMs": 62001,
+                "bytes": 8694427
+              },
+              {
+                "elapsedMs": 63001,
+                "bytes": 15934235
+              },
+              {
+                "elapsedMs": 64001,
+                "bytes": 7975727
+              },
+              {
+                "elapsedMs": 65002,
+                "bytes": 15225641
+              },
+              {
+                "elapsedMs": 66000,
+                "bytes": 8999394
+              },
+              {
+                "elapsedMs": 67001,
+                "bytes": 14488360
+              },
+              {
+                "elapsedMs": 68001,
+                "bytes": 7892288
+              },
+              {
+                "elapsedMs": 69001,
+                "bytes": 11622256
+              },
+              {
+                "elapsedMs": 70001,
+                "bytes": 18829730
+              },
+              {
+                "elapsedMs": 71001,
+                "bytes": 10522282
+              },
+              {
+                "elapsedMs": 72001,
+                "bytes": 17758813
+              },
+              {
+                "elapsedMs": 73001,
+                "bytes": 10543049
+              },
+              {
+                "elapsedMs": 74000,
+                "bytes": 17765362
+              },
+              {
+                "elapsedMs": 75001,
+                "bytes": 10168621
+              },
+              {
+                "elapsedMs": 76001,
+                "bytes": 17061681
+              },
+              {
+                "elapsedMs": 77000,
+                "bytes": 9350170
+              },
+              {
+                "elapsedMs": 78000,
+                "bytes": 16565289
+              },
+              {
+                "elapsedMs": 79001,
+                "bytes": 8016336
+              },
+              {
+                "elapsedMs": 80001,
+                "bytes": 15236269
+              },
+              {
+                "elapsedMs": 81001,
+                "bytes": 9042959
+              },
+              {
+                "elapsedMs": 82001,
+                "bytes": 13440013
+              },
+              {
+                "elapsedMs": 83001,
+                "bytes": 20668486
+              },
+              {
+                "elapsedMs": 84001,
+                "bytes": 10914819
+              },
+              {
+                "elapsedMs": 85001,
+                "bytes": 18161263
+              },
+              {
+                "elapsedMs": 86001,
+                "bytes": 8603768
+              },
+              {
+                "elapsedMs": 87001,
+                "bytes": 15847213
+              },
+              {
+                "elapsedMs": 88001,
+                "bytes": 8039751
+              },
+              {
+                "elapsedMs": 89001,
+                "bytes": 10279248
+              },
+              {
+                "elapsedMs": 90001,
+                "bytes": 11811226
+              },
+              {
+                "elapsedMs": 91001,
+                "bytes": 13356028
+              },
+              {
+                "elapsedMs": 92001,
+                "bytes": 15621162
+              },
+              {
+                "elapsedMs": 93000,
+                "bytes": 17521388
+              },
+              {
+                "elapsedMs": 94001,
+                "bytes": 19766401
+              },
+              {
+                "elapsedMs": 95001,
+                "bytes": 10238767
+              },
+              {
+                "elapsedMs": 96001,
+                "bytes": 9196022
+              },
+              {
+                "elapsedMs": 97002,
+                "bytes": 14283788
+              },
+              {
+                "elapsedMs": 98001,
+                "bytes": 19717780
+              },
+              {
+                "elapsedMs": 99002,
+                "bytes": 9826633
+              },
+              {
+                "elapsedMs": 100001,
+                "bytes": 10258133
+              },
+              {
+                "elapsedMs": 101001,
+                "bytes": 14644148
+              },
+              {
+                "elapsedMs": 102000,
+                "bytes": 18281437
+              },
+              {
+                "elapsedMs": 103007,
+                "bytes": 10197191
+              },
+              {
+                "elapsedMs": 104017,
+                "bytes": 10615793
+              },
+              {
+                "elapsedMs": 105001,
+                "bytes": 14999271
+              },
+              {
+                "elapsedMs": 106001,
+                "bytes": 18685637
+              },
+              {
+                "elapsedMs": 107014,
+                "bytes": 8795986
+              },
+              {
+                "elapsedMs": 108001,
+                "bytes": 13192518
+              },
+              {
+                "elapsedMs": 109002,
+                "bytes": 16863858
+              },
+              {
+                "elapsedMs": 110001,
+                "bytes": 20531016
+              },
+              {
+                "elapsedMs": 111001,
+                "bytes": 8802485
+              },
+              {
+                "elapsedMs": 112000,
+                "bytes": 14263307
+              },
+              {
+                "elapsedMs": 113002,
+                "bytes": 20780495
+              },
+              {
+                "elapsedMs": 114001,
+                "bytes": 12047311
+              },
+              {
+                "elapsedMs": 115001,
+                "bytes": 18571953
+              },
+              {
+                "elapsedMs": 116001,
+                "bytes": 24357125
+              },
+              {
+                "elapsedMs": 117001,
+                "bytes": 30139430
+              },
+              {
+                "elapsedMs": 118001,
+                "bytes": 8451315
+              },
+              {
+                "elapsedMs": 119001,
+                "bytes": 14562837
+              },
+              {
+                "elapsedMs": 120002,
+                "bytes": 13876802
+              },
+              {
+                "elapsedMs": 120138,
+                "bytes": 14247325
+              }
+            ]
+          },
+          "svgMutations": {
+            "attributes": 23258,
+            "childList": 4153,
+            "characterData": 0
+          },
+          "audio": {
+            "contexts": 1,
+            "activeVoicesPeak": 13,
+            "decodedBuffersTotal": 12,
+            "decodedPcmBytesTotal": 1790032,
+            "decodeMsTotal": 97.70000004768372
+          },
+          "scheduler": {
+            "startedSources": 2668,
+            "startsLate": 0,
+            "startLeadMs": {
+              "p50": 93.77611545461662,
+              "p95": 98.44278212119661,
+              "min": 15.776115456645812
+            }
+          },
+          "audioSourcesStarted": 2668,
+          "audioRequestCount": 12,
+          "audioTransferBytes": 720592
+        }
+      },
+      "errors": []
+    }
+  ],
+  "unshippedVisualCandidate": {
+    "description": "One shared halo per track replaced active-beat halo mounts; exact DOM childList count fell, but no repeatable frame or CPU benefit was measured.",
+    "longScenario": {
+      "durationMs": 120002,
+      "fps": 51.3,
+      "frameIntervalMs": {
+        "p50": 16.69999999999709,
+        "p95": 33.30000000000291,
+        "p99": 83.39999999999418,
+        "max": 449.8999999999942
+      },
+      "intervalsOver32ms": 391,
+      "intervalsOver50ms": 130,
+      "longTasks": {
+        "count": 5,
+        "totalMs": 502,
+        "maxMs": 141,
+        "supported": true
+      },
+      "mainThreadDeltaMs": {
+        "LayoutDuration": 1545.36,
+        "RecalcStyleDuration": 4313.07,
+        "ScriptDuration": 6197.2,
+        "TaskDuration": 28794.99,
+        "TaskOtherDuration": 16738.78
+      },
+      "heapBytes": 8693210,
+      "heapTrend": null,
+      "svgMutations": {
+        "attributes": 35997,
+        "childList": 0,
+        "characterData": 0
+      },
+      "audio": {
+        "contexts": 1,
+        "activeVoicesPeak": 13,
+        "decodedBuffersTotal": null,
+        "decodedPcmBytesTotal": null,
+        "decodeMsTotal": null
+      },
+      "scheduler": {
+        "startedSources": 2663,
+        "startsLate": 1,
+        "startLeadMs": {
+          "p50": 84.901115456546,
+          "p95": 89.23444878881526,
+          "min": -37.76555121149272
+        }
+      },
+      "audioSourcesStarted": 2663,
+      "audioRequestCount": 12,
+      "audioTransferBytes": 720592
+    },
+    "retained": false
+  },
+  "decodeProbe": {
+    "simple-free-time-level-1": {
+      "audio": {
+        "contexts": 1,
+        "activeVoicesPeak": 1,
+        "decodedBuffersTotal": 4,
+        "decodedPcmBytesTotal": 460792,
+        "decodeMsTotal": 16
+      },
+      "audioTransferBytes": 107216,
+      "audioRequestCount": 4
+    },
+    "funk-battery-plus-bass-level-1": {
+      "audio": {
+        "contexts": 1,
+        "activeVoicesPeak": 7,
+        "decodedBuffersTotal": 9,
+        "decodedPcmBytesTotal": 1518304,
+        "decodeMsTotal": 65.700000166893
+      },
+      "audioTransferBytes": 594732,
+      "audioRequestCount": 9
+    },
+    "preset-and-tempo-changes-during-playback": {
+      "audio": {
+        "contexts": 1,
+        "activeVoicesPeak": 19,
+        "decodedBuffersTotal": 12,
+        "decodedPcmBytesTotal": 1790032,
+        "decodeMsTotal": 73.700000166893
+      },
+      "audioTransferBytes": 720592,
+      "audioRequestCount": 12
+    }
+  }
+}

@@ -27,7 +27,7 @@ Fecha: 2026-11-13. No se hizo commit ni push.
 - La invitación de primera visita del tour interceptaba controles que quedaban debajo de la tarjeta. Ahora solo sus botones reciben eventos de puntero; el resto de Ritmia sigue operable. Se agregó una prueba móvil y desktop.
 - Un test buscaba el heading `Ritmia` por coincidencia parcial, que también coincidía con «¿Primera vez en Ritmia?». El locator ahora exige el nombre exacto.
 - El workflow de Pages ya no instala dependencias ni recompila y despliega por separado. `Tests and E2E` construye en modo Pages, ejecuta tests unitarios y E2E y guarda el artefacto; Pages solo despliega ese artefacto si esa ejecución de `push` a `main` concluye correctamente.
-- El YAML se inspeccionó localmente y las suites se ejecutaron, pero el flujo modificado no se activó en GitHub porque no se hizo push; su integración con Actions/Pages queda pendiente de la siguiente ejecución remota.
+- El workflow modificado se activó en GitHub: los commits `1955144` y `d0967de` pasaron el workflow de pruebas y el de Pages. La API de GitHub confirmó que cada deployment publicó el SHA correspondiente.
 - En pantallas de hasta 600 px la presentación se actualiza hasta 24 veces/s (30 veces/s en pantallas mayores). Es una reducción de trabajo visual, no del scheduler: transporte, timestamps y golpes siguen usando `AudioContext.currentTime`. Si `matchMedia` no existe, se conserva el intervalo de 30 Hz.
 
 ### Scheduler y sincronización
@@ -111,3 +111,48 @@ Playwright guarda capturas, trazas y reportes HTML en `test-results/` y `playwri
 - El límite de polifonía inspecciona y ordena las voces activas por pista al programar un golpe. Los escenarios ejecutados no mostraron acumulación sostenida de nodos, aunque no se perfiló una sesión física de 1–2 min ni el heap nativo del motor de audio. El caso sintético de 2.34 ms no es alcanzable desde la UI.
 - Los modelos flamencos, árabes y otros son esqueletos documentados. Los kits manuales conservan ataques/dinámica, pero pueden proyectar articulaciones a timbres aproximados; por ejemplo `drums-soft` usa baquetas suaves, no escobillas. La línea de bajo solo usa G1/D2 en patrones definidos; no infiere armonía ni progresión.
 - Para aprobar publicación manualmente: escuchar los WAV enlazados; probar Maqsum/Baladi/Saidi, Malfuf/Ayoub, Karsilama, Bulerías, Blues Shuffle/Slow Blues, Swing/Waltz y Funk con cada kit recomendado; reproducir 1–2 min y cambiar instrumento, nivel, pantalla/orientación, bloquear/desbloquear y volver desde segundo plano en Safari iOS y Chrome Android.
+
+## Actualización de estabilidad y rendimiento (14 nov 2026)
+
+### Publicaciones y validación
+
+| Versión | Commit | Validación local | GitHub Actions / Pages |
+|---|---|---|---|
+| Auditoría y estabilidad base | [`1955144`](https://github.com/Agosdev/ritmia/commit/1955144eefcfda192e2c48540cf144e32ce8b815) | 359 unit tests, 50 E2E, build Pages, `git diff --check` | Tests `43550074427` y Pages `43550333925` exitosos; deployment SHA exacto `1955144eefcfda192e2c48540cf144e32ce8b815` |
+| BPM y recuperación de audio | [`d0967de`](https://github.com/Agosdev/ritmia/commit/d0967defe11aa96e3e3340b2bd6ed44dad926cde) | 364 unit tests, 55 E2E, build Pages, `git diff --check` | Tests `43555009640` y Pages `43555255388` exitosos; deployment SHA exacto `d0967defe11aa96e3e3340b2bd6ed44dad926cde` |
+
+El build Pages de la versión BPM mide `320.47 kB` JavaScript (`100.22 kB` gzip), `0.66 kB` HTML y `0.00 kB` CSS; no se agregaron dependencias. La fase de medición no cambió el código de producción.
+
+El BPM manual ahora sobrevive a cambios de preset y nivel. Cada preset conserva su BPM sugerido, mostrado junto al control; **Usar BPM sugerido** solo aparece si los valores difieren y puede pulsarse durante playback. El cambio de BPM actualiza los pasos por el timing existente, sin reiniciar el contexto ni cambiar patrón, compás, acentos o subdivisión. No se guarda entre sesiones.
+
+Los errores de carga ofrecen fallback acústico y reintento manual. Una suspensión externa del `AudioContext` detiene la programación vencida y ofrece **Reanudar sonido** sobre el mismo contexto/timeline; la pausa solicitada por la persona no genera alerta. El aviso de volumen cero aparece únicamente cuando el slider llega exactamente a cero. La ayuda de recuperación recomienda revisar volúmenes, reanudar, reintentar y recargar como último recurso; advierte que se perderían cambios no guardados.
+
+### Medición adicional en Chrome headless
+
+La línea base y repetición usan el build Pages local exacto de `d0967de`, Chrome headless 150.0.7871.125 en macOS x64, viewport 375×812 con emulación táctil. Cada escenario de carga duró 5 s y la reproducción densa A/B duró 120 s. Incluye instrumentación de `requestAnimationFrame`, `PerformanceObserver`, métricas CDP del hilo principal, heap V8 cuando Chrome lo expone, mutaciones del SVG, carga WAV y `AudioBufferSourceNode`. La instrumentación añade trabajo; no equivale a una traza de Android real. `docs/android-chrome-audio-test.md` contiene el procedimiento USB para repetirlo en el teléfono.
+
+| Escenario | FPS base → repetición (Δ) | p95 / p99 ms base → repetición | >50 ms base → repetición | `TaskDuration` ms (Δ) | `ScriptDuration` ms (Δ) | Long tasks; tardíos / voces pico |
+|---|---:|---:|---:|---:|---:|---|
+| Reposo, 5 s | 60.0 → 60.0 (0.0%) | 16.8/16.8 → 16.7/16.8 | 0 → 0 | 68.6 → 64.7 (-5.7%) | 10.3 → 9.4 (-9.5%) | 0/0 ms; 0 / 0 |
+| Compás libre, 5 s | 59.4 → 58.8 (-1.0%) | 16.8/16.8 → 16.8/16.8 | 0 → 1 | 448.6 → 423.5 (-5.6%) | 113.4 → 112.8 (-0.5%) | 0/0 ms; 0 / 1 |
+| Funk batería + bajo, 5 s | 59.7 → 59.7 (0.0%) | 16.8/16.8 → 16.7/16.8 | 0 → 0 | 519.5 → 564.0 (+8.6%) | 144.5 → 147.6 (+2.1%) | 0/0 ms; 0 / 8 |
+| Dos pistas, B por defecto, 5 s | 59.9 → 58.5 (-2.3%) | 16.8/16.8 → 16.8/33.3 | 0 → 1 | 946.9 → 1,090.1 (+15.1%) | 201.4 → 216.2 (+7.4%) | 0/0 ms; 0 / 16 |
+| Funk + B 32/16 denso, 5 s | 58.5 → 54.4 (-7.0%) | 16.8/33.3 → 33.3/33.4 | 0 → 0 | 1,426.6 → 1,504.7 (+5.5%) | 301.6 → 327.1 (+8.4%) | 0/0 ms; 0 / 21 |
+| Cambios de preset/BPM automatizados, 5 s | 47.8 → 37.7 (-21.1%) | 50.0/116.7 → 66.7/166.7 | 7 → 13 | 1,620.0 → 1,513.9 (-6.5%) | 381.1 → 380.8 (-0.1%) | 1/52 → 0/0 ms; 0 / 19 |
+| Funk + B denso, 120 s | 58.3 → 58.8 (+0.9%) | 16.8/33.3 → 16.8/33.3 | 18 → 6 | 28,024.3 → 28,878.9 (+3.0%) | 6,090.8 → 6,228.5 (+2.3%) | 1/75 → 0/0 ms; 0 / 13 |
+
+Las dos ejecuciones con el mismo código ya muestran variación apreciable: en reproducción densa sostenida el FPS cambió 0.9%, `TaskDuration` 3.0%, y el heap final pasó de 11.9 a 17.6 MB. No interpreto el heap final como fuga: la lectura de `performance.memory` es no estándar, no fuerza GC y las capturas retienen registros instrumentados de miles de fuentes. En el escenario de cambios automatizados, los cuadros lentos y una tarea de 52 ms (primera captura) / 0 tareas largas (repetición) dependen en parte de que el harness ejecuta cuatro cambios casi seguidos; no equivalen a una interacción humana pausada.
+
+El scheduler mantuvo cero inicios atrasados en ambas corridas, con mínimo de adelanto de 11–53 ms en la prueba larga, un `AudioContext` y pico de 13 voces. En la segunda corrida se programaron 2,667 fuentes en 120 s. La memoria de buffers/muestras se carga bajo demanda: reposo 0 bytes; compás libre transfirió 107,216 bytes en 4 WAV; Funk con batería/bajo llegó a 594,732 bytes y 9 WAV; el catálogo activado por la secuencia de presets llegó a 720,592 bytes y 12 WAV. La medición de decodificación en una pasada breve separada observó 4 buffers / 460,792 bytes PCM / 16.0 ms tras compás libre; 9 / 1,518,304 bytes / 65.7 ms al seleccionar Funk; y 12 / 1,790,032 bytes / 73.7 ms tras añadir otros bancos. Son mediciones Chrome desktop instrumentado, no latencia de red o decodificación Android.
+
+Una captura adicional con muestreo de heap cada segundo duró 120.1 s: 122 muestras, 12.38 MB iniciales, 14.25 MB finales, mínimo 6.90 MB y máximo 30.14 MB; en ese mismo ensayo hubo 156 intervalos de frame mayores de 50 ms y 2 tareas largas (227 ms total; máximo 136 ms), pero cero inicios de audio tardíos. Esta ejecución tuvo más variación que las dos anteriores y el muestreador/recordatorio de fuentes añade overhead. No se usa como evidencia de fuga ni de rendimiento móvil; conserva la evolución observada y requiere traza física para investigar la aparente presión visual del host.
+
+El [resumen JSON con escenarios, corridas repetidas, decodificación, heap y el candidato visual descartado](evidence/performance-phase3/summary.json) conserva los valores completos sin los miles de registros por voz. Los reportes brutos instrumentados permanecen fuera del repositorio en `/private/tmp/ritmia-phase2-perf-baseline-complete`, `/private/tmp/ritmia-phase3-perf-repeat`, `/private/tmp/ritmia-phase3-decode-measure`, `/private/tmp/ritmia-phase3-final` y `/private/tmp/ritmia-phase3-final-memory`.
+
+Se probó una alternativa visual con un halo SVG reutilizado por pista. Quitó las mutaciones `childList` (por ejemplo, 4,550 → 0 en 120 s), pero elevó las mutaciones de atributos (25,718 → 35,997) y no produjo una mejora repetible de cuadros o CPU; una corrida candidata dio 51.3 FPS, p95 33.3 ms, cinco long tasks y un inicio tardío frente a dos corridas del mismo código con 58.3/58.8 FPS, p95 16.8 ms y una/ninguna long task. La alternativa se descartó y no forma parte de este cambio. No hay una optimización de playback que la evidencia emulada justifique publicar todavía.
+
+El harness registra mutaciones del SVG como indicador de cambios DOM, no cuenta commits React directamente. La inspección del contexto confirma que la presentación móvil publica progreso a un máximo de 24 Hz y el audio permanece independiente; no se añadió un React Profiler al build de producción para evitar que la propia instrumentación sesgue la medición. Las muestras WAV se descargan de forma diferida; el resultado reporta bytes y duración acumulada de decodificación. Sincronización, scheduler, patrones y AudioEngine no se modificaron durante esta fase.
+
+### Estado de Android y traza manual
+
+No dispongo de un teléfono Android conectado ni de una sesión DevTools remota. **Chrome Android queda pendiente de verificación física**; no se marca como resuelto por estas cifras. Usá [la guía de depuración remota USB](android-chrome-audio-test.md) con la versión publicada y registrá modelo, Android/Chrome, consola y traza para estos casos: compás libre, Maqsum/darbuka, Funk/bajo, A+B, máxima densidad, cambios de BPM/preset y dos minutos continuos. La guía cubre además pantalla apagada/segundo plano y revisión de requests y memoria.
