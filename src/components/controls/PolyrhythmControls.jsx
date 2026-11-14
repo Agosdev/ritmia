@@ -318,6 +318,7 @@ export function PolyrhythmControls() {
           aria-label="Volumen pista B"
         />
       </VolumeRow>
+      {volumeB === 0 && <small role="status">El volumen de esta pista está en cero.</small>}
 
       <details><summary>Marcas visuales de grupos B (opcional)</summary><p>No modifican los golpes audibles.</p>      <FreeTextInput
         value={groupingB}

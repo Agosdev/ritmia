@@ -121,6 +121,7 @@ export function RitmiaProvider({ children }) {
   const [instrumentStatus, setInstrumentStatus] = useState({})
   useEffect(() => audioEngine.subscribeInstrumentStatus(setInstrumentStatus), [])
   const retryInstrument = useCallback(track => audioEngine.retryInstrument(track), [])
+  const retryBass = useCallback(track => audioEngine.retryBass(track), [])
   const [storedStrokesA, setStrokesA] = useState(null)
 
   const [storedSubdivisionA, setSubdivisionA] = useState(1)
@@ -144,6 +145,17 @@ export function RitmiaProvider({ children }) {
   const playbackRequestRef = useRef(0)
   const playbackRequestedRef = useRef(false)
   const scheduledNotesRef = useRef(audioEngine.scheduledNotes)
+  const [audioInterrupted, setAudioInterrupted] = useState(false)
+
+  useEffect(() => audioEngine.subscribeAudioStatus(status => {
+    if (status !== 'interrupted') return
+    playbackRequestRef.current++
+    playbackRequestedRef.current = false
+    setTransportState('interrupted')
+    setAudioInterrupted(true)
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    rafRef.current = null
+  }), [])
 
   // Una posición por subdivisión, sin cambiar la métrica escrita.
   const accentsA = useMemo(() => Array.from({ length: gridCountA }, (_, i) => storedAccentsA[i] ?? 0), [storedAccentsA, gridCountA])
@@ -316,13 +328,14 @@ export function RitmiaProvider({ children }) {
         bassEventsA, bassEventsB: null,
       })
       if (request !== playbackRequestRef.current || !audioEngine.isPlaying) return
+      setAudioInterrupted(false)
       setTransportState('playing')
       runAnimationLoop()
     } catch (err) {
       if (request !== playbackRequestRef.current) return
       playbackRequestedRef.current = false
       setTransportState(audioEngine.transportState)
-      setAudioError('No se pudo iniciar la percusión acústica. Comprobá la conexión y volvé a intentar.')
+      setAudioError('No pudimos iniciar el sonido.')
     }
   }, [
     level, mode, timing, accentsA, accentsB, volumeA, volumeB, morphAmount, metronome, instrumentA, instrumentB, strokesA, bassEventsA,
@@ -334,6 +347,7 @@ export function RitmiaProvider({ children }) {
     playbackRequestedRef.current = false
     audioEngine.stop()
     setTransportState('stopped')
+    setAudioInterrupted(false)
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current)
       rafRef.current = null
@@ -409,9 +423,9 @@ export function RitmiaProvider({ children }) {
     setDenA(preset.den)
     setAccentsA([...preset.accents])
     setGroupingA(preset.grouping)
-    setBpm(preset.bpm)
-  }, [setNumA, setDenA, setAccentsA, setGroupingA, setBpm])
+  }, [setNumA, setDenA, setAccentsA, setGroupingA])
   const preset = MUSICAL_PRESETS.find(item => item.id === presetId)
+  const suggestedBpm = preset?.bpm ?? null
   const presetLocked = !!preset
   const clearPreset = useCallback(() => setPresetId(''), [])
   const editSubdivisionA = useCallback(value => {
@@ -426,7 +440,7 @@ export function RitmiaProvider({ children }) {
     ? Array.from({ length: gridCountA }, (_, i) => `${Math.floor(i / subdivisionA) + 1}${i % subdivisionA ? (subdivisionA === 2 ? '&' : (subdivisionA === 3 ? ['', '-ta', '-la'] : ['', 'e', '&', 'a'])[i % subdivisionA]) : ''}`)
     : preset?.labels?.length === numA && denA === preset.den ? preset.labels : null,
   [subdivisionA, gridCountA, preset, numA, denA])
-  const presetModified = !!preset && (numA !== preset.num || denA !== preset.den || bpm !== preset.bpm ||
+  const presetModified = !!preset && (numA !== preset.num || denA !== preset.den ||
     groupingA !== preset.grouping || accentsA.some((value, index) => value !== preset.accents[index]))
 
   // Descripción sonora pedagógica "¿Qué escuchas?"
@@ -486,8 +500,10 @@ export function RitmiaProvider({ children }) {
     bassChoiceA, setBassChoiceA, bassPatternA, bassEnabledA,
     instrumentA, instrumentB, recommendedInstrumentA, recommendedInstrumentB,
     instrumentStatus, retryInstrument, strokesA,
+    retryBass, audioInterrupted,
     bpm,
     setBpm,
+    suggestedBpm,
     isPlaying,
     transportState,
     togglePlayback,
@@ -555,8 +571,8 @@ export function RitmiaProvider({ children }) {
     instrumentChoiceA, setInstrumentChoiceA, instrumentChoiceB, setInstrumentChoiceB,
     bassChoiceA, setBassChoiceA, bassPatternA, bassEnabledA,
     instrumentA, instrumentB, recommendedInstrumentA, recommendedInstrumentB,
-    instrumentStatus, retryInstrument, strokesA,
-    bpm, setBpm, isPlaying, transportState, togglePlayback, startPlayback, pausePlayback, stopPlayback, level, setLevel,
+    instrumentStatus, retryInstrument, retryBass, strokesA, audioInterrupted,
+    bpm, setBpm, suggestedBpm, isPlaying, transportState, togglePlayback, startPlayback, pausePlayback, stopPlayback, level, setLevel,
     subdivisionA, editSubdivisionA, gridCountA, gridGroupingA, numA, editNumA, denA, editDenA, accentsA, editAccentsA, groupingA, editGroupingA,
     volumeA, setVolumeA, parsedGroupingA, isValidGroupingA, activeGroupingA,
     groupingStatusA, groupingFeedbackA, suggestionsA, numB, setNumB, denB, setDenB,

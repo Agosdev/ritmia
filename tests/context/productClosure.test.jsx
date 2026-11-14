@@ -21,12 +21,14 @@ it.each(MUSICAL_PRESETS)('$name: exact step duration, count, accents and locked 
   expect(result.current.numB).toBe(9)
   expect(result.current.numA).toBe(preset.num)
   expect(result.current.denA).toBe(preset.den)
-  expect(result.current.timing.measureA).toBeCloseTo((60 / preset.bpm) * preset.num * (4 / preset.den), 12)
+  expect(result.current.bpm).toBe(92)
+  expect(result.current.suggestedBpm).toBe(preset.bpm)
+  expect(result.current.timing.measureA).toBeCloseTo((60 / 92) * preset.num * (4 / preset.den), 12)
   expect(result.current.level).toBe(2)
   expect(result.current.metronome).toBe(false)
   expect(result.current.presetModified).toBe(false)
   expect(result.current.accentsA).toEqual(preset.accents)
-  expect(result.current.timing.stepA).toBeCloseTo((60 / preset.bpm) * (4 / preset.den) / (preset.subdivision ?? 1), 12)
+  expect(result.current.timing.stepA).toBeCloseTo((60 / 92) * (4 / preset.den) / (preset.subdivision ?? 1), 12)
   if (preset.id.startsWith('bulerias')) {
     expect(result.current.beatLabelsA).toEqual([12,1,2,3,4,5,6,7,8,9,10,11])
     expect(result.current.audioDescription).toContain('12, 3, ' + (preset.id === 'bulerias' ? '6' : '7') + ', 8, 10')
@@ -142,7 +144,7 @@ it('presets bloquean todas las ediciones de A; compás libre conserva sonido y d
 
 it('Malfuf conserva 2/4, ocho semicorcheas y fase al desbloquear; la edición libre mantiene la resolución', async () => {
   const { result } = renderHook(useRitmia, { wrapper })
-  act(() => { result.current.setInstrumentChoiceA('acoustic'); result.current.applyPreset('malfuf') })
+  act(() => { result.current.setInstrumentChoiceA('acoustic'); result.current.applyPreset('malfuf'); result.current.setBpm(120) })
   expect(result.current).toMatchObject({ numA: 2, denA: 4, subdivisionA: 4, gridCountA: 8 })
   expect(result.current.timing.stepA).toBe(.125)
   expect(result.current.timing.measureA).toBe(1)

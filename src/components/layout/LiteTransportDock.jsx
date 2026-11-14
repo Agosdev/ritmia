@@ -6,6 +6,7 @@ import { TransportActions } from './TransportActions'
 import { PresetSelect } from '../controls/MusicalPresets'
 import { glassBar } from '../../styles/glassSurfaces'
 import { RangeInput } from '../ui/RangeInput'
+import { Button } from '../ui/Button'
 
 const Dock = styled.div`
   position: fixed;
@@ -55,6 +56,17 @@ const BpmNumber = styled.input`
   font: 600 13px ${({ theme }) => theme.fonts.mono};
 `
 
+const BpmSuggestion = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  color: ${({ theme }) => theme.colors.textDim};
+  font-size: 11px;
+  line-height: 1.3;
+  button { min-height: 32px; padding: .25rem .55rem; font-size: 11px; }
+`
+
 const Actions = styled.div`
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, .8fr) minmax(0, 1.3fr);
@@ -77,7 +89,7 @@ const Actions = styled.div`
 `
 
 export function LiteTransportDock() {
-  const { bpm, setBpm } = useRitmia()
+  const { bpm, setBpm, suggestedBpm } = useRitmia()
 
   useEffect(() => {
     const viewport = window.visualViewport
@@ -124,6 +136,12 @@ export function LiteTransportDock() {
             aria-label="Valor numérico BPM"
           />
         </BpmControl>
+        {suggestedBpm !== null && <BpmSuggestion>
+          <span role="status">Sugerido para este ritmo: {suggestedBpm} BPM</span>
+          {bpm !== suggestedBpm && <Button type="button" $variant="ghost" $size="sm" onClick={() => setBpm(suggestedBpm)}>
+            Usar BPM sugerido
+          </Button>}
+        </BpmSuggestion>}
         <Actions data-testid="transport-actions" data-tour-target="transport">
           <TransportActions />
           <PresetSelect />

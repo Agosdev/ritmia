@@ -114,7 +114,7 @@ it('un banco que falla usa el kit actual, avisa y permite recuperar sin reinicia
   await engine.start({instrumentA:'darbuka',accentsA:[2]})
   expect(engine.isPlaying).toBe(true)
   expect(engine.activeInstruments.A).toBe('acoustic')
-  expect(engine.instrumentStatus.A.error).toContain('kit acústico actual')
+  expect(engine.instrumentStatus.A.error).toContain('Podés seguir escuchando el ritmo con el kit acústico.')
   expect(engine.ctx.sources[0].buffer).toBe(engine.sampleBankBuffers.kickStrong)
   const start=engine.startTime
   vi.stubGlobal('fetch', vi.fn(async()=>response()))

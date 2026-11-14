@@ -68,7 +68,7 @@ it('el fallo al descargar bajo avisa y mantiene reproducible la batería', async
   vi.stubGlobal('fetch', vi.fn(async url => String(url).includes('/bass-') ? { ok: false, status: 503 } : response()))
   await engine.start({ bassEventsA: BASS_PATTERNS['funk-clasico'].events })
   expect(engine.isPlaying).toBe(true)
-  expect(engine.instrumentStatus.A.bassError).toContain('batería continúa')
+  expect(engine.instrumentStatus.A.bassError).toContain('Podés seguir escuchando la batería.')
   expect(engine.pitchedInstrumentBanks.size).toBe(0)
   expect(engine.ctx.sources.some(source => source.buffer === engine.sampleBankBuffers.kickStrong)).toBe(true)
 })

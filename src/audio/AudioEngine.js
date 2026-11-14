@@ -25,6 +25,8 @@ export class AudioEngine {
     this.activeInstruments = { A: 'acoustic', B: 'acoustic' }
     this.instrumentStatus = {}
     this.instrumentListeners = new Set()
+    this.audioStatusListeners = new Set()
+    this.intentionalSuspend = false
 
     this.isPlaying = false
     this.transportState = 'stopped'
@@ -105,6 +107,25 @@ export class AudioEngine {
     this.instrumentListeners.forEach(listener => listener(this.instrumentStatus))
   }
 
+  subscribeAudioStatus(listener) {
+    this.audioStatusListeners.add(listener)
+    return () => this.audioStatusListeners.delete(listener)
+  }
+
+  handleContextStateChange(context) {
+    if (this.ctx !== context || context.state === 'running') return
+    if (this.transportState !== 'playing' || !this.isPlaying || this.intentionalSuspend) return
+
+    this.isPlaying = false
+    this.transportState = 'interrupted'
+    if (this.timerId !== null) {
+      clearInterval(this.timerId)
+      this.timerId = null
+    }
+    this.invalidateFutureNotes()
+    this.audioStatusListeners.forEach(listener => listener('interrupted'))
+  }
+
   activateInstrument(track, id) {
     if (this.activeInstruments[track] === id) return
     // Replace only pending events of this track; keep the master clock and counters.
@@ -136,7 +157,7 @@ export class AudioEngine {
         if (!current()) return
         this.activateInstrument(track, 'acoustic')
         this.publishInstrumentStatus(track, { requested: id, effective: 'acoustic', loading: false,
-          error: `No se pudo cargar ${INSTRUMENTS[id].name}. Se usa el kit acústico actual.` })
+          error: 'No pudimos cargar este instrumento. Podés seguir escuchando el ritmo con el kit acústico.' })
       }
     })()
     return request.promise
@@ -159,6 +180,11 @@ export class AudioEngine {
     return this.prepareInstrument(track, this.params[`instrument${track}`], true)
   }
 
+  retryBass(track) {
+    if (!this.ctx || !this.sampleBankBuffers) return Promise.resolve()
+    return this.preparePitchedInstrument(track)
+  }
+
   preparePitchedInstrument(track) {
     const context = this.ctx
     if (!context || !this.sampleBankBuffers) return Promise.resolve()
@@ -178,7 +204,7 @@ export class AudioEngine {
     }).catch(error => {
       if (this.ctx !== context) return
       this.publishInstrumentStatus(track, { ...this.instrumentStatus[track], bassLoading: false,
-        bassError: 'No se pudo cargar el bajo; la batería continúa sin interrupción.' })
+        bassError: 'No pudimos cargar el bajo. Podés seguir escuchando la batería.' })
       return error
     })
   }
@@ -217,9 +243,11 @@ export class AudioEngine {
       const { masterGain, compressor } = createMasterBus(this.ctx)
       this.masterGain = masterGain
       this.compressor = compressor
+      const context = this.ctx
+      context.onstatechange = () => this.handleContextStateChange(context)
     }
 
-    if (this.ctx.state === 'suspended') {
+    if (this.ctx.state !== 'running') {
       await this.ctx.resume()
     }
   }
@@ -350,6 +378,7 @@ export class AudioEngine {
 
     const pending = (async () => {
       try {
+        this.intentionalSuspend = true
         await this.ctx.suspend()
         if (generation !== this.transportGeneration) return
         this.invalidateFutureNotes()
@@ -366,6 +395,8 @@ export class AudioEngine {
           this.timerId = window.setInterval(() => this.schedule(), 25)
         }
         throw error
+      } finally {
+        this.intentionalSuspend = false
       }
     })()
     this.pausePromise = pending

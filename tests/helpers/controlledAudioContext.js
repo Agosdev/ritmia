@@ -44,16 +44,21 @@ export function controlledAudioContext({ suspended = false } = {}) {
     resume() {
       if (!this.manualResume) {
         this.state = 'running'
+        this.onstatechange?.()
         return Promise.resolve()
       }
       return new Promise(resolve => this.resumeResolvers.push(() => {
-        if (this.state !== 'closed') this.state = 'running'
+        if (this.state !== 'closed') {
+          this.state = 'running'
+          this.onstatechange?.()
+        }
         resolve()
       }))
     }
 
     suspend() {
       this.state = 'suspended'
+      this.onstatechange?.()
       return Promise.resolve()
     }
 

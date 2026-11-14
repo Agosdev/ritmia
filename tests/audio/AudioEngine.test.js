@@ -373,6 +373,42 @@ describe('AudioEngine transporte y scheduler', () => {
     expect(engine.nextNoteTimeA).toBeCloseTo(2.08, 10)
   })
 
+  it('avisa una interrupción externa y reanuda el mismo AudioContext sin reiniciar la fase', async () => {
+    const status = vi.fn()
+    const unsubscribe = engine.subscribeAudioStatus(status)
+    await engine.start(params)
+    const context = engine.ctx
+    const startTime = engine.startTime
+    context.advanceTo(.5)
+    engine.schedule()
+    context.state = 'suspended'
+    context.onstatechange()
+
+    expect(status).toHaveBeenCalledOnce()
+    expect(status).toHaveBeenCalledWith('interrupted')
+    expect(engine.transportState).toBe('interrupted')
+    expect(engine.isPlaying).toBe(false)
+    expect(engine.timerId).toBe(null)
+    const pendingTime = engine.nextNoteTimeA
+
+    await engine.start(params)
+    expect(engine.ctx).toBe(context)
+    expect(engine.isPlaying).toBe(true)
+    expect(engine.startTime).toBe(startTime)
+    expect(engine.scheduledNotes.some(note => note.time === pendingTime)).toBe(true)
+    expect(new Set(engine.scheduledNotes.map(note => `${note.type}:${note.time}`)).size).toBe(engine.scheduledNotes.length)
+    unsubscribe()
+  })
+
+  it('no clasifica la pausa manual como interrupción externa', async () => {
+    const status = vi.fn()
+    engine.subscribeAudioStatus(status)
+    await engine.start(params)
+    await engine.pause()
+    expect(engine.transportState).toBe('paused')
+    expect(status).not.toHaveBeenCalled()
+  })
+
   it.each([0, -1, NaN, Infinity])('un step inválido (%s) no bloquea el scheduler', async step => {
     await engine.start({ ...params, level: 2, stepA: step, stepB: step })
     expect(engine.scheduledNotes).toEqual([])

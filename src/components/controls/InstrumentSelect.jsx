@@ -29,10 +29,10 @@ export function InstrumentSelect({ track }) {
         {Object.entries(INSTRUMENTS).map(([key, instrument]) => <option key={key} value={key}>{instrument.name}</option>)}
       </select>
     </label>
-    <small id={`${id}-status`} role="status" aria-label={`Estado instrumento ${track}`}>
+    <small id={`${id}-status`} role={status?.error ? 'alert' : 'status'} aria-label={`Estado instrumento ${track}`}>
       {status?.error ?? (status?.loading ? `Preparando ${kit.name}; continúa el instrumento anterior.` : `${choice === 'auto' ? 'Automático' : 'Manual'} · ${kit.name}`)}
     </small>
-    {status?.error && <button type="button" onClick={() => context.retryInstrument(track)}>Reintentar instrumento {track}</button>}
+    {status?.error && <button type="button" onClick={() => context.retryInstrument(track)}>Reintentar</button>}
     {track === 'A' && context.bassPatternA && <>
       <label htmlFor={`${id}-bass`}>Acompañamiento A
         <select id={`${id}-bass`} aria-label="Acompañamiento de bajo pista A" value={context.bassChoiceA}
@@ -42,12 +42,21 @@ export function InstrumentSelect({ track }) {
           <option value="off">Solo percusión</option>
         </select>
       </label>
-      <small id={`${id}-bass-status`} role="status" aria-label="Estado bajo pista A">
+      <small id={`${id}-bass-status`} role={status?.bassError ? 'alert' : 'status'} aria-label="Estado bajo pista A">
         {status?.bassError ?? (status?.bassLoading ? 'Preparando bajo eléctrico…' : context.bassEnabledA
           ? `Bajo en ${context.bassPatternA.key}; patrón independiente del bombo.`
           : `Solo percusión; bajo disponible en ${context.bassPatternA.key}.`)}
       </small>
+      {status?.bassError && <button type="button" onClick={() => context.retryBass(track)}>Reintentar bajo</button>}
     </>}
+    {(status?.error || status?.bassError) && <details>
+      <summary>¿No escuchás el ritmo?</summary>
+      <ul>
+        <li>Revisá los volúmenes de Ritmia y el volumen físico del dispositivo.</li>
+        <li>Usá Reintentar junto a este selector para volver a cargar el instrumento.</li>
+        <li>Si sigue sin funcionar, recargá la página; podrías perder cambios no guardados.</li>
+      </ul>
+    </details>}
     {kit.attribution && <small>
       Hi-hat/platillos: Lars Muldjord · <a href="https://freepats.zenvoid.org/Percussion/acoustic-drum-kit.html">FreePats</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Mono, recorte y nivel ajustados. Drum samples provided by DrumGizmo.org.
     </small>}

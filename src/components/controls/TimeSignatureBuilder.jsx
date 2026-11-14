@@ -291,6 +291,7 @@ export function TimeSignatureBuilder({ compact = false }) {
           aria-label="Volumen pista A"
         />
       </VolumeRow>
+      {volumeA === 0 && <small role="status">El volumen de esta pista está en cero.</small>}
     </BuilderSection>
   )
 }
